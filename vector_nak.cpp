@@ -304,7 +304,7 @@ bool operator==(const VecN &lhs, const VecN &rhs)
 {
 	for (int i = 0; i<nc; i++)
 	{
-		if (lhs.dat[i] != rhs.dat[i])
+		if (lhs.dat[i]-rhs.dat[i] >1e-10)
 		{
 			return false;
 		}
@@ -317,7 +317,7 @@ bool operator!=(const VecN &lhs, const VecN &rhs)
 {
 	for (int i = 0; i<nc; i++)
 	{
-		if (lhs.dat[i] != rhs.dat[i])
+		if (lhs.dat[i]-rhs.dat[i]>1e-10)
 		{
 			return true;
 		}
