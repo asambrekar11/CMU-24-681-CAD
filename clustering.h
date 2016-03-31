@@ -61,7 +61,7 @@ public:
     {
         plHd = pl;
     }
-    void SetProxy(Proxy,pxy);
+    void SetProxy(Proxy pxy);
     inline void SetLabel(int newLabel)
     {
         label = newLabel;
