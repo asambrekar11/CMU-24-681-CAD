@@ -27,7 +27,7 @@ void HashTable<Key,Value>::Update(const Key &key, Value &value)
 	{
 		if (t.hashCode == hashCode && t.hashKey == key)
 		{
-			e.value = value;
+			t.value = value;
 			return;
 		}
 	}
