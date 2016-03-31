@@ -10,7 +10,7 @@ struct Proxy
 {
 public:
     Vec3 ProxyPosition, ProxyNormal;
-    int label
+    int label;
 };
 
 class ClusterNode
