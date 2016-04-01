@@ -27,7 +27,7 @@ protected:
 const Shell *shl;
 const LlyodCluster *MyCl;
 AncVtxHandle AncPts;
-AncVtxHandle *EdgVtx;
+AncVtxHandle *PrxyAnc;
 
 public:
 Anchor();

@@ -375,3 +375,29 @@ Vec3 cross(Vec3 a, Vec3 b)
 	result.z=a.x*b.y-a.y*b.x;
 	return result;
 }
+
+double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
+{
+	double t = - DotProduct((x1-x0),(x2-x1))/(L2Norm(x2-x1))^2;
+	
+	double x,y,z;
+	x = (x1.dat[0]-x0.dat[0])+(x2.dat[0]-x1.dat[0])*t;
+	y = (x1.dat[1]-x0.dat[1])+(x2.dat[1]-x1.dat[1])*t;
+	z = (x1.dat[2]-x0.dat[2])+(x2.dat[2]-x1.dat[2])*t;
+	
+	return sqrt(x^2+y^2+z^2);
+	
+}
+
+double DotProduct(Vec3 a, Vec3 b)
+{	
+	double t=0;
+	
+	for(int i=0;i<3;i++)
+	{	
+		t +=a.dat[i]*b.dat[i];
+	}
+
+return t;
+
+}

@@ -71,30 +71,30 @@ for(auto vt : shl->AllVertex())
 
 }
 
-void AnchorVertex::BinAnchorVertex()
+void AnchorVertex::BinAnchorVertex()//Bins all the anchors into their respective proxies
 {
 
 int nProxy = MyCl->GetNumProxy();//Get number of proxies
 
-EdgVtx = new AncVtxHandle[nProxy];//dynamic memory allocation
+PrxyAnc = new AncVtxHandle[nProxy];//dynamic memory allocation
 
 	for(auto t : &AncPts)
 	{
 		for(auto u : &t.label)
 		{
-			EdgVtx[u].push_back(t);
+			PrxyAnc[u].push_back(t);
 		}
 
 	}
 
 }
 
-AncVtxHandle AnchorVertex::GetAnchorVtx(int ProxyNum)//0 to k-1
+AncVtxHandle AnchorVertex::GetAnchorVtx(int ProxyNum)//ProxyNum : 0 to k-1 Returns all the anchor vertices associated with given proxy
 {
 
 	if(EdgVtx!=nullptr)
 	{
-		return EdgVtx[ProxyNum]
+		return PrxyAnc[ProxyNum]
 
 	}else
 	{
@@ -105,9 +105,10 @@ AncVtxHandle AnchorVertex::GetAnchorVtx(int ProxyNum)//0 to k-1
 AncVtxHandle AnchorVertex::GetNeighbour(AncVtx VtxHd, AncVtxHandle PxHd)
 {
 	AncVtxHandle Neighbour;
+	
 	for(int i=0;i<2;i++)
 	{	
-		double minD = 10^4;//Need something better
+		double minD = 10^6;//Need something better. Does inf work?
 		AncVtx temp;
 		
 		for(int j=0;j<PxHd.size();j++)
@@ -135,6 +136,6 @@ AncVtxHandle AnchorVertex::GetNeighbour(AncVtx VtxHd, AncVtxHandle PxHd)
 	}
 	
 	return Neighbour;
-
 }
+
 

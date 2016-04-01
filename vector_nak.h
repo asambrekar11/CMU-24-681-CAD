@@ -74,6 +74,8 @@ public:
 	void Set(double x, double y, double z);
 	void Normalize();
 	friend Vec3 cross(Vec3 a, Vec3 b);
+	friend double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0);
+	friend double DotProduct(Vec3 a, Vec3 b);
 };
 
 #endif
