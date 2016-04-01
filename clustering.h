@@ -79,7 +79,7 @@ inline long long int HashTable<Proxy,std::vector<Shell::PolygonHandle>>::HashCod
 }
 
 template<>
-inline long long int HashTable<long long int,int>::HashCode<const long long int &key) const
+inline long long int HashTable<long long int,int>::HashCode(const long long int &key) const
 {
     return key;
 }

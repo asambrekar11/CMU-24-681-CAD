@@ -14,23 +14,22 @@ using namespace std;
 struct AncVtx
 {
 public:
-Vec3 Anc;
+Vec3 Anchor;
 std::vector<int> label;
 };
 
-Class Anhcor
+Class AnhcorVertex
 {
 
 protected:
 const Shell *shl;
-const LlyodCluster *MyCluster;
+const LlyodCluster *MyCl;
 std::vector<AncVtx> AncPts;
 
 
 public:
-Anchor(const Shell &s, const LlyodCluster &MC);
 ~Anchor();
-//void Initialize(const Shell &s, const LlyodCluster &MyCluster) // Initialize the shell to copy the data structure
+void Initialize(const Shell &s, const LlyodCluster &MC) // Initialize the shell to copy the data structure
 void MakeAnchorVertex();
 void Projection();
 };
