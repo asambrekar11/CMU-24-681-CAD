@@ -122,14 +122,6 @@ protected:
     };
     PolygonTable boss;
 public:
-    inline LloydCluster()
-    {
-        shl = nullptr;
-    }
-    inline ~LloydCLuster()
-    {
-        shl = nullptr;
-    }
     inline const std::vector<Shell::PolygonHandle> &GetCluster(const int idx) const
     {
         return stud.GetPolygonForProxy(pxy[idx]);
