@@ -74,8 +74,17 @@ public:
 	void Set(double x, double y, double z);
 	void Normalize();
 	friend Vec3 cross(Vec3 a, Vec3 b);
-	friend double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0);
-	friend double DotProduct(Vec3 a, Vec3 b);
+	const double xf() const;
+	const double yf() const;
+	const double zf() const;
 };
+
+static double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
+{
+	double t = - dot((x1-x0),(x2-x1))/(L2Norm(x2-x1))^2;
+	Vec3 temp;
+	temp = ((x1-x0)+(x2-x0))*t;
+	return L2Norm(temp);
+}
 
 #endif

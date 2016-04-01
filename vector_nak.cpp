@@ -376,28 +376,17 @@ Vec3 cross(Vec3 a, Vec3 b)
 	return result;
 }
 
-double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
+const Vec3::double xf() const
 {
-	double t = - DotProduct((x1-x0),(x2-x1))/(L2Norm(x2-x1))^2;
-	
-	double x,y,z;
-	x = (x1.dat[0]-x0.dat[0])+(x2.dat[0]-x1.dat[0])*t;
-	y = (x1.dat[1]-x0.dat[1])+(x2.dat[1]-x1.dat[1])*t;
-	z = (x1.dat[2]-x0.dat[2])+(x2.dat[2]-x1.dat[2])*t;
-	
-	return sqrt(x^2+y^2+z^2);
-	
+	return dat[0];
 }
 
-double DotProduct(Vec3 a, Vec3 b)
-{	
-	double t=0;
-	
-	for(int i=0;i<3;i++)
-	{	
-		t +=a.dat[i]*b.dat[i];
-	}
-
-return t;
-
+const Vec3::double yf() const
+{
+	return dat[1];
 }
+
+const Vec3::double zf() const
+{
+	return dat[2];
+}	
