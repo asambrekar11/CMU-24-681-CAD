@@ -113,7 +113,7 @@ AncVtxHandle AnchorVertex::GetNeighbour(AncVtx VtxHd, AncVtxHandle PxHd)
 		
 		for(int j=0;j<PxHd.size();j++)
 		{
-			double d = VecN<double,3>L2Norm(VtxHd.Anchor,PxHd[j].Anchor);
+			double d = L2Norm(VtxHd.Anchor-PxHd[j].Anchor);
 			if(d<minD && d!=0)
 			{
 				minD = d;
