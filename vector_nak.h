@@ -59,7 +59,7 @@ public:
 	friend VecN operator/(const VecN &lhs, const T rhs);
 	friend bool operator==(const VecN &lhs, const VecN &rhs);
 	friend bool operator!=(const VecN &lhs, const VecN &rhs);
-	friend L2Norm(VecN a);
+	friend double L2Norm(VecN a);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

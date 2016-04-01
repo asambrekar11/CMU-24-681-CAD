@@ -71,5 +71,70 @@ for(auto vt : shl->AllVertex())
 
 }
 
+void AnchorVertex::BinAnchorVertex()
+{
 
-void AnchorVertex
+int nProxy = MyCl->GetNumProxy();//Get number of proxies
+
+EdgVtx = new AncVtxHandle[nProxy];//dynamic memory allocation
+
+	for(auto t : &AncPts)
+	{
+		for(auto u : &t.label)
+		{
+			EdgVtx[u].push_back(t);
+		}
+
+	}
+
+}
+
+AncVtxHandle AnchorVertex::GetAnchorVtx(int ProxyNum)//0 to k-1
+{
+
+	if(EdgVtx!=nullptr)
+	{
+		return EdgVtx[ProxyNum]
+
+	}else
+	{
+		return nullptr;
+	}	
+}
+
+AncVtxHandle AnchorVertex::GetNeighbour(AncVtx VtxHd, AncVtxHandle PxHd)
+{
+	AncVtxHandle Neighbour;
+	for(int i=0;i<2;i++)
+	{	
+		double minD = 10^4;//Need something better
+		AncVtx temp;
+		
+		for(int j=0;j<PxHd.size();j++)
+		{
+			double d = VecN<double,3>L2Norm(VtxHd.Anchor,PxHd[j].Anchor);
+			if(d<minD && d!=0)
+			{
+				minD = d;
+				temp.Anchor = PxHd[j].anchor;
+				temp.label.swap(PxHd[j].label);
+				
+			}
+		}
+		Neighbour.push_back(temp);
+		
+		for(int j=0;j<PxHd.size();j++)
+		{
+			if(PxHd[j].Anchor==temp.Anchor)
+			{	
+				PxHd.erase(PxHd.begin()+j);
+				break;
+			}
+		}
+
+	}
+	
+	return Neighbour;
+
+}
+

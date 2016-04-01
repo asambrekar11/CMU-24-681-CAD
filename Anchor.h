@@ -18,22 +18,30 @@ Vec3 Anchor;
 std::vector<int> label;
 };
 
+typedef std::vector<AncVtx> AncVtxHandle; 
+
 Class AnhcorVertex
 {
 
 protected:
 const Shell *shl;
 const LlyodCluster *MyCl;
-std::vector<AncVtx> AncPts;
-
+AncVtxHandle AncPts;
+AncVtxHandle *EdgVtx;
 
 public:
+Anchor();
 ~Anchor();
 void Initialize(const Shell &s, const LlyodCluster &MC) // Initialize the shell to copy the data structure
 void MakeAnchorVertex();
-void Projection();
+//void Projection();
+void BinAnchorVertex();
+AncVtxHandle GetAnchorVtx(int ProxyNum);
+AncVtxHandle GetNeighbour(AncVtx VtxHd, AncVtxHandle PxHd);
+void ExtractEdges();
+
 };
 
-
+//replaced std::vector<AncVtx> with AncVtxHandle
 
 #endif */ANCHOR_H*/
