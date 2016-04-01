@@ -77,15 +77,12 @@ inline long long int HashTable<Proxy,std::vector<Shell::PolygonHandle>>::HashCod
 {
     return key.label;
 }
-    
-class ProxyTable : public HashTable<Proxy,std::vector<Shell::PolygonHandle>>
+
+template<>
+inline long long int HashTable<long long int,int>::HashCode<const long long int &key) const
 {
-public:
-    inline std::vector<Shell::PolygonHandle> &GetPolygonForProxy(Proxy pxy)
-    {
-        return *((*this)[pxy]);
-    }
-};
+    return key;
+}
     
 
 template <int k>
@@ -93,7 +90,37 @@ class LloydCluster
 {
 protected:
     Proxy pxy[k];
+    class ProxyTable : public HashTable<Proxy,std::vector<Shell::PolygonHandle>>
+    {
+    public:
+        inline const std::vector<Shell::PolygonHandle> &GetPolygonForProxy(const Proxy &pxy) const
+        {
+            return *((*this)[pxy]);
+        }
+    };
     ProxyTable stud;
+    class PolygonTable : public HashTable<long long int,int>
+    {
+    public:
+        const Shell *shl;
+        inline PolygonTable()
+        {
+            shl = nullptr;
+        }
+        inline ~PolygonTable()
+        {
+            shl = nullptr;
+        }
+        inline void Setup(const Shell &shell)
+        {
+            shl = &shell;
+        }
+        inline const int GetLabelForPolygon(const Shell::PolygonHandle plHd) const
+        {
+            return *((*this)[shl->GetSearchKey(plHd)]);
+        }
+    };
+    PolygonTable boss;
 public:
     inline LloydCluster()
     {
@@ -103,13 +130,17 @@ public:
     {
         shl = nullptr;
     }
-    inline std::vector<Shell::PolygonHandle> &GetCluster(const int idx) const
+    inline const std::vector<Shell::PolygonHandle> &GetCluster(const int idx) const
     {
         return stud.GetPolygonForProxy(pxy[idx]);
     }
-    inline Proxy &GetProxy(const int idx) const
+    inline const Proxy &GetProxy(const int idx) const
     {
         return pxy[idx];
+    }
+    inline const int GetPolygonLabel(const Shell::PolygonHandle plHd) const
+    {
+        return boss.GetLabelForPolygon(plHd);
     }
     void MakeCluster(const Shell &shell);
 };
