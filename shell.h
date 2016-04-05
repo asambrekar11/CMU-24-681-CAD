@@ -337,12 +337,28 @@ public:
 				next = shl->FindNextVertex(vtHd);
 				return *this;
 			}
+			inline iterator operator++(int)
+			{
+				iterator copy = *this;
+				prev = vtHd;
+				plHd = next;
+				next = shl->FindNextVertex(vtHd);
+				return copy;
+			}
 			inline iterator &operator--()
 			{
 				next = vtHd;
 				plHd = prev;
 				prev = shl->FindPrevVertex(vtHd);
 				return *this;
+			}
+			inline iterator operator--(int)
+			{
+				iterator copy = *this;
+				next = vtHd;
+				plHd = prev;
+				prev = shl->FindPrevVertex(vtHd);
+				return copy;
 			}
 			inline bool operator==(const iterator &from) const
 			{

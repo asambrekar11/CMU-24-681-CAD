@@ -121,26 +121,12 @@ const std::vector<Shell::PolygonHandle> Shell::EdgePolygonTable::FindPolygon(She
 
 long long int Shell::GetSearchKey(VertexHandle vtHd) const
 {
-	for (long long int i = 0; i<vtx.size(); i++)
-	{
-		if (&vtx[i] == vtHd)
-		{
-			return i;
-		}
-	}
-	return -1;
+	return (long long int)vtHd;
 }
 
 long long int Shell::GetSearchKey(PolygonHandle plHd) const
 {
-	for (long long int i = 0; i<plygn.size(); i++)
-	{
-		if (&plygn[i] == plHd)
-		{
-			return i;
-		}
-	}
-	return -1;
+	return (long long int)plHd;
 }
 
 Vec3 Shell::GetNormal(Shell::PolygonHandle plHd)
