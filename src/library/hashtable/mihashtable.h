@@ -1,11 +1,13 @@
 #ifndef MIHASHTABLE_IS_INCLUDED
 #define MIHASHTABLE_IS_INCLUDED
 
+#include <vector>
+
 template <class Key, class Value>
 class HashTable
 {
 protected:
-	typedef unsigned long long int Code
+	typedef unsigned long long int Code;
 	struct Entry
 	{
 	public:
@@ -22,7 +24,7 @@ protected:
 	virtual long long int HashCode(const Key &key) const;
 	void Cleanup();
 public:
-	Hashtable();
+	HashTable();
 	void Update(const Key &key, Value &value);
 	bool IsIncluded(Key key) const;
 	void Resize(Code newSize);

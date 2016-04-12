@@ -14,18 +14,18 @@ class Vec
 {
 protected:
 	T *dat;
-	long long int size;
+	long long int mysize;
 	long long int available;
-	void Cleanup()
+	void Cleanup();
 	void Grow();
-	void CopyFrom(const T &in);
+	void CopyFrom(const Vec &in);
 	void Swap(Vec &in);
 public:
 	Vec();
 	Vec(const Vec &in);
 	Vec(Vec &&in);
 	Vec &operator=(const Vec &in);
-	Vec &operator=(Vec &&in)
+	Vec &operator=(Vec &&in);
 	~Vec();
 	long long int size() const;
 	void clear();
@@ -44,7 +44,7 @@ public:
 //LENGTH VECTOR CLASS
 ////////////////////////////////////////////////////////////////////////////////
 
-template <class T, unsigned int nc>
+template <class T, long long int nc>
 class VecN : public Vec<T>
 {
 public:
@@ -79,11 +79,10 @@ public:
 	const double zf() const;
 };
 
-static double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
+double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
 {
-	double t = - dot((x1-x0),(x2-x1))/(L2Norm(x2-x1))^2;
-	Vec3 temp;
-	temp = ((x1-x0)+(x2-x0))*t;
+	double t = -1.0*dot((x1-x0),(x2-x1))/pow((L2Norm(x2-x1)),2.0);
+	auto temp = ((x1-x0)+(x2-x0))*t;
 	return L2Norm(temp);
 }
 

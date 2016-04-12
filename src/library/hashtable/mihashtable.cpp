@@ -12,7 +12,7 @@ void HashTable<Key,Value>::Cleanup()
 }
 
 template <class Key, class Value>
-HashTable<Key,Value>::Hashtable()
+HashTable<Key,Value>::HashTable()
 {
 	table.Resize(MIN_TABLE_SIZE);
 	nelem = 0;

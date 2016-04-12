@@ -10,6 +10,16 @@
 //MICOLOR CLASS : CLASS FOR COLORS
 ////////////////////////////////////////////////////////////////////////////////
 
+class MIColor;
+
+static const MIColor MIRed();
+static const MIColor MIRed();
+static const MIColor MIYellow();
+static const MIColor MIGreen();
+static const MIColor MICyan();
+static const MIColor MIBlue();
+static const MIColor MIMagenta();
+
 class MIColor
 {
 protected:

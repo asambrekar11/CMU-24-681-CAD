@@ -12,7 +12,7 @@ void Vec<T>::Cleanup()
 		delete [] dat;
 	}
 	dat = nullptr;
-	size = 0;
+	mysize = 0;
 	available = 0;
 }
 
@@ -22,13 +22,13 @@ void Vec<T>::Grow()
 	if (available == 0)
 	{
 		dat = new T[1];
-		avaiable = 1;
+		available = 1;
 	}
 	else
 	{
 		available*=2;
-		T *newdat = new T[avaiable];
-		for (decltype(size) i = 0; i<size; i++)
+		T *newdat = new T[available];
+		for (decltype(mysize) i = 0; i<mysize; i++)
 		{
 			newdat[i]=dat[i];
 		}
@@ -37,20 +37,21 @@ void Vec<T>::Grow()
 			delete []dat;
 		}
 		dat=newdat;
+	}
 }
 
 template <class T>
-void Vec<T>::CopyFrom(const T &in)
+void Vec<T>::CopyFrom(const Vec<T> &in)
 {
 	if (this != &in)
 	{
 		Cleanup();
-		if (in.size>0)
+		if (in.mysize>0)
 		{
 			this->available = in.available;
-			this->size = in.size;
+			this->mysize = in.mysize;
 			this->dat = new T[this->available];
-			for (decltype(size) i = 0; i<size; i++)
+			for (decltype(mysize) i = 0; i<mysize; i++)
 			{
 				this->dat[i] = in.dat[i];
 			}
@@ -70,10 +71,10 @@ void Vec<T>::Swap(Vec<T> &in)
 }
 
 template <class T>
-Vec<T>::Vec<T>()
+Vec<T>::Vec()
 {
 	dat = nullptr;
-	size = 0;
+	mysize = 0;
 	available = 0;
 }
 
@@ -98,7 +99,7 @@ Vec<T> &Vec<T>::operator=(const Vec<T> &in)
 }
 
 template <class T>
-Vec<T> Vec<T>::operator=(Vec<T> &&in)
+Vec<T> &Vec<T>::operator=(Vec<T> &&in)
 {
 	Cleanup();
 	Swap(in);
@@ -111,9 +112,9 @@ Vec<T>::~Vec()
 }
 
 template <class T>
-long long int Vec<T>::size()
+long long int Vec<T>::size() const
 {
-	return size;
+	return mysize;
 }
 
 template <class T>
@@ -125,7 +126,7 @@ void Vec<T>::clear()
 template <class T>
 void Vec<T>::resize(long long int newsize)
 {
-	if (0 >= newSize)
+	if (0 >= newsize)
 	{
 		Cleanup();
 	}
@@ -138,7 +139,7 @@ void Vec<T>::resize(long long int newsize)
 		}
 
 		T *newdat=new T [newavailable];
-		for(decltype(size) i=0; i<size && i<newsize; ++i)
+		for(decltype(mysize) i=0; i<mysize && i<newsize; ++i)
 		{
 			newdat[i]=dat[i];
 		}
@@ -147,7 +148,7 @@ void Vec<T>::resize(long long int newsize)
 			delete [] dat;
 		}
 		dat=newdat;
-		size=newsize;
+		mysize=newsize;
 		available=newavailable;
 	}
 }
@@ -167,30 +168,30 @@ const T &Vec<T>::operator[](const int n) const
 template <class T>
 void Vec<T>::push_back(const T incoming)
 {
-	if (available<=lsize)
+	if (available<=mysize)
 	{
 		Grow();
 	}
-	dat[size] = incoming;
-	size++;
+	dat[mysize] = incoming;
+	mysize++;
 }
 
 template <class T>
-void Vec<T>:;pop_back()
+void Vec<T>::pop_back()
 {
-	size--;
+	mysize--;
 }
 
 template <class T>
-void Vec<T>::begin()
+Vec<T> *Vec<T>::begin()
 {
 	return &dat[0];
 }
 
 template <class T>
-void Vec<T>::end()
+Vec<T> *Vec<T>::end()
 {
-	return &dat[size-1];
+	return &dat[mysize-1];
 }
 
 template <class T>
@@ -209,98 +210,99 @@ const Vec<T> Vec<T>::GetVecData () const
 //LENGTH VECTOR CLASS
 ////////////////////////////////////////////////////////////////////////////////
 
-template <class T, unsigned int nc>
+template <class T, long long int nc>
 VecN<T,nc>::VecN()
 {
-	Resize(nc);
+	long long int reqsize = nc;
+	this->resize(reqsize);
 }
 
-template <class T, unsigned int nc>
-VecN<T,nc> &VecN<T,nc>::operator+=(const VecN rhs)
+template <class T, long long int nc>
+VecN<T,nc> &VecN<T,nc>::operator+=(const VecN<T,nc> rhs)
 {
-	for (decltype(size) i=0; i<size; i++)
+	for (decltype(this->size()) i=0; i<this->size(); i++)
 	{
-		dat[i] += rhs.dat[i];
+		this->dat[i] += rhs.dat[i];
 	}
 }
 
-template <class T, unsigned int nc>
-VecN<T,nc> &VecN<T,nc>::operator-=(const VecN rhs)
+template <class T, long long int nc>
+VecN<T,nc> &VecN<T,nc>::operator-=(const VecN<T,nc> rhs)
 {
-	for (decltype(size) i=0; i<size; i++)
+	for (decltype(this->size()) i=0; i<this->size(); i++)
 	{
-		dat[i] -= rhs.dat[i];
+		this->dat[i] -= rhs.dat[i];
 	}
 }
 
-template <class T, unsigned int nc>
+template <class T, long long int nc>
 T dot(VecN<T,nc> a, VecN<T,nc> b)
 {
 	T result;
-	for (decltype(a.size) i = 0; i<nc; i++)
+	for (decltype(a.size()) i = 0; i<a.size(); i++)
 	{
 		result += a.dat[i]*b.dat[i];
 	}
-	return result
+	return result;
 }
 
-template <class T, unsigned int nc>
+template <class T, long long int nc>
 VecN<T,nc> operator*(const T lhs, VecN<T,nc> rhs)
 {
 	VecN<T,nc> temp;
-	for (decltype (rhs.size) i = 0; i<rhs.size; i++)
+	for (decltype (rhs.size()) i = 0; i<rhs.size(); i++)
 	{
 		temp.dat[i] = lhs * rhs.dat[i];
 	}
 	return temp;
 }
 
-template <class T, unsigned int nc>
+template <class T, long long int nc>
 VecN<T,nc> operator*(VecN<T,nc> lhs, const T rhs)
 {
 	VecN<T,nc> temp;
-	for (decltype (lhs.size) i = 0; i<lhs.size; i++)
+	for (decltype (lhs.size()) i = 0; i<lhs.size(); i++)
 	{
 		temp.dat[i] = rhs * lhs.dat[i];
 	}
 	return temp;
 }
 
-template <class T, unsigned int nc>
+template <class T, long long int nc>
 VecN<T,nc> operator+(VecN<T,nc> lhs, const VecN<T,nc> &rhs)
 {
 	VecN<T,nc> temp;
-	for (decltype (lhs.size) i = 0; i<lhs.size; i++)
+	for (decltype (lhs.size()) i = 0; i<lhs.size(); i++)
 	{
 		temp.dat[i] = rhs.dat[i] + lhs.dat[i];
 	}
 	return temp;
 }
 
-template <class T, unsigned int nc>
-VecN<t,nc> operator-(VecN<T,nc> lhs, const VecN<T,nc> &rhs)
+template <class T, long long int nc>
+VecN<T,nc> operator-(VecN<T,nc> lhs, const VecN<T,nc> &rhs)
 {
 	VecN<T,nc> temp;
-	for (decltype (lhs.size) i = 0; i<lhs.size; i++)
+	for (decltype (lhs.size()) i = 0; i<lhs.size(); i++)
 	{
 		temp.dat[i] = rhs.dat[i] + lhs.dat[i];
 	}
 	return temp;
 }
 
-template <class T, unsigned int nc>
+template <class T, long long int nc>
 VecN<T,nc> operator/(const VecN<T,nc> &lhs, const T rhs)
 {
 	VecN<T,nc> temp;
-	for (decltype (lhs.size) i = 0; i<lhs.size; i++)
+	for (decltype (lhs.size()) i = 0; i<lhs.size(); i++)
 	{
 		temp.dat[i] = lhs.dat[i] / rhs;
 	}
 	return temp;
 }
 
-template <class T, unsigned int nc>
-bool operator==(const VecN &lhs, const VecN &rhs)
+template <class T, long long int nc>
+bool operator==(const VecN<T,nc> &lhs, const VecN<T,nc> &rhs)
 {
 	for (int i = 0; i<nc; i++)
 	{
@@ -312,8 +314,8 @@ bool operator==(const VecN &lhs, const VecN &rhs)
 	return true;
 }
 
-template <class T, unsigned int nc>
-bool operator!=(const VecN &lhs, const VecN &rhs)
+template <class T, long long int nc>
+bool operator!=(const VecN<T,nc> &lhs, const VecN<T,nc> &rhs)
 {
 	for (int i = 0; i<nc; i++)
 	{
@@ -325,13 +327,13 @@ bool operator!=(const VecN &lhs, const VecN &rhs)
 	return false;
 }
 
-template <class T, unsigned int nc>
-double L2Norm(VecN a)
+template <class T, long long int nc>
+double L2Norm(VecN<T,nc> a)
 {
 	double sqlen = 0.0;
 	for (int i = 0; i<nc; i++)
 	{
-		sqlen += (dat[i]*dat[i]);
+		sqlen += (a.dat[i]*a.dat[i]);
 	}
 	return sqrt(sqlen);
 }
@@ -362,17 +364,17 @@ void Vec3::Set(double x, double y, double z)
 void Vec3::Normalize()
 {
 	double l = L2Norm(*this);
-	x /= l;
-	y /= l;
-	z /= l;
+	dat[0] /= l;
+	dat[1] /= l;
+	dat[2] /= l;
 }
 
 Vec3 cross(Vec3 a, Vec3 b)
 {
 	Vec3 result;
-	result.x=a.y*b.z-a.z*b.y;
-	result.y=a.z*b.x-a.x*b.z;
-	result.z=a.x*b.y-a.y*b.x;
+	result.dat[0]=a.dat[1]*b.dat[2]-a.dat[2]*b.dat[1];
+	result.dat[1]=a.dat[2]*b.dat[0]-a.dat[0]*b.dat[2];
+	result.dat[2]=a.dat[0]*b.dat[1]-a.dat[1]*b.dat[0];
 	return result;
 }
 
