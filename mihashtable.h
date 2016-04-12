@@ -19,7 +19,7 @@ protected:
 	};
 	std::vector <std::vector <Entry>> table;
 	Code nelem;
-	inline Code HashCode(const Key &key) const;
+	virtual long long int HashCode(const Key &key) const;
 	void Cleanup();
 public:
 	Hashtable();
@@ -29,3 +29,4 @@ public:
 	Value *operator[](const Key key);
 	const Value *operator[](const Key key) const;
 };
+#endif

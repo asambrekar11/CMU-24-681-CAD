@@ -3,7 +3,7 @@
 
 
 template<>
-inline long long int HashTable<EdgeKey,std::vector<PolygonHandle>::HashCode(const EdgeKey &key) const
+long long int HashTable<Shell::EdgeKey,std::vector<Shell::PolygonHandle>>::HashCode(const Shell::EdgeKey &key) const
 {
 	return key.edVtKey[0]+key.edVtKey[1];
 }
@@ -21,12 +21,12 @@ Polygon::~Polygon()
 	}
 }
 
-void Polygon::Add(const Vec3 &newVtx)
+void Polygon::Add(Vec3 &newVtx)
 {
 	vtx.push_back(&newVtx);
 }
 
-void Polygon::Add(const int nVtx, const Vec3 newVtx[])
+void Polygon::Add(const int nVtx, Vec3 newVtx[])
 {
 	for (int i = 0; i<nVtx; i++)
 	{
@@ -34,7 +34,7 @@ void Polygon::Add(const int nVtx, const Vec3 newVtx[])
 	}
 }
 
-void Polygon::Add(const std::vector<Vec3> &newVtx)
+void Polygon::Add(std::vector<Vec3> &newVtx)
 {
 	for (auto &vt : newVtx)
 	{
@@ -42,12 +42,12 @@ void Polygon::Add(const std::vector<Vec3> &newVtx)
 	}
 }
 
-void Polygon::Add(const Vec3 *newVtx)
+void Polygon::Add(Vec3 *newVtx)
 {
 	vtx.push_back(newVtx);
 }
 
-void Polygon::Add(const int nVtx, const Vec3 *newVtx[])
+void Polygon::Add(const int nVtx, Vec3 *newVtx[])
 {
 	for (int i = 0; i<nVtx; i++)
 	{
@@ -86,10 +86,10 @@ const std::vector<Vec3 *> Polygon::GetVertex() const
 //SHELL::EDGEPOLYGONTABLE CLASS
 ////////////////////////////////////////////////////////////////////////////////
 
-void Shell::EdgePolygonTable::Initialize(const Shell &shell)
+void Shell::EdgePolygonTable::Initialize(const Shell &shl)
 {
 	Cleanup();
-	shl = &shell;
+	this->shl = &shl;
 	Resize(shl.GetNumPolygon());
 	
 	for (auto plHd : shl.AllPolygon())
@@ -103,7 +103,7 @@ void Shell::EdgePolygonTable::Initialize(const Shell &shell)
 			auto curr_poly = (*this)[key];
 			if (nullptr == curr_poly)
 			{
-				curr_poly->push_back(plHd)
+				curr_poly->push_back(plHd);
 			}
 			else
 			{
@@ -155,7 +155,7 @@ Shell::PolygonHandle Shell::FindNextPolygon(Shell::PolygonHandle plHd)
 	return nullptr;
 }
 
-Shell::PolygonHandle Shell::FindPrevPolygon(Shell::PolygonHandle plHd)
+const Shell::PolygonHandle Shell::FindPrevPolygon(Shell::PolygonHandle plHd) const
 {
 	for (int i = 0; i<plygn.size(); i++)
 	{
@@ -167,7 +167,7 @@ Shell::PolygonHandle Shell::FindPrevPolygon(Shell::PolygonHandle plHd)
 	return nullptr;
 }
 
-Shell::VertexHandle Shell::FindNextVertex(Shell::VertexHandle vtHd)
+const Shell::VertexHandle Shell::FindNextVertex(Shell::VertexHandle vtHd) const
 {
 	if (vtHd == nullptr)
 	{
@@ -183,7 +183,7 @@ Shell::VertexHandle Shell::FindNextVertex(Shell::VertexHandle vtHd)
 	return nullptr;
 }
 
-Shell::VertexHandle Shell::FindPrevVertex(Shell::VertexHandle vtHd)
+const Shell::VertexHandle Shell::FindPrevVertex(Shell::VertexHandle vtHd) const
 {
 	if (vtHd == nullptr)
 	{

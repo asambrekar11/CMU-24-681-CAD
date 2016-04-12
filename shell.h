@@ -17,7 +17,7 @@ protected:
 public:
 	inline MIColor()
 	{
-		SetColor(MIBalck());
+		SetColor(MIBlack());
 	}
 	inline MIColor(const float col[])
 	{
@@ -49,10 +49,7 @@ public:
 	{
 		return rgb[2];
 	}
-	inline float *GetColor() const
-	{
-		return rgb;
-	}
+
 	inline MIColor GetMIColor() const
 	{
 		return *this;
@@ -146,16 +143,16 @@ protected:
 	void Cleanup();
 public:
 	~Polygon();
-	void Add(const Vec3 &newVtx);
-	void Add(const int nVtx, const Vec3 newVtx[]);
-	void Add(const std::vector<Vec3> &newVtx);
-	void Add(const Vec3 *newVtx);
-	void Add(const int nVtx, const Vec3 *newVtx[]);
+	void Add(Vec3 &newVtx);
+	void Add(const int nVtx, Vec3 newVtx[]);
+	void Add(std::vector<Vec3> &newVtx);
+	void Add(Vec3 *newVtx);
+	void Add(const int nVtx, Vec3 *newVtx[]);
 	void Add(const std::vector<Vec3 *> newVtx);
 	void SetNormal(Vec3 normal);
-	void SetColor(const MIColor col);
+	void SetColor(const MIColor &col);
 	const Vec3 GetNormal() const;
-	std::vector<Vec3 *> GetVertex() const;
+	const std::vector<Vec3 *> GetVertex() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -179,7 +176,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	//EDGEKEY CLASS : KEY FOR EDGES
 	////////////////////////////////////////////////////////////////////////////
-	
+public:
 	class EdgeKey
 	{
 	public:
@@ -194,7 +191,7 @@ protected:
 			return (edVtKey[0]!=incoming.edVtKey[0] || edVtKey[1]!=incoming.edVtKey[1]) &&
 				   (edVtKey[0]!=incoming.edVtKey[1] || edVtKey[1]!=incoming.edVtKey[0]);
 		}
-	}
+	};
 	
 	////////////////////////////////////////////////////////////////////////////
 	//END OF EDGEKEY CLASS
@@ -204,7 +201,7 @@ protected:
 	//EDGEPOLYGONTABLECLASS : HASHTABLE FOR EDGE TO POLYGON ASSOCIATIVITY
 	////////////////////////////////////////////////////////////////////////////
 	
-	class EdgePolygonTable : public HashTable<EdgeKey,std::vector<PolygonHandle>
+	class EdgePolygonTable : public HashTable<EdgeKey,std::vector<PolygonHandle>>
 	{
 	public:
 		const Shell *shl;
@@ -235,7 +232,7 @@ public:
 	class PolygonEnumerator
 	{
 	public:
-		const Shell *shl;
+		const Shell* shl;
 		
 		////////////////////////////////////////////////////////////////////////
 		//POLYGON::ITERATOR CLASS
@@ -244,7 +241,7 @@ public:
 		class iterator
 		{
 		public:
-			const Shell *shl;
+			const Shell * shl;
 			PolygonHandle prev,next,plHd;
 			inline iterator &operator++()
 			{
@@ -337,7 +334,7 @@ public:
 			inline iterator &operator++()
 			{
 				prev = vtHd;
-				plHd = next;
+				vtHd = next;
 				next = shl->FindNextVertex(vtHd);
 				return *this;
 			}
@@ -345,14 +342,14 @@ public:
 			{
 				iterator copy = *this;
 				prev = vtHd;
-				plHd = next;
+				vtHd = next;
 				next = shl->FindNextVertex(vtHd);
 				return copy;
 			}
 			inline iterator &operator--()
 			{
 				next = vtHd;
-				plHd = prev;
+				vtHd = prev;
 				prev = shl->FindPrevVertex(vtHd);
 				return *this;
 			}
@@ -360,7 +357,7 @@ public:
 			{
 				iterator copy = *this;
 				next = vtHd;
-				plHd = prev;
+				vtHd = prev;
 				prev = shl->FindPrevVertex(vtHd);
 				return copy;
 			}
@@ -383,8 +380,8 @@ public:
 			iterator iter;
 			iter.shl = shl;
 			iter.prev = nullptr;
-			iter.vtHd = shl->FindNextPolygon(nullptr);
-			iter.next = shl->FindNextPolygon(iter.vtHd);
+			iter.vtHd = shl->FindNextVertex(nullptr);
+			iter.next = shl->FindNextVertex(iter.vtHd);
 			return iter;
 		}
 		inline iterator end()
@@ -401,8 +398,8 @@ public:
 			iterator iter;
 			iter.shl = shl;
 			iter.next = nullptr;
-			iter.vtHd = shl->FindPrevPolygon(nullptr);
-			iter.prev = shl->FindPrevPolygon(iter.vtHd);
+			iter.vtHd = shl->FindPrevVertex(nullptr);
+			iter.prev = shl->FindPrevVertex(iter.vtHd);
 			return iter;
 		}
 		inline iterator rend()
@@ -434,12 +431,12 @@ public:
 		return AllvtHd;
 	}
 
-	inline long long int GetNumVertex()
+	inline long long int GetNumVertex() const
 	{
 		return vtx.size();
 	}
 
-	inline long long int GetNumPolygon()
+	inline long long int GetNumPolygon() const
 	{
 		return plygn.size();
 	}
@@ -449,11 +446,11 @@ public:
 	
 	Vec3 GetNormal(PolygonHandle plHd);
 	
-	PolygonHandle FindNextPolygon(PolygonHandle plHd);
-	PolygonHandle FindPrevPolygon(PolygonHandle plHd);
+	const PolygonHandle FindNextPolygon(PolygonHandle plHd) const;
+	const PolygonHandle FindPrevPolygon(PolygonHandle plHd) const;
 	
-	VertexHandle FindNextVertex(VertexHandle vtHd);
-	VertexHandle FindPrevVertex(VertexHandle vtHd);
+	const VertexHandle FindNextVertex(VertexHandle vtHd) const;
+	const VertexHandle FindPrevVertex(VertexHandle vtHd) const;
 	
 	const VertexHandle AddVertex(const Vec3 &incoming);
 	
