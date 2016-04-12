@@ -376,17 +376,17 @@ Vec3 cross(Vec3 a, Vec3 b)
 	return result;
 }
 
-const Vec3::double xf() const
+const double Vec3::xf() const
 {
 	return dat[0];
 }
 
-const Vec3::double yf() const
+const double Vec3::yf() const
 {
 	return dat[1];
 }
 
-const Vec3::double zf() const
+const double Vec3::zf() const
 {
 	return dat[2];
 }	

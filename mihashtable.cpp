@@ -1,7 +1,7 @@
 #include "mihashtable.h"
 
 template <class Key, class Value>
-void Hashtable<Key,Value>::Cleanup()
+void HashTable<Key,Value>::Cleanup()
 {
 	table.Resize(MIN_TABLE_SIZE);
 	for (auto &t : table)

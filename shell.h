@@ -17,7 +17,7 @@ protected:
 public:
 	inline MIColor()
 	{
-		SetColor({0.0,0.0,0.0});
+		SetColor(MIBalck());
 	}
 	inline MIColor(const float col[])
 	{
@@ -83,42 +83,50 @@ public:
 
 static const MIColor MIRed()
 {
-	return MIColor({1.0,0.0,0.0});
+	float col[] = {1.0,0.0,0.0};
+	return MIColor(col);
 }
 
 static const MIColor MIYellow()
 {
-	return MIColor({1.0,1.0,0.0});
+	float col[] = {1.0,1.0,0.0};
+	return MIColor(col);
 }
 
 static const MIColor MIGreen()
 {
-	return MIColor({0.0,1.0,0.0});
+	float col[] = {0.0,1.0,0.0};
+	return MIColor(col);
 }
 
 static const MIColor MICyan()
 {
-	return MIColor({0.0,1.0,1.0});
+	float col[] = {0.0,1.0,1.0};
+	return MIColor(col);
 }
 
 static const MIColor MIBlue()
 {
-	return MIColor({0.0,0.0,1.0});
+	float col[] = {0.0,0.0,1.0};
+	return MIColor(col);
 }
 
 static const MIColor MIMagenta()
 {
-	return MIColor({1.0,0.0,1.0});
+	float col[] = {1.0,0.0,1.0};
+	return MIColor(col);
 }
 
 static const MIColor MIWhite()
 {
-	return MIColor({1.0,1.0,1.0});
+	float col[] = {1.0,1.0,1.0};
+	return MIColor(col);
 }
 
 static const MIColor MIBlack()
 {
-	return MIColor({0.0,0.0,0.0});
+	float col[] = {0.0,0.0,0.0};
+	return MIColor(col);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,6 +168,10 @@ public:
 
 class Shell
 {
+public:
+	typedef Polygon* PolygonHandle;
+	typedef Vec3* VertexHandle;
+	
 protected:
 	std::vector <Vec3> vtx;
 	std::vector <Polygon> plygn;
@@ -188,12 +200,6 @@ protected:
 	//END OF EDGEKEY CLASS
 	////////////////////////////////////////////////////////////////////////////
 
-	template<>
-	inline long long int HashTable<EdgeKey,std::vector<PolygonHandle>::HashCode(const EdgeKey &key) const
-	{
-		return key.edVtKey[0]+key.edVtKey[1];
-	}
-
 	////////////////////////////////////////////////////////////////////////////
 	//EDGEPOLYGONTABLECLASS : HASHTABLE FOR EDGE TO POLYGON ASSOCIATIVITY
 	////////////////////////////////////////////////////////////////////////////
@@ -221,8 +227,6 @@ protected:
 	EdgePolygonTable EdgeToPolygon;
 	
 public:
-	typedef Polygon* PolygonHandle;
-	typedef Vec3* VertexHandle;
 	
 	////////////////////////////////////////////////////////////////////////////
 	//POLYGONENUMERATOR CLASS : CLASS FOR RANGE-BASED FOR LOOP IN POLYGONS

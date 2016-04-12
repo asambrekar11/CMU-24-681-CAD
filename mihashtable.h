@@ -2,7 +2,7 @@
 #define MIHASHTABLE_IS_INCLUDED
 
 template <class Key, class Value>
-class Hashtable
+class HashTable
 {
 protected:
 	typedef unsigned long long int Code
