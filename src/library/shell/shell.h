@@ -237,6 +237,32 @@ public:
 	
 	EdgePolygonTable EdgeToPolygon;
 	
+	////////////////////////////////////////////////////////////////////////////
+	//VERTEXPOLYGONTABLECLASS : HASHTABLE FOR VERTEX TO POLYGON ASSOCIATIVITY
+	////////////////////////////////////////////////////////////////////////////
+	
+	class VertexPolygonTable : public HashTable<VertexHandle,std::vector<PolygonHandle>>
+	{
+	public:
+		const Shell *shl;
+		inline VertexPolygonTable()
+		{
+			shl = nullptr;
+		}
+		inline ~VertexPolygonTable()
+		{
+			shl = nullptr;
+		}
+		void Initialize(const Shell &shl);
+		std::vector<PolygonHandle> FindPolygon(VertexHandle vtHd) const;
+	};
+	
+	////////////////////////////////////////////////////////////////////////////
+	//END OF EDGEPOLYGONTABLE CLASS
+	////////////////////////////////////////////////////////////////////////////
+	
+	VertexPolygonTable VertexToPolygon;
+	
 public:
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -570,6 +596,10 @@ public:
 	PolygonHandle AddTriangle(VertexHandle incoming[]);
 	
 	std::vector <VertexHandle> GetPolygonVertex(PolygonHandle plHd) const;
+	inline std::vector <PolygonHandle> GetVertexPolygon(VertexHandle vtHd) const
+	{
+		return VertexToPolygon.FindPolygon(vtHd);
+	}
 	const Vec3 GetVertexPosition(VertexHandle vtHd) const;
 	
 	void SetPolygonColor(PolygonHandle plHd, const MIColor col);

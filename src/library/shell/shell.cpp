@@ -130,6 +130,40 @@ std::vector<Shell::PolygonHandle> Shell::EdgePolygonTable::FindPolygon(Shell::Ve
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//SHELL::VERTEXPOLYGONTABLE CLASS
+////////////////////////////////////////////////////////////////////////////////
+
+void Shell::VertexPolygonTable::Initialize(const Shell &shl)
+{
+	Cleanup();
+	this->shl=&shl;
+	Resize(shl.GetNumPolygon());
+	
+	for (auto plHd : shl.AllPolygon())
+	{
+		for (auto vtHd : shl.GetPolygonVertex(plHd))
+		{
+			auto plVtptr=(*this)[vtHd];
+			if (plVtptr == nullptr)
+			{
+				plVtptr->push_back(plHd);
+			}
+			else
+			{
+				std::vector <Shell::PolygonHandle> vtPl;
+				vtPl.push_back(plHd);
+				this->Update(vtHd,vtPl);
+			}
+		}
+	}
+}
+
+std::vector <Shell::PolygonHandle> Shell::VertexPolygonTable::FindPolygon(Shell::VertexHandle vtHd) const
+{
+	return *(*this)[vtHd];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //SHELL CLASS
 ////////////////////////////////////////////////////////////////////////////////
 
