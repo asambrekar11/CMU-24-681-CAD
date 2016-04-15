@@ -165,6 +165,7 @@ public:
 	void SetColor(const MIColor &col);
 	const Vec3 GetNormal() const;
 	const std::vector <const Vec3 *> GetVertex() const;
+	const MIColor GetColor(const Polygon *plHd) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

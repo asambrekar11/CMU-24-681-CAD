@@ -8,6 +8,12 @@ long long int HashTable<Shell::EdgeKey,std::vector<Shell::PolygonHandle>>::HashC
 	return key.edVtKey[0]+key.edVtKey[1];
 }
 
+template<>
+long long int HashTable<Shell::VertexHandle,std::vector<Shell::PolygonHandle>>::HashCode(const Shell::VertexHandle &key) const
+{
+	return (long long int)key;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //POLYGON CLASS
@@ -85,6 +91,11 @@ const Vec3 Polygon::GetNormal() const
 const std::vector <const Vec3 *> Polygon::GetVertex() const
 {
 	return vtx;
+}
+
+const MIColor Polygon::GetColor(const Polygon * plHd) const
+{
+	return plHd->color;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
