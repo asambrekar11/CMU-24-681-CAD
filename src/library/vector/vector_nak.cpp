@@ -166,7 +166,7 @@ const T &Vec<T>::operator[](const int n) const
 }
 
 template <class T>
-void Vec<T>::push_back(const T incoming)
+void Vec<T>::push_back(const T &incoming)
 {
 	if (available<=mysize)
 	{
@@ -204,6 +204,30 @@ template<class T>
 const Vec<T> Vec<T>::GetVecData () const
 {
 	return *this;
+}
+
+template<class T>
+const T &Vec<T>::front() const
+{
+	return dat[0];
+}
+
+template<class T>
+T &Vec<T>::front()
+{
+	return dat[0];
+}
+
+template<class T>
+const T &Vec<T>::back() const
+{
+	dat[mysize-1];
+}
+
+template<class T>
+T &Vec<T>::back()
+{
+	dat[mysize-1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////

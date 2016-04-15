@@ -27,7 +27,9 @@ protected:
 public:
 	inline MIColor()
 	{
-		SetColor(MIBlack());
+		rgb[0] = 0.0;
+		rgb[1] = 0.0;
+		rgb[2] = 0.0;
 	}
 	inline MIColor(const float col[])
 	{
@@ -147,22 +149,22 @@ static const MIColor MIBlack()
 class Polygon
 {
 protected:
-	std::vector<Vec3 *> vtx;
+	std::vector <const Vec3 *> vtx;
 	Vec3 normal;
 	MIColor color;
 	void Cleanup();
 public:
 	~Polygon();
-	void Add(Vec3 &newVtx);
-	void Add(const int nVtx, Vec3 newVtx[]);
-	void Add(std::vector<Vec3> &newVtx);
-	void Add(Vec3 *newVtx);
-	void Add(const int nVtx, Vec3 *newVtx[]);
-	void Add(const std::vector<Vec3 *> newVtx);
+	void AddVertex(Vec3 &newVtx);
+	void AddVertex(const Vec3 *newVtx);
+	Polygon *Add(const int nVtx, const Vec3 newVtx[]);
+	Polygon *Add(const std::vector<Vec3> &newVtx);
+	Polygon *Add(const int nVtx, const Vec3 *newVtx[]);
+	Polygon *Add(std::vector<const Vec3 *> newVtx);
 	void SetNormal(Vec3 normal);
 	void SetColor(const MIColor &col);
 	const Vec3 GetNormal() const;
-	const std::vector<Vec3 *> GetVertex() const;
+	const std::vector <const Vec3 *> GetVertex() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,8 +178,10 @@ public:
 class Shell
 {
 public:
-	typedef Polygon* PolygonHandle;
-	typedef Vec3* VertexHandle;
+	typedef const Polygon * PolygonHandle;
+	typedef const Vec3 * VertexHandle;
+
+//  Polyton *editablePolygon=(Polygon *)plHd;
 	
 protected:
 	std::vector <Vec3> vtx;
@@ -224,7 +228,7 @@ public:
 			shl = nullptr;
 		}
 		void Initialize(const Shell &shl);
-		const std::vector<PolygonHandle> FindPolygon(VertexHandle vtHd0, VertexHandle vtHd1) const;
+		std::vector<PolygonHandle> FindPolygon(VertexHandle vtHd0, VertexHandle vtHd1) const;
 	};
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -260,12 +264,28 @@ public:
 				next = shl->FindNextPolygon(plHd);
 				return *this;
 			}
+			inline iterator operator++(int)
+			{
+				iterator copy = *this;
+				prev = plHd;
+				plHd = next;
+				next = shl->FindNextPolygon(plHd);
+				return copy;
+			}
 			inline iterator &operator--()
 			{
 				next = plHd;
 				plHd = prev;
 				prev = shl->FindPrevPolygon(plHd);
 				return *this;
+			}
+			inline iterator operator--(int)
+			{
+				iterator copy = *this;
+				next = plHd;
+				plHd = prev;
+				prev = shl->FindPrevPolygon(plHd);
+				return copy;
 			}
 			inline bool operator==(const iterator &from) const
 			{
@@ -275,6 +295,10 @@ public:
 			{
 				return (shl != from.shl || plHd != from.plHd);
 			}
+			inline PolygonHandle operator*()
+			{
+				return plHd;
+			}
 		};
 		
 		////////////////////////////////////////////////////////////////////////
@@ -282,6 +306,16 @@ public:
 		////////////////////////////////////////////////////////////////////////
 		
 		inline iterator begin()
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.prev = nullptr;
+			iter.plHd = shl->FindNextPolygon(nullptr);
+			iter.next = shl->FindNextPolygon(iter.plHd);
+			return iter;
+		}
+		
+		inline const iterator begin() const
 		{
 			iterator iter;
 			iter.shl = shl;
@@ -299,6 +333,15 @@ public:
 			iter.next = nullptr;
 			return iter;
 		}
+		inline const iterator end() const
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.prev = nullptr;
+			iter.plHd = nullptr;
+			iter.next = nullptr;
+			return iter;
+		}
 		inline iterator rbegin()
 		{
 			iterator iter;
@@ -308,7 +351,25 @@ public:
 			iter.prev = shl->FindPrevPolygon(iter.plHd);
 			return iter;
 		}
+		inline const iterator rbegin() const
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.next = nullptr;
+			iter.plHd = shl->FindPrevPolygon(nullptr);
+			iter.prev = shl->FindPrevPolygon(iter.plHd);
+			return iter;
+		}
 		inline iterator rend()
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.prev = nullptr;
+			iter.plHd = nullptr;
+			iter.next = nullptr;
+			return iter;
+		}
+		inline const iterator rend() const
 		{
 			iterator iter;
 			iter.shl = shl;
@@ -379,6 +440,10 @@ public:
 			{
 				return (shl != from.shl || vtHd != from.vtHd);
 			}
+			inline VertexHandle operator*()
+			{
+				return vtHd;
+			}
 		};
 		
 		////////////////////////////////////////////////////////////////////////
@@ -413,6 +478,42 @@ public:
 			return iter;
 		}
 		inline iterator rend()
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.prev = nullptr;
+			iter.vtHd = nullptr;
+			iter.next = nullptr;
+			return iter;
+		}
+		inline const iterator begin() const
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.prev = nullptr;
+			iter.vtHd = shl->FindNextVertex(nullptr);
+			iter.next = shl->FindNextVertex(iter.vtHd);
+			return iter;
+		}
+		inline const iterator end() const
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.prev = nullptr;
+			iter.vtHd = nullptr;
+			iter.next = nullptr;
+			return iter;
+		}
+		inline const iterator rbegin() const
+		{
+			iterator iter;
+			iter.shl = shl;
+			iter.next = nullptr;
+			iter.vtHd = shl->FindPrevVertex(nullptr);
+			iter.prev = shl->FindPrevVertex(iter.vtHd);
+			return iter;
+		}
+		inline const iterator rend() const
 		{
 			iterator iter;
 			iter.shl = shl;
@@ -456,26 +557,26 @@ public:
 	
 	Vec3 GetNormal(PolygonHandle plHd);
 	
-	const PolygonHandle FindNextPolygon(PolygonHandle plHd) const;
-	const PolygonHandle FindPrevPolygon(PolygonHandle plHd) const;
+	PolygonHandle FindNextPolygon(PolygonHandle plHd) const;
+	PolygonHandle FindPrevPolygon(PolygonHandle plHd) const;
 	
-	const VertexHandle FindNextVertex(VertexHandle vtHd) const;
-	const VertexHandle FindPrevVertex(VertexHandle vtHd) const;
+	VertexHandle FindNextVertex(VertexHandle vtHd) const;
+	VertexHandle FindPrevVertex(VertexHandle vtHd) const;
 	
-	const VertexHandle AddVertex(const Vec3 &incoming);
+	VertexHandle AddVertex(const Vec3 &incoming);
 	
-	const PolygonHandle AddPolygon(const int nVtx, VertexHandle incoming[]);
-	const PolygonHandle AddPolygon(std::vector<VertexHandle> incoming);
-	const PolygonHandle AddTriangle(VertexHandle incoming[]);
+	PolygonHandle AddPolygon(const int nVtx, VertexHandle incoming[]);
+	PolygonHandle AddPolygon(std::vector<VertexHandle> incoming);
+	PolygonHandle AddTriangle(VertexHandle incoming[]);
 	
-	const std::vector <VertexHandle> GetPolygonVertex(PolygonHandle plHd) const;
+	std::vector <VertexHandle> GetPolygonVertex(PolygonHandle plHd) const;
 	const Vec3 GetVertexPosition(VertexHandle vtHd) const;
 	
 	void SetPolygonColor(PolygonHandle plHd, const MIColor col);
 	void SetPolygonColor(PolygonHandle plHd, const float col[]);
 	
 	void EnableSearch();
-	const PolygonHandle GetNeighbour(PolygonHandle plHd, VertexHandle vtHd) const;
+	PolygonHandle GetNeighbour(PolygonHandle plHd, VertexHandle vtHd) const;
 };
 
 #endif

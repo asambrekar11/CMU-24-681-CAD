@@ -21,45 +21,50 @@ Polygon::~Polygon()
 	}
 }
 
-void Polygon::Add(Vec3 &newVtx)
+void Polygon::AddVertex(Vec3 &newVtx)
 {
 	vtx.push_back(&newVtx);
 }
 
-void Polygon::Add(const int nVtx, Vec3 newVtx[])
+void Polygon::AddVertex(const Vec3 *newVtx)
+{
+	vtx.push_back(newVtx);
+}
+
+
+Polygon *Polygon::Add(const int nVtx, const Vec3 newVtx[])
 {
 	for (int i = 0; i<nVtx; i++)
 	{
 		vtx.push_back(&newVtx[i]);
 	}
+	return this;
 }
 
-void Polygon::Add(std::vector<Vec3> &newVtx)
+Polygon *Polygon::Add(const std::vector<Vec3> &newVtx)
 {
 	for (auto &vt : newVtx)
 	{
 		vtx.push_back(&vt);
 	}
+	return this;
 }
 
-void Polygon::Add(Vec3 *newVtx)
-{
-	vtx.push_back(newVtx);
-}
-
-void Polygon::Add(const int nVtx, Vec3 *newVtx[])
+Polygon *Polygon::Add(const int nVtx, const Vec3 *newVtx[])
 {
 	for (int i = 0; i<nVtx; i++)
 	{
 		vtx.push_back(newVtx[i]);
 	}
+	return this;
 }
-void Polygon::Add(const std::vector<Vec3 *> newVtx)
+Polygon *Polygon::Add(std::vector<const Vec3 *> newVtx)
 {
 	for (auto &vt : newVtx)
 	{
 		vtx.push_back(vt);
 	}
+	return this;
 }
 
 void Polygon::SetNormal(Vec3 normal)
@@ -77,7 +82,7 @@ const Vec3 Polygon::GetNormal() const
 	return normal;
 }
 
-const std::vector<Vec3 *> Polygon::GetVertex() const
+const std::vector <const Vec3 *> Polygon::GetVertex() const
 {
 	return vtx;
 }
@@ -116,12 +121,12 @@ void Shell::EdgePolygonTable::Initialize(const Shell &shl)
 	
 }
 
-const std::vector<Shell::PolygonHandle> Shell::EdgePolygonTable::FindPolygon(Shell::VertexHandle vtHd0, Shell::VertexHandle vtHd1) const
+std::vector<Shell::PolygonHandle> Shell::EdgePolygonTable::FindPolygon(Shell::VertexHandle vtHd0, Shell::VertexHandle vtHd1) const
 {
 	Shell::EdgeKey key;
-	key.edVtKey[0] = vtHd0;
-	key.edVtKey[1] = vtHd1;
-	return (*this)[key];
+	key.edVtKey[0] = shl->GetSearchKey(vtHd0);
+	key.edVtKey[1] = shl->GetSearchKey(vtHd1);
+	return *(*this)[key];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +148,7 @@ Vec3 Shell::GetNormal(Shell::PolygonHandle plHd)
 	return plHd->GetNormal();
 }
 	
-Shell::PolygonHandle Shell::FindNextPolygon(Shell::PolygonHandle plHd)
+Shell::PolygonHandle Shell::FindNextPolygon(Shell::PolygonHandle plHd) const
 {
 	for (int i = 0; i<plygn.size(); i++)
 	{
@@ -155,7 +160,7 @@ Shell::PolygonHandle Shell::FindNextPolygon(Shell::PolygonHandle plHd)
 	return nullptr;
 }
 
-const Shell::PolygonHandle Shell::FindPrevPolygon(Shell::PolygonHandle plHd) const
+Shell::PolygonHandle Shell::FindPrevPolygon(Shell::PolygonHandle plHd) const
 {
 	for (int i = 0; i<plygn.size(); i++)
 	{
@@ -167,7 +172,7 @@ const Shell::PolygonHandle Shell::FindPrevPolygon(Shell::PolygonHandle plHd) con
 	return nullptr;
 }
 
-const Shell::VertexHandle Shell::FindNextVertex(Shell::VertexHandle vtHd) const
+Shell::VertexHandle Shell::FindNextVertex(Shell::VertexHandle vtHd) const
 {
 	if (vtHd == nullptr)
 	{
@@ -183,29 +188,30 @@ const Shell::VertexHandle Shell::FindNextVertex(Shell::VertexHandle vtHd) const
 	return nullptr;
 }
 
-const Shell::VertexHandle Shell::FindPrevVertex(Shell::VertexHandle vtHd) const
+Shell::VertexHandle Shell::FindPrevVertex(Shell::VertexHandle vtHd) const
 {
 	if (vtHd == nullptr)
 	{
-		return &vtx.back();
+		Shell::VertexHandle last = &vtx.back();
+		return last;
 	}
 	for (int i = 0; i<vtx.size(); i++)
 	{
 		if (&vtx[i] == vtHd)
 		{
-			return &vtx[i-1];
+			return &vtx[i+1];
 		}
 	}
 	return nullptr;
 }
 
-const Shell::VertexHandle Shell::AddVertex(const Vec3 &incoming)
+Shell::VertexHandle Shell::AddVertex(const Vec3 &incoming)
 {
 	vtx.push_back(incoming);
 	return &vtx.back();
 }
 
-const Shell::PolygonHandle AddPolygon(const int nVtx, const Shell::VertexHandle incoming[])
+Shell::PolygonHandle Shell::AddPolygon(const int nVtx, Shell::VertexHandle incoming[])
 {
 	Polygon poly;
 	poly.Add(nVtx,incoming);
@@ -213,7 +219,7 @@ const Shell::PolygonHandle AddPolygon(const int nVtx, const Shell::VertexHandle 
 	return &plygn.back();
 }
 
-const Shell::PolygonHandle AddPolygon(const std::vector<Shell::VertexHandle> incoming)
+Shell::PolygonHandle Shell::AddPolygon(std::vector<Shell::VertexHandle> incoming)
 {
 	Polygon poly;
 	poly.Add(incoming);
@@ -221,29 +227,31 @@ const Shell::PolygonHandle AddPolygon(const std::vector<Shell::VertexHandle> inc
 	return &plygn.back();
 }
 
-const Shell::PolygonHandle AddTriangle(const Shell::VertexHandle incoming[])
+Shell::PolygonHandle Shell::AddTriangle(Shell::VertexHandle incoming[])
 {
 	return AddPolygon(3,incoming);
 }
 
-const std::vector <Shell::VertexHandle> Shell::GetPolygonVertex(Shell::PolygonHandle plHd) const
+std::vector <Shell::VertexHandle> Shell::GetPolygonVertex(Shell::PolygonHandle plHd) const
 {
 	return plHd->GetVertex();
 }
 
 const Vec3 Shell::GetVertexPosition(Shell::VertexHandle vtHd) const
 {
-	return vtHd->GetVecData();
+	return *vtHd;
 }
 
-void SetPolygonColor(Shell::PolygonHandle plHd, const MIColor col)
+void Shell::SetPolygonColor(Shell::PolygonHandle plHd, const MIColor col)
 {
-	plHd->SetColor(col);
+	auto edit_plHd = (Polygon *)plHd;
+	edit_plHd->SetColor(col);
 }
 
-void SetPolygonColor(Shell::PolygonHandle plHd, const float col[])
+void Shell::SetPolygonColor(Shell::PolygonHandle plHd, const float col[])
 {
-	plHd->SetColor(MIColor(col));
+	auto edit_plHd = (Polygon *)plHd;
+	edit_plHd->SetColor(MIColor(col));
 }
 
 void Shell::EnableSearch()
@@ -251,9 +259,9 @@ void Shell::EnableSearch()
 	EdgeToPolygon.Initialize(*this);
 }
 
-const Shell::PolygonHandle GetNeighbour(Shell::PolygonHandle plHd, Shell::VertexHandle vtHd) const
+Shell::PolygonHandle Shell::GetNeighbour(Shell::PolygonHandle plHd, Shell::VertexHandle vtHd) const
 {
-	std::vector <Shell::VertexHandle> plvtx = GetPolygonVertex(plHd);
+	auto plvtx = GetPolygonVertex(plHd);
 	int idx;
 	for (int i = 0; i<plvtx.size(); i++)
 	{
@@ -263,8 +271,8 @@ const Shell::PolygonHandle GetNeighbour(Shell::PolygonHandle plHd, Shell::Vertex
 			break;
 		}
 	}
-	int nextidx = i==(plvtx.size()-1)?0:idx+1;
-	auto plygrp = EdgeToPolygon.FindPolygon(plvtx[idx],plvtx[nextidx]);
+	int nextidx = idx==(plvtx.size()-1)?0:idx+1;
+	auto plygrp = Shell::EdgeToPolygon.FindPolygon(plvtx[idx],plvtx[nextidx]);
 	for (auto pl : plygrp)
 	{
 		if (pl != plHd)

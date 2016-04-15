@@ -29,6 +29,6 @@ public:
 	bool IsIncluded(Key key) const;
 	void Resize(Code newSize);
 	Value *operator[](const Key key);
-	const Value *operator[](const Key key) const;
+	Value *operator[](const Key key) const;
 };
 #endif

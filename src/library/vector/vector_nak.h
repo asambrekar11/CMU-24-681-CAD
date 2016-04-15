@@ -32,12 +32,16 @@ public:
 	void resize(long long int newsize);
 	T &operator[](const int n);
 	const T &operator[](const int n) const;
-	void push_back(const T incoming);
+	void push_back(const T &incoming);
 	void pop_back();
 	Vec *begin();
 	Vec *end();
 	const T *data() const;
 	const Vec GetVecData() const;
+	const T &front() const;
+	T &front();
+	const T &back() const;
+	T &back();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

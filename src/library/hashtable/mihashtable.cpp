@@ -89,7 +89,7 @@ Value *HashTable<Key,Value>::operator[](const Key key)
 }
 
 template <class Key, class Value>
-const Value *HashTable<Key,Value>::operator[](const Key key) const
+Value *HashTable<Key,Value>::operator[](const Key key) const
 {
 		auto hashCode = HashCode(key);
 	auto idx = hashCode%table.size();
