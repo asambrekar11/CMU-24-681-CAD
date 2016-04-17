@@ -76,21 +76,25 @@ for(auto vt : shl->AllVertex())
 
 
 template<int k>
-void AnchorVertex<k>::FindAverageAnchorVertex()
+AncVtx AnchorVertex<k>::FindAverageAnchorVertex(AncVtx vtx)
 {
-    for(int i=0;i<AncPts.size();i++)
-    {
+
         Vec3 temp(0.,0.,0.);
-        for(int j=0;j<AncPts[i].label.size();j++)
+        for(int j=0;j<vtx.label.size();j++)
         {
-            auto Proxy = MyCl->GetProxy(AncPts[i].label[j]);
-            temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, AncPts[i].Anchor);
+            auto Proxy = MyCl->GetProxy(vtx.label[j]);
+            temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
+            
         }
+    
+        Vec3 temp1(0.f,0.f,0.f);
+        temp = Vec3::conv(temp/(double)vtx.label.size());
+    
         
-        temp = temp/AncPts[i].label.size();
-        
-        AncPts[i].Anchor = temp;
-    }
+        vtx.Anchor = temp;
+    
+    return vtx;
+
 }
 
 
@@ -238,7 +242,7 @@ std::vector<PxyVtx> AnchorVertex<k>::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, i
 		auto temp = cluster1[i];
 		for(int j=0;j<cluster2.size();j++)
 		{
-			if(temp.Anchor==cluster2[j].Anchor)
+			if(temp.Anchor==cluster2[j].Anchor)//check here
 			{	
 				if(temp.label1==commlabel[0])
                 {
@@ -272,7 +276,8 @@ void AnchorVertex<k>::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> Ed
     AncVtx t;
 	for	(int i=0;i<EdgeVtx.size();i++)
 	{
-        double D = fabs(sin(N1/N2)*DistancePtToLine(vtx1.Anchor, vtx2.Anchor, shl->GetVertexPosition(EdgeVtx[i].Anchor))*L2Norm(vtx1.Anchor-vtx2.Anchor));
+        double D = fabs(sin(N1/N2)*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i].Anchor))*L2Norm(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)));
+        
 		if(D>maxD)
 		{
             maxD = D;
@@ -280,11 +285,14 @@ void AnchorVertex<k>::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> Ed
 			t.label.push_back(EdgeVtx[i].label1);
 			t.label.push_back(EdgeVtx[i].label2);
             t.Ptr = EdgeVtx[i].Anchor;
+            
+            t = FindAverageAnchorVertex(t);
         }
 	}
     
     if(maxD>threshold&&maxD!=0)
     {
+        AncPts.push_back(t);
         PrxyAnc[t.label[0]].push_back(t);
         PrxyAnc[t.label[1]].push_back(t);
         AddAncVtx(vtx1, t, GetEdgeVertices(vtx1, t, ClusterNum), ClusterNum);

@@ -45,7 +45,7 @@ AnchorVertex();
 void Initialize(const Shell &s, const LloydCluster<k> &MC);
 void MakeAnchorVertex();
 void BinAnchorVertex();
-void FindAverageAnchorVertex();
+AncVtx FindAverageAnchorVertex(AncVtx vtx);
 void AssignLabel();
 AncVtxHandle GetAnchorVtx(int ProxyNum);
 AncVtxHandle GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd);
