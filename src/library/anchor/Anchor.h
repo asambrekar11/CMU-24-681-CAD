@@ -16,42 +16,43 @@ struct AncVtx
 public:
 Vec3 Anchor;
 std::vector<int> label;
+Shell::VertexHandle Ptr;
 };
 
 struct PxyVtx
 {
 public:
-Vec3 Anchor;
+Shell::VertexHandle Anchor;
 int label1,label2;
 };
 
 typedef std::vector<AncVtx> AncVtxHandle; 
 
-Class AnhcorVertex
+template<int k>
+class AnchorVertex
 {
-
 protected:
 const Shell *shl;
-const LlyodCluster *MyCl;
+const LloydCluster<k> *MyCl;
 AncVtxHandle AncPts;
-AncVtxHandle *PrxyAnc;
+std::vector<AncVtxHandle> PrxyAnc;
 std::vector<std::vector<PxyVtx>> Vtxlst;
 double threshold;
 
 public:
-Anchor();
-~Anchor();
-void Initialize(const Shell &s, const LlyodCluster &MC) // Initialize the shell to copy the data structure
+AnchorVertex();
+~AnchorVertex();
+void Initialize(const Shell &s, const LloydCluster<k> &MC);
 void MakeAnchorVertex();
-//void Projection();
 void BinAnchorVertex();
+void FindAverageAnchorVertex();
 void AssignLabel();
 AncVtxHandle GetAnchorVtx(int ProxyNum);
 AncVtxHandle GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd);
 std::vector<PxyVtx> GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum);
-AncVtxHandle AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx);
+void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum);
 void ExtractEdges(int ClusterNum);
-void 
+
 
 };
 

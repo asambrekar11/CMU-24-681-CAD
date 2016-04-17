@@ -1,8 +1,8 @@
 #include "Anchor.h"
 
 using namespace std;
-
-Anchor::~AnchorVertex()
+template<int k>
+AnchorVertex<k>::~AnchorVertex()
 {
 for (auto x : AncPts)
 	{
@@ -11,12 +11,14 @@ for (auto x : AncPts)
 
 }
 
-void AnchorVertex::Initialize(const Shell &s, const LlyodCluster &MC)
+template<int k>
+void AnchorVertex<k>::Initialize(const Shell &s, const LloydCluster<k> &MC)
 {
 shl = &s; MyCl = &MC;
 }
 
-void AnchorVertex::MakeAnchorVertex()
+template<int k>
+void AnchorVertex<k>::MakeAnchorVertex()
 {
 
 for(auto vt : shl->AllVertex())
@@ -35,7 +37,7 @@ for(auto vt : shl->AllVertex())
 		}else
 		{
 			int flag = 0; //0: mean same label not present 1: means label already exists
-			for(auto t : &temp)
+			for(auto &t : temp)
 			{
 				if(label==t)
 				{
@@ -58,7 +60,8 @@ for(auto vt : shl->AllVertex())
 	if(temp.size()>=3)
 	{
 		AncVtx AV;
-		AV.Anchor = GetVertexPosition(vt);
+		AV.Anchor = shl->GetVertexPosition(vt);
+        AV.Ptr = vt;
 		for(int i=0;i<temp.size();i++)
 		{
 			AV.label[i] = temp[i];
@@ -71,85 +74,125 @@ for(auto vt : shl->AllVertex())
 
 }
 
-void AnchorVertex::BinAnchorVertex()//Bins all the anchors into their respective proxies
+
+template<int k>
+void AnchorVertex<k>::FindAverageAnchorVertex()
+{
+    for(int i=0;i<AncPts.size();i++)
+    {
+        Vec3 temp(0.,0.,0.);
+        for(int j=0;j<AncPts[i].label.size();j++)
+        {
+            auto Proxy = MyCl->GetProxy(AncPts[i].label[j]);
+            temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, AncPts[i].Anchor);
+        }
+        
+        temp = temp/AncPts[i].label.size();
+        
+        AncPts[i].Anchor = temp;
+    }
+}
+
+
+template<int k>
+void AnchorVertex<k>::BinAnchorVertex()//Bins all the anchors into their respective proxies
 {
 
 int nProxy = MyCl->GetNumProxy();//Get number of proxies
 
-PrxyAnc = new AncVtxHandle[nProxy];//dynamic memory allocation
+    PrxyAnc.resize(nProxy);
+//PrxyAnc = new AncVtxHandle[nProxy];//dynamic memory allocation
 
-	for(auto t : &AncPts)
+	for(auto &t : AncPts)
 	{
-		for(auto u : &t.label)
+
+		for(auto &u : t.label)
 		{
+            
 			PrxyAnc[u].push_back(t);
 		}
-
+        
 	}
 
 }
 
-AncVtxHandle AnchorVertex::GetAnchorVtx(int ProxyNum)//ProxyNum : 0 to k-1 Returns all the anchor vertices associated with given proxy
+template<int k>
+AncVtxHandle AnchorVertex<k>::GetAnchorVtx(int ProxyNum)//ProxyNum : 0 to k-1 Returns all the anchor vertices associated with given proxy
 {
 
-	if(EdgVtx!=nullptr)
-	{
-		return PrxyAnc[ProxyNum]
+//	if(EdgVtx!=nullptr)
+        return PrxyAnc[ProxyNum];
 
-	}else
-	{
-		return nullptr;
-	}	
 }
 
-AncVtxHandle AnchorVertex::GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd)//can change to AncVtx on the return type
+template<int k>
+AncVtxHandle AnchorVertex<k>::GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd)//can change to AncVtx on the return type
 {
 	AncVtxHandle Neighbour;
+    
+    for(int i=0;i<PxHd.size();i++)
+    {
+        for(int j=0;j<VtxHd.label.size();j++)
+        {
+    
+            for(int m=0;m<PxHd[i].label.size();m++)
+            {
+                if(VtxHd.label[j]==PxHd[i].label[m])
+                {
+                    Neighbour.push_back(PxHd[i]);
+                }
+            
+            
+            }
+        }
+    }
 	
-	for(int i=0;i<2&&i<PxHd.size();i++)
-	{	
-		double minD = 10^6;//Need something better. Does inf work?
-		AncVtx temp;
-		
-		for(int j=0;j<PxHd.size();j++)
-		{
-			double d = L2Norm(VtxHd.Anchor-PxHd[j].Anchor);
-			if(d<minD && d!=0)
-			{
-				minD = d;
-				temp.Anchor = PxHd[j].anchor;
-				temp.label.swap(PxHd[j].label);
-				
-			}
-		}
-		Neighbour.push_back(temp);
-		
-		for(int j=0;j<PxHd.size();j++)
-		{
-			if(PxHd[j].Anchor==temp.Anchor)
-			{	
-				PxHd.erase(PxHd.begin()+j);
-				break;
-			}
-		}
-
-	}
-	
+//	for(int i=0;i<2&&i<PxHd.size();i++)
+//	{	
+//		double minD = 10^6;//Need something better. Does inf work?
+//		AncVtx temp;
+//		
+//		for(int j=0;j<PxHd.size();j++)
+//		{
+//			double d = L2Norm(VtxHd.Anchor-PxHd[j].Anchor);
+//			if(d<minD && d!=0)
+//			{
+//				minD = d;
+//				temp.Anchor = PxHd[j].Anchor;
+//				temp.label.swap(PxHd[j].label);
+//				
+//			}
+//		}
+//		Neighbour.push_back(temp);
+//		
+//		for(int j=0;j<PxHd.size();j++)
+//		{
+//			if(PxHd[j].Anchor==temp.Anchor)
+//			{	
+//				PxHd.erase(PxHd.begin()+j);
+//				break;
+//			}
+//		}
+//
+//	}
+//	
 	return Neighbour;
 }
 
-void AnchorVertex::AssignLabel()//assign label to each vertex of every polygon in a given proxy
+template<int k>
+void AnchorVertex<k>::AssignLabel()//assign label to each vertex of every polygon in a given proxy
 {
 	for(int i=0;i<k;i++)
 	{	
-		auto cluster = MyCl->GetCluster(k);
+		auto cluster = MyCl->GetCluster(i);
 		std::vector<PxyVtx> bin;
-		for(auto PlHd : &cluster)
+		for(auto &PlHd : cluster)
 		{
-			for(auto VtHd :&PlHd)
+			auto PlVtx = PlHd->GetVertex();
+			for(auto &VtHd :PlVtx)
 			{
 				PxyVtx V;
-				V.label1 = k;
+				V.label1 = i;
 				V.Anchor = VtHd;
 				bin.push_back(V);
 				
@@ -162,7 +205,8 @@ void AnchorVertex::AssignLabel()//assign label to each vertex of every polygon i
 
 }
 
-std::vector<PxyVtx> AnchorVertex::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum)
+template<int k>
+std::vector<PxyVtx> AnchorVertex<k>::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum)
 {
 	int commlabel[2],l=0;
 	std::vector<PxyVtx> EdgVtx; 
@@ -172,10 +216,17 @@ std::vector<PxyVtx> AnchorVertex::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int 
 		{
 			if(vtx1.label[i]==vtx2.label[j])
 			{	
-				commlabel[l]=vtx1.label[i];
+				
+                commlabel[l]=vtx1.label[i];
 				l=l+1;
 			}
+            
 		}
+        
+        if(l>1)
+        {
+            break;
+        }
 		
 	}
 
@@ -189,67 +240,104 @@ std::vector<PxyVtx> AnchorVertex::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int 
 		{
 			if(temp.Anchor==cluster2[j].Anchor)
 			{	
-				temp.label2 = commlabel[1];
-				EdgVtx.push_back(temp);	
+				if(temp.label1==commlabel[0])
+                {
+                    temp.label2 = commlabel[1];
+                    EdgVtx.push_back(temp);
+                }else
+                {
+                    temp.label2 = commlabel[0];
+                    EdgVtx.push_back(temp);
+                    
+                }
+                
+               
 			}
 			
 		}
 	}
+    
+    return EdgVtx;
 
 }
 
-AncVtxHandle AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx)
+template<int k>
+void AnchorVertex<k>::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum)
 {
 	AncVtxHandle newAnchors;
-	auto pxy1 = MyCl->pxy[EdgeVtx[0].label1];
-	auto pxy2 = MyCl->pxy[EdgeVtx[0].label2];
-	double N1 = L2Norm(pxy1.ProxyNormal), N2 = L2Norm(pxy2.ProxyNormal);;
-	double minD = 0;
+	auto pxy1 = MyCl->GetProxy[EdgeVtx[0].label1];
+	auto pxy2 = MyCl->GetProxy[EdgeVtx[0].label2];
+	double N1 = L2Norm(pxy1.ProxyNormal), N2 = L2Norm(pxy2.ProxyNormal);
+    double maxD = 0.0;
+    AncVtx t;
 	for	(int i=0;i<EdgeVtx.size();i++)
 	{
-		double tempD = sin(N1/N2)*DistancePtToLine(vtx1.Anchor, vtx2.Anchor, EdgeVtx[i].Anchor)*L2Norm(vtx1.Anchor-vtx2.Anchor);
-		if(tempD>threshold)
+        double D = fabs(sin(N1/N2)*DistancePtToLine(vtx1.Anchor, vtx2.Anchor, shl->GetVertexPosition(EdgeVtx[i].Anchor))*L2Norm(vtx1.Anchor-vtx2.Anchor));
+		if(D>maxD)
 		{
-			AncVtx t;
-			t.Anchor = EdgeVtx[i].Anchor;
-			t.label.push_back(EdgeVtx.label1);
-			t.label.push_back(EdgeVtx.label2);
-			newAnchors.push_back(t);
-		}
-		
-	}	
+            maxD = D;
+			t.Anchor = shl->GetVertexPosition(EdgeVtx[i].Anchor);
+			t.label.push_back(EdgeVtx[i].label1);
+			t.label.push_back(EdgeVtx[i].label2);
+            t.Ptr = EdgeVtx[i].Anchor;
+        }
+	}
+    
+    if(maxD>threshold&&maxD!=0)
+    {
+        PrxyAnc[t.label[0]].push_back(t);
+        PrxyAnc[t.label[1]].push_back(t);
+        AddAncVtx(vtx1, t, GetEdgeVertices(vtx1, t, ClusterNum), ClusterNum);
+        AddAncVtx(t, vtx2, GetEdgeVertices(t, vtx2, ClusterNum), ClusterNum);
+
+    }
 	
-	retrun newAnchors;
 }
 
-
-void AnchorVertex::ExtractEdges(int ClusterNum)
+template<int k>
+void AnchorVertex<k>::ExtractEdges(int ClusterNum)
 {
-	AncVtxHandle todo,newAncls;
-	todo.swap(PrxyAnc[ClusterNum]);
+    
+    AncVtxHandle todo;
+	todo.swap(PrxyAnc[ClusterNum]);//Check ProxyAnc after swapping
 	
 	auto t = todo.back();
 	todo.pop_back();
-	newAncls.push_back(t);
 	
 	while(todo.size()!=0)
 	{
 		auto nextHd =  GetNeighbourAnc(t, todo);
-		auto next = nextHd.back();
-		auto EgdeVtx = GetEdgeVertices(t, next, ClusterNum);
-		
-		auto newAnc = AddAncVtx(t,next,EdgeVtx);
-		
-		for(auto i : &newAnc)
-		{
-			newAncls.push_back(i);
-		}
+        
+        if(nextHd.size()!=0)
+        {
+            if(nextHd.size()==2)
+            {
+                auto next = nextHd.back();
+               
+                nextHd.pop_back();
+                auto EgdeVtx1 = GetEdgeVertices(t, next, ClusterNum);
+                AddAncVtx(t,next,EgdeVtx1,ClusterNum);
+                
+                auto prev = nextHd.back();
+                auto EgdeVtx2 = GetEdgeVertices(t, prev, ClusterNum);
+                AddAncVtx(t,prev,EgdeVtx2,ClusterNum);
+                
+                
+            }else if(nextHd.size()==1)
+            {
+                auto next = nextHd.back();
+                
+                nextHd.pop_back();
+                auto EgdeVtx1 = GetEdgeVertices(t, next, ClusterNum);
+                AddAncVtx(t,next,EgdeVtx1,ClusterNum);
+                
+            }
+            
+        }
 		
 		t = todo.back();
 		todo.pop_back();
-		newAncls.push_back(t);
 		
 	}
 	
-	PrxyAnc[ClusterNum].push_back(newAncls);
 }

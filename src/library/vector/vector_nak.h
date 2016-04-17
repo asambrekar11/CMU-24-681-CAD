@@ -81,6 +81,12 @@ public:
 	const double xf() const;
 	const double yf() const;
 	const double zf() const;
+    inline static Vec3 conv(VecN<double,3> a)
+    {
+        auto dat = a.data();
+        return Vec3(dat[0],dat[1],dat[2]);
+    }
+    inline static Vec3 GetProjection(Vec3 N, Vec3 X, Vec3 Y);
 };
 
 double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
@@ -88,6 +94,13 @@ double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
 	double t = -1.0*dot((x1-x0),(x2-x1))/pow((L2Norm(x2-x1)),2.0);
 	auto temp = ((x1-x0)+(x2-x0))*t;
 	return L2Norm(temp);
+}
+
+inline Vec3 Vec3::GetProjection(Vec3 N, Vec3 X, Vec3 Y)
+{
+    N.Normalize();
+    double d = dot(N, X-Y);
+    return conv(Y - d*N);
 }
 
 #endif
