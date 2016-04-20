@@ -6,6 +6,7 @@
 #include "vector_nak.h"
 #include "mihashtable.h"
 
+
 ////////////////////////////////////////////////////////////////////////////////
 //MICOLOR CLASS : CLASS FOR COLORS
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,6 +167,7 @@ public:
 	const Vec3 GetNormal() const;
 	const std::vector <const Vec3 *> GetVertex() const;
 	const MIColor GetColor(const Polygon *plHd) const;
+	double PolygonArea();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -582,7 +584,9 @@ public:
 	long long int GetSearchKey(VertexHandle vtHd) const;
 	long long int GetSearchKey(PolygonHandle plHd) const;
 	
-	Vec3 GetNormal(PolygonHandle plHd);
+	Vec3 GetNormal(PolygonHandle plHd) const;
+	Vec3 GetPolygonArea(PolygonHandle plHd) const;
+	Vec3 GetBaryCenter(PolygonHandle plHd) const;
 	
 	PolygonHandle FindNextPolygon(PolygonHandle plHd) const;
 	PolygonHandle FindPrevPolygon(PolygonHandle plHd) const;
@@ -608,6 +612,9 @@ public:
 	
 	void EnableSearch();
 	PolygonHandle GetNeighbour(PolygonHandle plHd, VertexHandle vtHd) const;
+	PolygonHandle PickRandomPolygon();
 };
+
+typedef HashSet<Shell::PolygonHandle> PolygonStore;
 
 #endif

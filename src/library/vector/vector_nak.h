@@ -96,11 +96,11 @@ double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
 	return L2Norm(temp);
 }
 
-inline Vec3 Vec3::GetProjection(Vec3 N, Vec3 X, Vec3 Y)
+inline Vec3 Vec3::GetProjection(Vec3 Normal, Vec3 PtPlane, Vec3 Pt)
 {
     N.Normalize();
-    double d = dot(N, X-Y);
-    return conv(Y - d*N);
+    double d = dot(Normal, PtPlane-Pt);
+    return conv(Pt - d*Normal);
 }
 
 #endif

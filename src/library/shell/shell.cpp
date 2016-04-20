@@ -117,7 +117,7 @@ void Shell::EdgePolygonTable::Initialize(const Shell &shl)
 			key.edVtKey[0] = shl.GetSearchKey(plvtx[edIdx]);
 			key.edVtKey[1] = shl.GetSearchKey(plvtx[edIdx==(plvtx.size()-1)?0:edIdx+1]);
 			auto curr_poly = (*this)[key];
-			if (nullptr == curr_poly)
+			if (nullptr != curr_poly)
 			{
 				curr_poly->push_back(plHd);
 			}
@@ -155,7 +155,7 @@ void Shell::VertexPolygonTable::Initialize(const Shell &shl)
 		for (auto vtHd : shl.GetPolygonVertex(plHd))
 		{
 			auto plVtptr=(*this)[vtHd];
-			if (plVtptr == nullptr)
+			if (plVtptr != nullptr)
 			{
 				plVtptr->push_back(plHd);
 			}
@@ -188,9 +188,38 @@ long long int Shell::GetSearchKey(PolygonHandle plHd) const
 	return (long long int)plHd;
 }
 
-Vec3 Shell::GetNormal(Shell::PolygonHandle plHd)
+Vec3 Shell::GetNormal(Shell::PolygonHandle plHd) const
 {
 	return plHd->GetNormal();
+}
+
+Vec3 Shell::GetPolygonArea(Shell::PolygonHandle plHd) const
+{
+	Vec3 BC(0.,0.,0.);
+	for (auto vtHd : plHd->vtx)
+	{
+		BC = BC + GetVertexPosition(vtHd);
+	}
+	BC = BC / plHd->vtx.size();
+	Vec3 Area(0.,0.,0.);
+	for (int i = 0; i<plHd->vtx.size(); i++)
+	{
+		auto v1 = GetVertexPosition(plHd->vtx[i]);
+		auto v2 = i==plHd->vtx.size()-1?GetVertexPosition(plHd->vtx[0]):GetVertexPosition(plHd->vtx[i+1]);
+		Area = Area + cross(v1-temp,v2-temp);
+	}
+	return Area;
+}
+
+Vec3 Shell::GetBaryCenter(Shell::Polygonhandle plHd) const
+{
+	Vec3 BC(0.,0.,0.);
+	for (auto vtHd : plHd->vtx)
+	{
+		BC = BC + GetVertexPosition(vtHd);
+	}
+	BC = BC / plHd->vtx.size();
+	return BC;
 }
 	
 Shell::PolygonHandle Shell::FindNextPolygon(Shell::PolygonHandle plHd) const
@@ -302,6 +331,7 @@ void Shell::SetPolygonColor(Shell::PolygonHandle plHd, const float col[])
 void Shell::EnableSearch()
 {
 	EdgeToPolygon.Initialize(*this);
+	VertexToPolygon.Initialize(*this);
 }
 
 Shell::PolygonHandle Shell::GetNeighbour(Shell::PolygonHandle plHd, Shell::VertexHandle vtHd) const
@@ -326,4 +356,9 @@ Shell::PolygonHandle Shell::GetNeighbour(Shell::PolygonHandle plHd, Shell::Verte
 		}
 	}
 	return nullptr;
+}
+
+Shell::PolygonHandle Shell::PickRandomPolygon()
+{
+	return plygn[rand()%plygn.size()];
 }

@@ -2,6 +2,7 @@
 #define CLUSTERING_IS_INCLUDED
 
 #include <vector>
+#include <math.h>
 #include "vector_nak.h"
 #include "mihashtable.h"
 #include "shell.h"
@@ -12,6 +13,10 @@ public:
     Vec3 ProxyPosition, ProxyNormal;
     int label;
 };
+
+double L2ErrorMetric(const Shell &shl, Shell::PolygonHandle plHd, Proxy pxy);
+
+double L21ErrorMetric(const Shell &shl, Shell::PolygonHandle plHd, Proxy pxy);
 
 class ClusterNode
 {
@@ -48,10 +53,10 @@ public:
     {
         plHd = nullptr;
     }
-    inline ClusterNode(Shell::PolygonHandle pl, Proxy pxy)
+    inline ClusterNode(const Shell &shl, Shell::PolygonHandle plHd, Proxy pxy, int label)
     {
-        SetPolygon(pl);
-        SetProxy(pxy);
+        SetPolygon(plHd);
+        SetProxy(shl,pxy,label);
     }
     inline ~ClusterNode()
     {
@@ -61,7 +66,10 @@ public:
     {
         plHd = pl;
     }
-    void SetProxy(Proxy pxy);
+    inline void SetProxy(const Shell &shl, const Proxy &pxy, int label)
+    {
+    	error = L21ErrorMetric(shl,this->plHd,pxy);
+    }
     inline void SetLabel(int newLabel)
     {
         label = newLabel;
@@ -121,6 +129,9 @@ protected:
         }
     };
     PolygonTable boss;
+    void AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[]);
+    bool GetProxy(const Shell &shl, Shell::PolygonHandle cntr[]);
+
 public:
     inline const std::vector<Shell::PolygonHandle> &GetCluster(const int idx) const
     {
@@ -134,7 +145,8 @@ public:
     {
         return boss.GetLabelForPolygon(plHd);
     }
-    void MakeCluster(const Shell &shell);
+    void MakeCluster(const Shell &shl);
 };
+
 
 #endif

@@ -1,9 +1,98 @@
 #include "mihashtable.h"
 
+////////////////////////////////////////////////////////////////////////////////
+//HASHSET CLASS
+////////////////////////////////////////////////////////////////////////////////
+
+template<class Key>
+void HashSet<Key>::Cleanup()
+{
+	table.resize(MIN_TABLE_SIZE);
+	for (auto &t : table)
+	{
+		t.clear();
+	}
+	nelem = 0;
+}
+
+template<class Key>
+HashSet<Key>::HashSet()
+{
+	table.resize(MIN_TABLE_SIZE);
+	nElem = 0;
+}
+
+template<class Key>
+void HashSet<Key>::Key(const Key &key)
+{
+	auto idx=key%table.size();
+	for(auto e : table[idx])
+	{
+		if(e==key)
+		{
+			return;
+		}
+	}
+	table[idx].push_back(key);
+	nElem++;
+}
+
+template<class Key>
+bool HashSet<Key>::IsIncluded(Key key) const
+{
+	auto idx=key%table.size();
+	for(auto e : table[idx])
+	{
+		if(e==key)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+template<class Key>
+void HashSet<Key>::Resize(HashSet::big newSize)
+{
+	std::vector <Key> buffer;
+	for(auto &t : table)
+	{
+		for(auto e : t)
+		{
+			buffer.push_back(e);
+		}
+		t.clear();
+	}
+	table.resize(newSize);
+	for(auto b : buffer)
+	{
+		Add(b);
+	}
+}
+
+template<class Key>
+void HashSet<Key>::Delete(Key key)
+{
+	auto idx=key%table.size();
+	for(auto &e : table[idx])
+	{
+		if(e==key)
+		{
+			e=table[idx].back();
+			table[idx].pop_back();
+			break;
+		}
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//HASHTABLE CLASS
+////////////////////////////////////////////////////////////////////////////////
+
 template <class Key, class Value>
 void HashTable<Key,Value>::Cleanup()
 {
-	table.Resize(MIN_TABLE_SIZE);
+	table.resize(MIN_TABLE_SIZE);
 	for (auto &t : table)
 	{
 		t.clear();
@@ -14,7 +103,7 @@ void HashTable<Key,Value>::Cleanup()
 template <class Key, class Value>
 HashTable<Key,Value>::HashTable()
 {
-	table.Resize(MIN_TABLE_SIZE);
+	table.resize(MIN_TABLE_SIZE);
 	nelem = 0;
 }
 
@@ -55,7 +144,7 @@ bool HashTable<Key,Value>::IsIncluded(Key key) const
 }
 
 template <class Key, class Value>
-void HashTable<Key,Value>::Resize(Code newSize)
+void HashTable<Key,Value>::Resize(HashTable::Code newSize)
 {
 	std::vector <Entry> buffer;
 	for(auto &t : table)
