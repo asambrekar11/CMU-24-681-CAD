@@ -415,4 +415,59 @@ const double Vec3::yf() const
 const double Vec3::zf() const
 {
 	return dat[2];
-}	
+}
+
+double dot(Vec3 a, Vec3 b)
+{
+    return dot(a.conv(),b.conv());
+}
+
+Vec3 operator*(const double lhs, Vec3 rhs)
+{
+    auto result = (lhs*rhs.conv());
+    auto dat = result.GetVecData();
+    return Vec3(dat[0],dat[1],dat[2]);
+}
+
+Vec3 operator*(Vec3 lhs, const double rhs)
+{
+    auto result = (lhs.conv()*rhs);
+    auto dat = result.GetVecData();
+    return Vec3(dat[0],dat[1],dat[2]);
+}
+
+Vec3 operator+(Vec3 lhs, const Vec3 &rhs)
+{
+    auto result = (lhs.conv()+rhs.conv());
+    auto dat = result.GetVecData();
+    return Vec3(dat[0],dat[1],dat[2]);
+}
+
+Vec3 operator-(Vec3 lhs, const Vec3 &rhs)
+{
+    auto result = (lhs.conv()-rhs.conv());
+    auto dat = result.GetVecData();
+    return Vec3(dat[0],dat[1],dat[2]);
+}
+
+Vec3 operator/(const Vec3 &lhs, const double rhs)
+{
+    auto result = (lhs.conv()/rhs);
+    auto dat = result.GetVecData();
+    return Vec3(dat[0],dat[1],dat[2]);
+}
+
+bool operator==(const Vec3 &lhs, const Vec3 &rhs)
+{
+    return (lhs.conv()==rhs.conv());
+}
+
+bool operator!=(const Vec3 &lhs, const Vec3 &rhs)
+{
+    return (lhs.conv()!=rhs.conv());
+}
+
+double L2Norm(Vec3 a)
+{
+    return L2Norm(a.conv());
+}

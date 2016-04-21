@@ -81,10 +81,18 @@ public:
 	const double xf() const;
 	const double yf() const;
 	const double zf() const;
-    inline static Vec3 conv(VecN<double,3> a)
+    friend double dot(Vec3 a, Vec3 b);
+    friend Vec3 operator*(const double lhs, Vec3 rhs);
+    friend Vec3 operator*(Vec3 lhs, const double rhs);
+    friend Vec3 operator+(Vec3 lhs, const Vec3 &rhs);
+    friend Vec3 operator-(Vec3 lhs, const Vec3 &rhs);
+    friend Vec3 operator/(const Vec3 &lhs, const double rhs);
+    friend bool operator==(const Vec3 &lhs, const Vec3 &rhs);
+    friend bool operator!=(const Vec3 &lhs, const Vec3 &rhs);
+    friend double L2Norm(Vec3 a);
+    inline VecN<double,3> conv() const
     {
-        auto dat = a.data();
-        return Vec3(dat[0],dat[1],dat[2]);
+        return VecN<double,3>(*this);
     }
     inline static Vec3 GetProjection(Vec3 N, Vec3 X, Vec3 Y);
 };
@@ -98,7 +106,7 @@ double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
 
 inline Vec3 Vec3::GetProjection(Vec3 Normal, Vec3 PtPlane, Vec3 Pt)
 {
-    N.Normalize();
+    Normal.Normalize();
     double d = dot(Normal, PtPlane-Pt);
     return conv(Pt - d*Normal);
 }
