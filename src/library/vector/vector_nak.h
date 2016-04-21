@@ -72,12 +72,15 @@ public:
 
 class Vec3 : public VecN<double,3>
 {
+public :
+    int label;
+    
 public:
 	Vec3();
 	Vec3(double x, double y, double z);
 	void Set(double x, double y, double z);
 	void Normalize();
-	friend Vec3 cross(Vec3 a, Vec3 b);
+	static Vec3 cross(Vec3 a, Vec3 b);
 	const double xf() const;
 	const double yf() const;
 	const double zf() const;
@@ -98,7 +101,7 @@ double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
 
 inline Vec3 Vec3::GetProjection(Vec3 Normal, Vec3 PtPlane, Vec3 Pt)
 {
-    N.Normalize();
+    Normal.Normalize();
     double d = dot(Normal, PtPlane-Pt);
     return conv(Pt - d*Normal);
 }

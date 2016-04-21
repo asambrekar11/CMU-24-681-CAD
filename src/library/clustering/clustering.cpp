@@ -10,7 +10,7 @@ double L2ErrorMetric(const Shell &shl, Shell::PolygonHandle plHd, Proxy pxy)
 	for (int i = 0; i<vt.size(); i++)
 	{
 		auto vtx = shl.GetVertexPosition(vt[i]);
-		d[i] = L2Norm(GetProjection(pxy.ProxyNormal,pxy.ProxyPosition,vtx)-vtx);
+		d[i] = L2Norm(Vec3::GetProjection(pxy.ProxyNormal,pxy.ProxyPosition,vtx)-vtx);
 	}
 	return A*(d[0]*d[0]+d[1]*d[1]+d[2]*d[2]+d[0]*d[1]+d[1]*d[2]+d[2]*d[0])/6.0;
 }
@@ -34,7 +34,7 @@ bool IsIncluded(Shell::PolygonHandle plHd, Shell::PolygonHandle plList[], int si
 }
 
 template<int k>
-void LloydCluster::AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[])
+void LloydCluster<k>::AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[])
 {
 	stud.Cleanup();
 	boss.Cleanup();
@@ -50,33 +50,33 @@ void LloydCluster::AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[])
 			ClusterNode curr_node(shl,plHd,pxy[i],i);
 			list.push(curr_node);
 		}
-		auto best_node = list.back();
-		auto curr_proxytable = stud[pxy[best_node.label]]
+		auto best_node = list.top();
+        auto curr_proxytable = stud[pxy[best_node.GetLabel()]];
 		if (nullptr != curr_proxytable)
 		{
-			curr_proxytable->push_back(best_node.plHd);
+			curr_proxytable->push_back(best_node.GetPolygonHandle());
 		}
 		else
 		{
 			std::vector<Shell::PolygonHandle> newEntry;
-			newEntry.push_back(best_node.plHd);
-			stud.Update(pxy[best_node.label],newEntry);
+			newEntry.push_back(best_node.GetPolygonHandle());
+			stud.Update(pxy[best_node.GetLabel()],newEntry);
 		}
 		auto key = shl.GetSearchKey(plHd);
 		auto curr_polytable = boss[key];
 		if (nullptr != curr_polytable)
 		{
-			curr_polytable->push_back(best_node.label);
+			curr_polytable->push_back(best_node.GetLabel());
 		}
 		else
 		{
-			boss.Update(key,best_node.label);
+			boss.Update(key,best_node.GetLabel());
 		}
 	}
 }
 
 template <int k>
-bool LloydCluster::GetProxy(const Shell &shl, Shell::PolygonHandle cntr[])
+bool LloydCluster<k>::GetProxy(const Shell &shl, Shell::PolygonHandle cntr[])
 {
 	bool state = false;
 	for (int i = 0; i<k; i++)
@@ -102,7 +102,7 @@ bool LloydCluster::GetProxy(const Shell &shl, Shell::PolygonHandle cntr[])
 }
 
 template <int k>
-void LloydCluster::MakeCluster(const Shell &shl);
+void LloydCluster<k>::MakeCluster(const Shell &shl)
 {
 	
 	Shell::PolygonHandle cntr[k];

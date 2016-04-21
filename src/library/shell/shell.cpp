@@ -196,29 +196,30 @@ Vec3 Shell::GetNormal(Shell::PolygonHandle plHd) const
 Vec3 Shell::GetPolygonArea(Shell::PolygonHandle plHd) const
 {
 	Vec3 BC(0.,0.,0.);
-	for (auto vtHd : plHd->vtx)
+	for (auto vtHd : plHd->GetVertex())
 	{
 		BC = BC + GetVertexPosition(vtHd);
 	}
-	BC = BC / plHd->vtx.size();
+	BC = BC / plHd->GetNumVertex();
 	Vec3 Area(0.,0.,0.);
-	for (int i = 0; i<plHd->vtx.size(); i++)
+    auto plyvtx = plHd->GetVertex();
+	for (int i = 0; i<plHd->GetNumVertex(); i++)
 	{
-		auto v1 = GetVertexPosition(plHd->vtx[i]);
-		auto v2 = i==plHd->vtx.size()-1?GetVertexPosition(plHd->vtx[0]):GetVertexPosition(plHd->vtx[i+1]);
-		Area = Area + cross(v1-temp,v2-temp);
+		auto v1 = GetVertexPosition(plyvtx[i]);
+		auto v2 = i==plyvtx.size()-1?GetVertexPosition(plyvtx[0]):GetVertexPosition(plyvtx[i+1]);
+        Area = Area + Vec3::cross(v1-BC,v2-BC);
 	}
 	return Area;
 }
 
-Vec3 Shell::GetBaryCenter(Shell::Polygonhandle plHd) const
+Vec3 Shell::GetBaryCenter(Shell::PolygonHandle plHd) const
 {
 	Vec3 BC(0.,0.,0.);
-	for (auto vtHd : plHd->vtx)
+	for (auto vtHd : plHd->GetVertex())
 	{
 		BC = BC + GetVertexPosition(vtHd);
 	}
-	BC = BC / plHd->vtx.size();
+	BC = BC / plHd->GetNumVertex();
 	return BC;
 }
 	
@@ -358,7 +359,7 @@ Shell::PolygonHandle Shell::GetNeighbour(Shell::PolygonHandle plHd, Shell::Verte
 	return nullptr;
 }
 
-Shell::PolygonHandle Shell::PickRandomPolygon()
+Shell::PolygonHandle Shell::PickRandomPolygon() const
 {
 	return plygn[rand()%plygn.size()];
 }
