@@ -393,7 +393,7 @@ void Vec3::Normalize()
 	dat[2] /= l;
 }
 
-Vec3 cross(Vec3 a, Vec3 b)
+Vec3 Vec3::cross(Vec3 a, Vec3 b)
 {
 	Vec3 result;
 	result.dat[0]=a.dat[1]*b.dat[2]-a.dat[2]*b.dat[1];

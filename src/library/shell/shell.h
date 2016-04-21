@@ -166,6 +166,10 @@ public:
 	void SetColor(const MIColor &col);
 	const Vec3 GetNormal() const;
 	const std::vector <const Vec3 *> GetVertex() const;
+    inline const int GetNumVertex() const
+    {
+        return vtx.size();
+    }
 	const MIColor GetColor(const Polygon *plHd) const;
 	Vec3 PolygonArea() const;
     Vec3 GetBaryCenter() const;
@@ -613,7 +617,7 @@ public:
 	
 	void EnableSearch();
 	PolygonHandle GetNeighbour(PolygonHandle plHd, VertexHandle vtHd) const;
-	PolygonHandle PickRandomPolygon();
+	PolygonHandle PickRandomPolygon() const;
 };
 
 typedef HashSet<Shell::PolygonHandle> PolygonStore;

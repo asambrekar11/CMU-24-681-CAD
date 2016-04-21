@@ -78,6 +78,10 @@ public:
     {
         return label;
     }
+    inline Shell::PolygonHandle GetPolygonHandle()
+    {
+        return plHd;
+    }
 };
 
 template<>

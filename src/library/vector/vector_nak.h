@@ -72,12 +72,15 @@ public:
 
 class Vec3 : public VecN<double,3>
 {
+public :
+    int label;
+    
 public:
 	Vec3();
 	Vec3(double x, double y, double z);
 	void Set(double x, double y, double z);
 	void Normalize();
-	friend Vec3 cross(Vec3 a, Vec3 b);
+	static Vec3 cross(Vec3 a, Vec3 b);
 	const double xf() const;
 	const double yf() const;
 	const double zf() const;

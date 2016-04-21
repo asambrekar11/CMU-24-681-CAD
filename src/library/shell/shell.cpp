@@ -106,7 +106,7 @@ Vec3 Polygon::PolygonArea() const
     {
         auto v1 = *vtx[i];
         auto v2 = i==vtx.size()-1?*vtx[0]:*vtx[i+1];
-        Area = Area + cross(v1-BC,v2-BC);
+        Area = Area + Vec3::cross(v1-BC,v2-BC);
     }
     return Area;
 }
@@ -363,7 +363,7 @@ Shell::PolygonHandle Shell::GetNeighbour(Shell::PolygonHandle plHd, Shell::Verte
 	return nullptr;
 }
 
-Shell::PolygonHandle Shell::PickRandomPolygon()
+Shell::PolygonHandle Shell::PickRandomPolygon() const
 {
 	return &plygn[rand()%plygn.size()];
 }
