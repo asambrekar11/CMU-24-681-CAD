@@ -98,6 +98,30 @@ const MIColor Polygon::GetColor(const Polygon * plHd) const
 	return plHd->color;
 }
 
+Vec3 Polygon::PolygonArea() const
+{
+    auto BC = GetBaryCenter();
+    Vec3 Area(0.,0.,0.);
+    for (int i = 0; i<vtx.size(); i++)
+    {
+        auto v1 = *vtx[i];
+        auto v2 = i==vtx.size()-1?*vtx[0]:*vtx[i+1];
+        Area = Area + Vec3::cross(v1-BC,v2-BC);
+    }
+    return Area;
+}
+
+Vec3 Polygon::GetBaryCenter() const
+{
+    Vec3 BC(0.,0.,0.);
+    for (auto vtHd : vtx)
+    {
+        BC = BC + *vtHd;
+    }
+    BC = BC / vtx.size();
+    return BC;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //SHELL::EDGEPOLYGONTABLE CLASS
 ////////////////////////////////////////////////////////////////////////////////
@@ -195,32 +219,12 @@ Vec3 Shell::GetNormal(Shell::PolygonHandle plHd) const
 
 Vec3 Shell::GetPolygonArea(Shell::PolygonHandle plHd) const
 {
-	Vec3 BC(0.,0.,0.);
-	for (auto vtHd : plHd->GetVertex())
-	{
-		BC = BC + GetVertexPosition(vtHd);
-	}
-	BC = BC / plHd->GetNumVertex();
-	Vec3 Area(0.,0.,0.);
-    auto plyvtx = plHd->GetVertex();
-	for (int i = 0; i<plHd->GetNumVertex(); i++)
-	{
-		auto v1 = GetVertexPosition(plyvtx[i]);
-		auto v2 = i==plyvtx.size()-1?GetVertexPosition(plyvtx[0]):GetVertexPosition(plyvtx[i+1]);
-        Area = Area + Vec3::cross(v1-BC,v2-BC);
-	}
-	return Area;
+	return plHd->PolygonArea();
 }
 
 Vec3 Shell::GetBaryCenter(Shell::PolygonHandle plHd) const
 {
-	Vec3 BC(0.,0.,0.);
-	for (auto vtHd : plHd->GetVertex())
-	{
-		BC = BC + GetVertexPosition(vtHd);
-	}
-	BC = BC / plHd->GetNumVertex();
-	return BC;
+    return plHd->GetBaryCenter();
 }
 	
 Shell::PolygonHandle Shell::FindNextPolygon(Shell::PolygonHandle plHd) const
@@ -361,5 +365,5 @@ Shell::PolygonHandle Shell::GetNeighbour(Shell::PolygonHandle plHd, Shell::Verte
 
 Shell::PolygonHandle Shell::PickRandomPolygon() const
 {
-	return plygn[rand()%plygn.size()];
+	return &plygn[rand()%plygn.size()];
 }

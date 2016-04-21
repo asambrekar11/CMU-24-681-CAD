@@ -171,7 +171,8 @@ public:
         return vtx.size();
     }
 	const MIColor GetColor(const Polygon *plHd) const;
-	double PolygonArea();
+	Vec3 PolygonArea() const;
+    Vec3 GetBaryCenter() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
