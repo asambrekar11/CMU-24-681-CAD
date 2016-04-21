@@ -19,11 +19,11 @@ template<class Key>
 HashSet<Key>::HashSet()
 {
 	table.resize(MIN_TABLE_SIZE);
-	nElem = 0;
+	nelem = 0;
 }
 
 template<class Key>
-void HashSet<Key>::Key(const Key &key)
+void HashSet<Key>::Add(const Key &key)
 {
 	auto idx=key%table.size();
 	for(auto e : table[idx])
@@ -34,7 +34,7 @@ void HashSet<Key>::Key(const Key &key)
 		}
 	}
 	table[idx].push_back(key);
-	nElem++;
+	nelem++;
 }
 
 template<class Key>

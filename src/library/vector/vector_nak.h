@@ -111,7 +111,7 @@ inline Vec3 Vec3::GetProjection(Vec3 Normal, Vec3 PtPlane, Vec3 Pt)
 {
     Normal.Normalize();
     double d = dot(Normal, PtPlane-Pt);
-    return conv(Pt - d*Normal);
+    return Pt - d*Normal;
 }
 
 #endif
