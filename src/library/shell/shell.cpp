@@ -342,7 +342,7 @@ void Shell::EnableSearch()
 Shell::PolygonHandle Shell::GetNeighbour(Shell::PolygonHandle plHd, Shell::VertexHandle vtHd) const
 {
 	auto plvtx = GetPolygonVertex(plHd);
-	int idx;
+    int idx = 0;
 	for (int i = 0; i<plvtx.size(); i++)
 	{
 		if (plvtx[i] == vtHd)
