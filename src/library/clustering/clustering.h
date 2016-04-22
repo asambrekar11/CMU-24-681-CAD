@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <math.h>
-#include "vector_nak.h"
-#include "mihashtable.h"
-#include "shell.h"
+#include <vector_nak.h>
+#include <mihashtable.h>
+#include <shell.h>
 
 struct Proxy
 {
@@ -127,7 +127,7 @@ protected:
         {
             shl = &shell;
         }
-        inline const int GetLabelForPolygon(const Shell::PolygonHandle plHd) const
+        inline const int GetLabelForPolygon(Shell::PolygonHandle plHd) const
         {
             return *((*this)[shl->GetSearchKey(plHd)]);
         }

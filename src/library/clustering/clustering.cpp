@@ -63,15 +63,7 @@ void LloydCluster<k>::AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[]
 			stud.Update(pxy[best_node.GetLabel()],newEntry);
 		}
 		auto key = shl.GetSearchKey(plHd);
-		auto curr_polytable = boss[key];
-		if (nullptr != curr_polytable)
-		{
-			curr_polytable->push_back(best_node.GetLabel());
-		}
-		else
-		{
-			boss.Update(key,best_node.GetLabel());
-		}
+        boss.Update(key,best_node.GetLabel());
 	}
 }
 

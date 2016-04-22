@@ -53,6 +53,7 @@ class VecN : public Vec<T>
 {
 public:
 	VecN();
+    
 	VecN &operator+=(const VecN rhs);
 	VecN &operator-=(const VecN rhs);
 	friend T dot(VecN a, VecN b);
@@ -80,10 +81,15 @@ public:
 	Vec3(double x, double y, double z);
 	void Set(double x, double y, double z);
 	void Normalize();
+    
+    Vec3 &operator+=(const Vec3 &rhs);
+    Vec3 &operator-=(const Vec3 &rhs);
+    
 	static Vec3 cross(Vec3 a, Vec3 b);
 	const double xf() const;
 	const double yf() const;
 	const double zf() const;
+    
     friend double dot(Vec3 a, Vec3 b);
     friend Vec3 operator*(const double lhs, Vec3 rhs);
     friend Vec3 operator*(Vec3 lhs, const double rhs);
@@ -93,6 +99,7 @@ public:
     friend bool operator==(const Vec3 &lhs, const Vec3 &rhs);
     friend bool operator!=(const Vec3 &lhs, const Vec3 &rhs);
     friend double L2Norm(Vec3 a);
+    
     inline VecN<double,3> conv() const
     {
         return VecN<double,3>(*this);
@@ -100,7 +107,7 @@ public:
     inline static Vec3 GetProjection(Vec3 N, Vec3 X, Vec3 Y);
 };
 
-double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
+inline double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
 {
 	double t = -1.0*dot((x1-x0),(x2-x1))/pow((L2Norm(x2-x1)),2.0);
 	auto temp = ((x1-x0)+(x2-x0))*t;

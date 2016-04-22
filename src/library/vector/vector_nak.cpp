@@ -248,6 +248,7 @@ VecN<T,nc> &VecN<T,nc>::operator+=(const VecN<T,nc> rhs)
 	{
 		this->dat[i] += rhs.dat[i];
 	}
+    return *this;
 }
 
 template <class T, long long int nc>
@@ -257,6 +258,7 @@ VecN<T,nc> &VecN<T,nc>::operator-=(const VecN<T,nc> rhs)
 	{
 		this->dat[i] -= rhs.dat[i];
 	}
+    return *this;
 }
 
 template <class T, long long int nc>
@@ -393,6 +395,19 @@ void Vec3::Normalize()
 	dat[2] /= l;
 }
 
+Vec3 &Vec3::operator+=(const Vec3 &rhs)
+{
+    *this = *this + rhs;
+    return *this;
+}
+
+Vec3 &Vec3::operator-=(const Vec3 &rhs)
+{
+    *this = *this - rhs;
+    return *this;
+}
+
+
 Vec3 Vec3::cross(Vec3 a, Vec3 b)
 {
 	Vec3 result;
@@ -424,47 +439,47 @@ double dot(Vec3 a, Vec3 b)
 
 Vec3 operator*(const double lhs, Vec3 rhs)
 {
-    auto result = (lhs*rhs.conv());
-    auto dat = result.GetVecData();
+    auto temp = lhs*rhs.conv();
+    auto dat = temp.GetVecData();
     return Vec3(dat[0],dat[1],dat[2]);
 }
 
 Vec3 operator*(Vec3 lhs, const double rhs)
 {
-    auto result = (lhs.conv()*rhs);
-    auto dat = result.GetVecData();
+    auto temp = rhs*lhs.conv();
+    auto dat = temp.GetVecData();
     return Vec3(dat[0],dat[1],dat[2]);
 }
 
 Vec3 operator+(Vec3 lhs, const Vec3 &rhs)
 {
-    auto result = (lhs.conv()+rhs.conv());
-    auto dat = result.GetVecData();
+    auto temp = lhs.conv()+rhs.conv();
+    auto dat = temp.GetVecData();
     return Vec3(dat[0],dat[1],dat[2]);
 }
 
 Vec3 operator-(Vec3 lhs, const Vec3 &rhs)
 {
-    auto result = (lhs.conv()-rhs.conv());
-    auto dat = result.GetVecData();
+    auto temp = lhs.conv()-rhs.conv();
+    auto dat = temp.GetVecData();
     return Vec3(dat[0],dat[1],dat[2]);
 }
 
 Vec3 operator/(const Vec3 &lhs, const double rhs)
 {
-    auto result = (lhs.conv()/rhs);
-    auto dat = result.GetVecData();
+    auto temp = lhs.conv()/rhs;
+    auto dat = temp.GetVecData();
     return Vec3(dat[0],dat[1],dat[2]);
 }
 
 bool operator==(const Vec3 &lhs, const Vec3 &rhs)
 {
-    return (lhs.conv()==rhs.conv());
+    return lhs.conv()==rhs.conv();
 }
 
 bool operator!=(const Vec3 &lhs, const Vec3 &rhs)
 {
-    return (lhs.conv()!=rhs.conv());
+    return lhs.conv()!=rhs.conv();
 }
 
 double L2Norm(Vec3 a)

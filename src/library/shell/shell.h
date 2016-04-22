@@ -3,9 +3,10 @@
 
 #include <stdio.h>
 #include <vector>
-#include "vector_nak.h"
-#include "mihashtable.h"
+#include <vector_nak.h>
+#include <mihashtable.h>
 
+//Read and Write STL capability
 
 ////////////////////////////////////////////////////////////////////////////////
 //MICOLOR CLASS : CLASS FOR COLORS
@@ -562,6 +563,8 @@ public:
 	//END OF VERTEXENUMERATOR CLASS
 	////////////////////////////////////////////////////////////////////////////
 	
+    // Support for range-based for loop
+    
 	inline const PolygonEnumerator AllPolygon() const
 	{
 		PolygonEnumerator AllplHd;
@@ -586,40 +589,51 @@ public:
 		return plygn.size();
 	}
 	
-	long long int GetSearchKey(VertexHandle vtHd) const;
-	long long int GetSearchKey(PolygonHandle plHd) const;
-	
-	Vec3 GetNormal(PolygonHandle plHd) const;
-	Vec3 GetPolygonArea(PolygonHandle plHd) const;
-	Vec3 GetBaryCenter(PolygonHandle plHd) const;
-	
-	PolygonHandle FindNextPolygon(PolygonHandle plHd) const;
-	PolygonHandle FindPrevPolygon(PolygonHandle plHd) const;
-	
-	VertexHandle FindNextVertex(VertexHandle vtHd) const;
-	VertexHandle FindPrevVertex(VertexHandle vtHd) const;
-	
+    // Non-const functions
+    // Use this to make your Shell object
+    
 	VertexHandle AddVertex(const Vec3 &incoming);
 	
 	PolygonHandle AddPolygon(const int nVtx, VertexHandle incoming[]);
 	PolygonHandle AddPolygon(std::vector<VertexHandle> incoming);
-	PolygonHandle AddTriangle(VertexHandle incoming[]);
+	PolygonHandle AddTriangle(const Vec3 incoming[]);
+    PolygonHandle AddTriangle(const Vec3 vtx1, const Vec3 vtx2, const Vec3 vtx3);
+    
+    void SetPolygonColor(PolygonHandle plHd, const MIColor col);
+    void SetPolygonColor(PolygonHandle plHd, const float col[]);
+    
+    void EnableSearch();
+    
+    //Const functions
+    //Use these to access const Shell objects
 	
-	std::vector <VertexHandle> GetPolygonVertex(PolygonHandle plHd) const;
-	inline std::vector <PolygonHandle> GetVertexPolygon(VertexHandle vtHd) const
+    long long int GetSearchKey(VertexHandle vtHd) const;
+    long long int GetSearchKey(PolygonHandle plHd) const;
+    
+    Vec3 GetNormal(PolygonHandle plHd) const;
+    Vec3 GetPolygonArea(PolygonHandle plHd) const;
+    Vec3 GetBaryCenter(PolygonHandle plHd) const;
+    
+    PolygonHandle FindNextPolygon(PolygonHandle plHd) const;
+    PolygonHandle FindPrevPolygon(PolygonHandle plHd) const;
+    
+    VertexHandle FindNextVertex(VertexHandle vtHd) const;
+    VertexHandle FindPrevVertex(VertexHandle vtHd) const;
+    
+    std::vector <VertexHandle> GetPolygonVertex(PolygonHandle plHd) const;
+	
+    inline std::vector <PolygonHandle> GetVertexPolygon(VertexHandle vtHd) const
 	{
 		return VertexToPolygon.FindPolygon(vtHd);
 	}
 	const Vec3 GetVertexPosition(VertexHandle vtHd) const;
 	
-	void SetPolygonColor(PolygonHandle plHd, const MIColor col);
-	void SetPolygonColor(PolygonHandle plHd, const float col[]);
-	
-	void EnableSearch();
 	PolygonHandle GetNeighbour(PolygonHandle plHd, VertexHandle vtHd) const;
 	PolygonHandle PickRandomPolygon() const;
+    
 };
 
 typedef HashSet<Shell::PolygonHandle> PolygonStore;
+typedef HashSet<Shell::VertexHandle> VertexStore;
 
 #endif

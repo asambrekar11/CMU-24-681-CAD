@@ -6,7 +6,7 @@ endif()
 
 set(TARGET_NAME mi_project)
 set(IS_LIBRARY_PROJECT 0)
-set(LIB_DEPENDENCY vector anchor clustering hashtable shell)
+set(LIB_DEPENDENCY vector_nak anchor clustering hashtable shell)
 set(INCLUDE_DEPENDENCY "")
 set(OWN_HEADER_PATH .)
 set(ADDITIONAL_HEADER_PATH)

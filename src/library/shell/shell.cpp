@@ -306,9 +306,19 @@ Shell::PolygonHandle Shell::AddPolygon(std::vector<Shell::VertexHandle> incoming
 	return &plygn.back();
 }
 
-Shell::PolygonHandle Shell::AddTriangle(Shell::VertexHandle incoming[])
+Shell::PolygonHandle Shell::AddTriangle(const Vec3 incoming[])
 {
-	return AddPolygon(3,incoming);
+    for (int i = 0; i<3; i++)
+    {
+        AddVertex(incoming[i]);
+    }
+    return AddPolygon(3,&incoming);
+}
+
+Shell::PolygonHandle Shell::AddTriangle(const Vec3 vtx1, const Vec3 vtx2, const Vec3 vtx3)
+{
+    Vec3 tri[3] = {vtx1, vtx2, vtx3};
+    return AddTriangle(tri);
 }
 
 std::vector <Shell::VertexHandle> Shell::GetPolygonVertex(Shell::PolygonHandle plHd) const

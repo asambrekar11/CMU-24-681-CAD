@@ -1,6 +1,8 @@
 #include "Anchor.h"
 
 using namespace std;
+
+
 template<int k>
 AnchorVertex<k>::~AnchorVertex()
 {
@@ -78,23 +80,16 @@ for(auto vt : shl->AllVertex())
 template<int k>
 AncVtx AnchorVertex<k>::FindAverageAnchorVertex(AncVtx vtx)
 {
-
-        Vec3 temp(0.,0.,0.);
-        for(int j=0;j<vtx.label.size();j++)
-        {
-            auto Proxy = MyCl->GetProxy(vtx.label[j]);
-            temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
-            
-        }
-    
-        Vec3 temp1(0.f,0.f,0.f);
-        temp = Vec3::conv(temp/(double)vtx.label.size());
-    
+    Vec3 temp(0.,0.,0.);
+    for(int j=0;j<vtx.label.size();j++)
+    {
+        auto Proxy = MyCl->GetProxy(vtx.label[j]);
+        temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
         
-        vtx.Anchor = temp;
-    
+    }
+    temp = temp/(double)vtx.label.size();
+    vtx.Anchor = temp;
     return vtx;
-
 }
 
 
@@ -348,4 +343,48 @@ void AnchorVertex<k>::ExtractEdges(int ClusterNum)
 		
 	}
 	
+}
+
+template <int k>
+Shell AnchorVertex<k>::IndexLabelling(int pxyNum)
+{
+    Shell newShell;
+    std::vector <Shell::VertexHandle> shellvtx;
+    for (int i = 0; i<AncPts.size(); i++)
+    {
+        shellvtx.push_back(AncPts[i].Ptr);
+        VertexToLabel.Update(AncPts[i].Ptr, i);
+    }
+    for (auto vtHd : shl->AllVertex())
+    {
+        double Dmin = 1e6;
+        int minlabel;
+        for (int i = 0; i<shellvtx.size(); i++)
+        {
+            double D = L2Norm(shl->GetVertexPosition(vtHd)-shl->GetVertexPosition(shellvtx[i]));
+            if (D<Dmin)
+            {
+                minlabel = i;
+            }
+        }
+        VertexToLabel.Update(vtHd,minlabel);
+    }
+    std::vector <Shell::PolygonHandle> keypolygon;
+    for (auto plHd : shl->AllPolygon())
+    {
+        auto vt = shl->GetPolygonVertex(plHd);
+        int trilabels[3] = {
+                            VertexToLabel[vt[0]],
+                            VertexToLabel[vt[1]],
+                            VertexToLabel[vt[2]],
+        };
+        if (trilabels[0] != trilabels[1] &&
+            trilabels[1] != trilabels[2] &&
+            trilabels[2] != trilabels[0] )
+        {
+            newShell.AddTriangle(AncPts[trilabels[0]].Anchor, AncPts[trilabels[1]].Anchor, AncPts[trilabels[2]].Anchor);
+            
+        }
+    }
+    return newShell;
 }
