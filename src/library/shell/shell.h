@@ -11,6 +11,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 //MICOLOR CLASS : CLASS FOR COLORS
 ////////////////////////////////////////////////////////////////////////////////
+enum STLFILETYPE
+{
+    ASCII,
+    BINARY
+};
 
 class MIColor;
 
@@ -562,7 +567,22 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	//END OF VERTEXENUMERATOR CLASS
 	////////////////////////////////////////////////////////////////////////////
-	
+protected:
+    ////////////////////////////////////////////////////////////////////////////
+    //STL READ-WRITE CAPABILITY INTERNAL FUNCTIONS
+    ////////////////////////////////////////////////////////////////////////////
+ 
+    bool ReadBinarySTL(const char fn[]);
+    bool ReadAsciiSTL(const char fn[]);
+    
+    bool WriteBinarySTL(const char fn[]) const;
+    bool WriteAsciiSTL(const char fn[]) const;
+    
+public:
+    ////////////////////////////////////////////////////////////////////////////
+    //INTERFACE FUNCTIONS BEGIN HERE
+    ////////////////////////////////////////////////////////////////////////////
+    
     // Support for range-based for loop
     
 	inline const PolygonEnumerator AllPolygon() const
@@ -592,12 +612,20 @@ public:
     // Non-const functions
     // Use this to make your Shell object
     
-	VertexHandle AddVertex(const Vec3 &incoming);
+    bool ReadFromSTL(const char fn[]);
+    
+    VertexHandle AddVertex(const Vec3 &incoming);
 	
 	PolygonHandle AddPolygon(const int nVtx, VertexHandle incoming[]);
 	PolygonHandle AddPolygon(std::vector<VertexHandle> incoming);
 	PolygonHandle AddTriangle(const Vec3 incoming[]);
     PolygonHandle AddTriangle(const Vec3 vtx1, const Vec3 vtx2, const Vec3 vtx3);
+    
+    inline void SetPolygonNormal(PolygonHandle plHd, Vec3 nom)
+    {
+        Polygon *edit_pl = (Polygon *)plHd;
+        edit_pl->SetNormal(nom);
+    }
     
     void SetPolygonColor(PolygonHandle plHd, const MIColor col);
     void SetPolygonColor(PolygonHandle plHd, const float col[]);
@@ -630,6 +658,8 @@ public:
 	
 	PolygonHandle GetNeighbour(PolygonHandle plHd, VertexHandle vtHd) const;
 	PolygonHandle PickRandomPolygon() const;
+    
+    bool WriteToSTL(const char fn[],STLFILETYPE) const;
     
 };
 
