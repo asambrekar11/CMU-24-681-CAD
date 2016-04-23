@@ -20,6 +20,14 @@ int main(int argc, char *argv[])
         AnchorVertex anchor(k);
         anchor.Initialize(shl, cluster);
         anchor.MakeAnchorVertex();
+        anchor.BinAnchorVertex();
+        anchor.AssignLabel();
+        
+        for(int i=0;i<k;i++)
+        {
+            anchor.ExtractEdges(i);
+        }
+        
         
         
         
