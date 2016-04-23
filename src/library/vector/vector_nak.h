@@ -473,14 +473,17 @@ double L2Norm(VecN<T,nc> a)
     return sqrt(sqlen);
 }
 
-inline double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
+//inline double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0);
+
+inline extern double DistancePtToLine(Vec3 x1, Vec3 x2, Vec3 x0)
+
 {
 	double t = -1.0*dot((x1-x0),(x2-x1))/pow((L2Norm(x2-x1)),2.0);
 	auto temp = ((x1-x0)+(x2-x0))*t;
 	return L2Norm(temp);
 }
 
-inline Vec3 Vec3::GetProjection(Vec3 Normal, Vec3 PtPlane, Vec3 Pt)
+inline extern Vec3 Vec3::GetProjection(Vec3 Normal, Vec3 PtPlane, Vec3 Pt)
 {
     Normal.Normalize();
     double d = dot(Normal, PtPlane-Pt);

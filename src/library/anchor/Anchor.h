@@ -18,12 +18,27 @@ inline long long int HashTable<Shell::VertexHandle,int>::HashCode(const Shell::V
 }
 
 
-struct AncVtx
+class AncVtx
 {
 public:
     Vec3 Anchor;
     std::vector<int> label;
     Shell::VertexHandle Ptr;
+    
+public:
+    inline AncVtx &operator=(AncVtx &incoming)
+    {
+        if(this!=&incoming)
+        {
+            this->Anchor = incoming.Anchor;
+            this->label = incoming.label;
+            this->Ptr = incoming.Ptr;
+        }
+        
+        return *this;
+    }
+        
+
 };
 
 struct PxyVtx
@@ -44,7 +59,6 @@ protected:
     AncVtxHandle AncPts;
     std::vector<AncVtxHandle> PrxyAnc;
     std::vector<std::vector<PxyVtx>> Vtxlst;
-    double threshold;
     class VertexTable : public HashTable<Shell::VertexHandle,int>
     {
     public:
@@ -67,7 +81,7 @@ public:
     void Initialize(const Shell &s, const LloydCluster &MC);
     void MakeAnchorVertex();
     void BinAnchorVertex();
-    AncVtx FindAverageAnchorVertex(AncVtx vtx);
+    void FindAverageAnchorVertex(AncVtx &vtx);
     void AssignLabel();
     AncVtxHandle GetAnchorVtx(int ProxyNum);
     AncVtxHandle GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd);
@@ -78,6 +92,5 @@ public:
 
 };
 
-//replaced std::vector<AncVtx> with AncVtxHandle
 
 #endif

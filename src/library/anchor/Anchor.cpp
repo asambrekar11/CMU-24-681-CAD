@@ -66,6 +66,7 @@ for(auto vt : shl->AllVertex())
 		{
 			AV.label[i] = temp[i];
 		}
+        FindAverageAnchorVertex(AV);
 		AncPts.push_back(AV);
 		
 	}
@@ -75,9 +76,10 @@ for(auto vt : shl->AllVertex())
 }
 
 
-AncVtx AnchorVertex::FindAverageAnchorVertex(AncVtx vtx)
+void AnchorVertex::FindAverageAnchorVertex(AncVtx &vtx)
 {
     Vec3 temp(0.,0.,0.);
+    AncVtx vtx1;
     for(int j=0;j<vtx.label.size();j++)
     {
         auto Proxy = MyCl->GetProxy(vtx.label[j]);
@@ -86,7 +88,6 @@ AncVtx AnchorVertex::FindAverageAnchorVertex(AncVtx vtx)
     }
     temp = temp/(double)vtx.label.size();
     vtx.Anchor = temp;
-    return vtx;
 }
 
 
@@ -259,6 +260,7 @@ void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeV
     auto pxy1 = MyCl->GetProxy(EdgeVtx[0].label1);
 	auto pxy2 = MyCl->GetProxy(EdgeVtx[0].label2);
 	double N1 = L2Norm(pxy1.ProxyNormal), N2 = L2Norm(pxy2.ProxyNormal);
+    double threshold = 0.4*L2Norm(vtx1.Anchor-vtx2.Anchor);
     double maxD = 0.0;
     AncVtx t;
 	for	(int i=0;i<EdgeVtx.size();i++)
@@ -273,7 +275,7 @@ void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeV
 			t.label.push_back(EdgeVtx[i].label2);
             t.Ptr = EdgeVtx[i].Anchor;
             
-            t = FindAverageAnchorVertex(t);
+            FindAverageAnchorVertex(t);
         }
 	}
     

@@ -8,6 +8,7 @@
 
 int main(int argc, char *argv[])
 {
+
     if (argc==3)
     {
         int k = atoi(argv[2]);
@@ -25,5 +26,6 @@ int main(int argc, char *argv[])
 //        Shell newShell = anchor.IndexLabelling();
 //        newShell.WriteToSTL("modified.stl", BINARY);
     }
+
     return 0;
 }
