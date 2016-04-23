@@ -1,0 +1,74 @@
+/* ////////////////////////////////////////////////////////////
+
+File Name: ysshellext_constedgeutil.cpp
+Copyright (c) 2015 Soji Yamakawa.  All rights reserved.
+http://www.ysflight.com
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, 
+   this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+   this list of conditions and the following disclaimer in the documentation 
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS 
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+//////////////////////////////////////////////////////////// */
+
+#include "ysshellext_constedgeutil.h"
+
+YsShellExt::ConstEdgeAndPos YsShellExt_FindNearestPointOnConstEdgeInPolygon(
+    const YsShellExt &shl,YsShellPolygonHandle plHd,const YsVec3 &from)
+{
+	int nPlVt;
+	const YsShellVertexHandle *plVtHdPtr;
+	shl.GetPolygon(nPlVt,plVtHdPtr,plHd);
+
+	YsConstArrayMask <YsShellVertexHandle> plVtHd(nPlVt,plVtHdPtr);
+
+	YsShellExt::ConstEdgeAndPos nearCe;
+	double nearDist=0.0;
+	nearCe.ceHd=NULL;
+	for(auto vtIdx : plVtHd.AllIndex())
+	{
+		const YsShellVertexHandle edVtHd[2]=
+		{
+			plVtHd[vtIdx],
+			plVtHd.GetCyclic(vtIdx+1)
+		};
+		auto edCeHd=shl.FindConstEdgeFromEdgePiece(edVtHd);
+		if(0<edCeHd.GetN())
+		{
+			const YsVec3 edVtPos[2]=
+			{
+				shl.GetVertexPosition(edVtHd[0]),
+				shl.GetVertexPosition(edVtHd[1])
+			};
+
+			const auto nearPos=YsGetNearestPointOnLinePiece(edVtPos,from);
+			const double dist=(nearPos-from).GetSquareLength();
+			if(NULL==nearCe.ceHd || dist<nearDist)
+			{
+				nearCe.ceHd=edCeHd[0];
+				nearCe.pos=nearPos;
+				nearDist=dist;
+			}
+		}
+	}
+
+	return nearCe;
+}
+
+

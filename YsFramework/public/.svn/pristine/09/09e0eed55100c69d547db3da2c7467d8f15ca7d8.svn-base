@@ -1,0 +1,237 @@
+/* ////////////////////////////////////////////////////////////
+
+File Name: ysshellextedit_topologyutil.cpp
+Copyright (c) 2015 Soji Yamakawa.  All rights reserved.
+http://www.ysflight.com
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, 
+   this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+   this list of conditions and the following disclaimer in the documentation 
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS 
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+//////////////////////////////////////////////////////////// */
+
+#include "ysshellextedit_topologyutil.h"
+
+
+void YsShellExtEdit_TopologyUtil::CleanUp(void)
+{
+	modifiedPlHdArray.CleanUp();
+	modifiedCeHdArray.CleanUp();
+}
+
+YSRESULT YsShellExtEdit_TopologyUtil::InsertVertexOnEdge(YsShellExtEdit &shl,const YsShellVertexHandle edVtHd[2],YsShellVertexHandle midVtHd)
+{
+	return InsertVertexOnEdge(shl,edVtHd[0],edVtHd[1],1,&midVtHd);
+}
+
+YSRESULT YsShellExtEdit_TopologyUtil::InsertVertexOnEdge(YsShellExtEdit &shl,YsShellVertexHandle fromVtHd,YsShellVertexHandle toVtHd,YSSIZE_T nVt,const YsShellVertexHandle vtHdArray[])
+{
+	CleanUp();
+
+	YsShellExtEdit::StopIncUndo incUndo(&shl);
+
+	YsArray <YsShellPolygonHandle> plHdArray;
+
+	if(YSOK==shl.FindPolygonFromEdgePiece(plHdArray,fromVtHd,toVtHd))
+	{
+		for(auto plHd : plHdArray)
+		{
+			YsArray <YsShellVertexHandle,16> plVtHd,newPlVtHd;
+
+			shl.GetPolygon(plVtHd,plHd);
+			for(YSSIZE_T vtIdx=0; vtIdx<plVtHd.GetN(); ++vtIdx)
+			{
+				newPlVtHd.Append(plVtHd[vtIdx]);
+				if(fromVtHd==plVtHd[vtIdx] && toVtHd==plVtHd.GetCyclic(vtIdx+1))
+				{
+					newPlVtHd.Append(nVt,vtHdArray);
+				}
+				else if(toVtHd==plVtHd[vtIdx] && fromVtHd==plVtHd.GetCyclic(vtIdx+1))
+				{
+					for(auto i=nVt-1; 0<=i; --i)
+					{
+						newPlVtHd.Append(vtHdArray[i]);
+					}
+				}
+			}
+
+			if(plVtHd.GetN()<newPlVtHd.GetN())
+			{
+				shl.SetPolygonVertex(plHd,newPlVtHd);
+				modifiedPlHdArray.Append(plHd);
+			}
+		}
+	}
+
+	YsArray <YsShellExt::ConstEdgeHandle> ceHdArray;
+	if(YSOK==shl.FindConstEdgeFromEdgePiece(ceHdArray,fromVtHd,toVtHd))
+	{
+		for(auto ceHd : ceHdArray)
+		{
+			YSBOOL isLoop;
+			YsArray <YsShellVertexHandle,16> ceVtHd,newCeVtHd;
+
+			shl.GetConstEdge(ceVtHd,isLoop,ceHd);
+
+			const auto nEnd=(YSTRUE==isLoop ? ceVtHd.GetN() : ceVtHd.GetN()-1);
+
+			for(YSSIZE_T vtIdx=0; vtIdx<nEnd; ++vtIdx)
+			{
+				newCeVtHd.Append(ceVtHd[vtIdx]);
+				if(fromVtHd==ceVtHd[vtIdx] && toVtHd==ceVtHd.GetCyclic(vtIdx+1))
+				{
+					newCeVtHd.Append(nVt,vtHdArray);
+				}
+				else if(toVtHd==ceVtHd[vtIdx] && fromVtHd==ceVtHd.GetCyclic(vtIdx+1))
+				{
+					for(auto i=nVt-1; 0<=i; --i)
+					{
+						newCeVtHd.Append(vtHdArray[i]);
+					}
+				}
+			}
+
+			if(YSTRUE!=isLoop)
+			{
+				newCeVtHd.Append(ceVtHd.Last());
+			}
+
+			if(ceVtHd.GetN()<newCeVtHd.GetN())
+			{
+				shl.ModifyConstEdge(ceHd,newCeVtHd,isLoop);
+				modifiedCeHdArray.Append(ceHd);
+			}
+		}
+	}
+
+	return YSOK;
+}
+
+YSRESULT YsShellExtEdit_TopologyUtil::InsertVertexOnEdge(YsShellExtEdit &shl,const YsShellVertexHandle edVtHd[2],YSSIZE_T nVt,const YsShellVertexHandle vtHdArray[])
+{
+	return InsertVertexOnEdge(shl,edVtHd[0],edVtHd[1],nVt,vtHdArray);
+}
+
+YSRESULT YsShellExtEdit_TopologyUtil::SplitPolygon(YsShellExtEdit &shl,YsShellPolygonHandle plHd,YsShellVertexHandle vtHd0,YsShellVertexHandle vtHd1)
+{
+	CleanUp();
+
+	YsArray <YsShellVertexHandle,16> plVtHd,newPlVtHd;
+
+	shl.GetPolygon(plVtHd,plHd);
+	YSSIZE_T vtIdx0=-1,vtIdx1=-1;
+	for(YSSIZE_T vtIdx=0; vtIdx<plVtHd.GetN(); ++vtIdx)
+	{
+		if(plVtHd[vtIdx]==vtHd0)
+		{
+			vtIdx0=vtIdx;
+		}
+		else if(plVtHd[vtIdx]==vtHd1)
+		{
+			vtIdx1=vtIdx;
+		}
+	}
+
+	if(0<=vtIdx0 && 0<=vtIdx1 && YSOK==YsShellExt_SplitLoop(plVtHd,newPlVtHd,vtIdx0,vtIdx1) && 3<=plVtHd.GetN() && 3<=newPlVtHd.GetN())
+	{
+		YsShellExtEdit::StopIncUndo stopIncUndo(shl);
+
+		auto fgHd=shl.FindFaceGroupFromPolygon(plHd);
+
+		shl.SetPolygonVertex(plHd,plVtHd);
+
+		const YsShellExt::PolygonAttrib *plAtt=shl.GetPolygonAttrib(plHd);
+		const YsVec3 nom=shl.GetNormal(plHd);
+		const YsColor col=shl.GetColor(plHd);
+
+		YsShellPolygonHandle newPlHd=shl.AddPolygon(newPlVtHd);
+		shl.SetPolygonAttrib(newPlHd,*plAtt);
+		shl.SetPolygonNormal(newPlHd,nom);
+		shl.SetPolygonColor(newPlHd,col);
+		if(NULL!=fgHd)
+		{
+			shl.AddFaceGroupPolygon(fgHd,1,&newPlHd);
+		}
+
+		modifiedPlHdArray.Append(plHd);
+		modifiedPlHdArray.Append(newPlHd);
+
+		return YSOK;
+	}
+	return YSERR;
+}
+
+YSRESULT YsShellExtEdit_TopologyUtil::SplitPolygon(YsShellExtEdit &shl,YsShellPolygonHandle plHd,const YsShellVertexHandle vtHd[2])
+{
+	return SplitPolygon(shl,plHd,vtHd[0],vtHd[1]);
+}
+
+YSRESULT YsShellExtEdit_TopologyUtil::SplitDegeneratePolygon(YsShellExtEdit &shl,YsShellPolygonHandle plHd)
+{
+	auto plVtHd=shl.GetPolygonVertex(plHd);
+	YsArray <YsArray <YsShellVertexHandle> > newPlVtHd;
+	if(YSOK==YsSplitDegeneratePolygon(newPlVtHd,plVtHd))
+	{
+		modifiedPlHdArray.CleanUp();
+
+		if(0==newPlVtHd.GetN()) // Means the polygon shrunk to a point or a line.
+		{
+			shl.ForceDeletePolygon(plHd);
+		}
+		else
+		{
+			YsShellExtEdit::StopIncUndo stopIncUndo(shl);
+			for(int idx=0; idx<newPlVtHd.GetN(); ++idx)
+			{
+				if(0==idx)
+				{
+					shl.SetPolygonVertex(plHd,newPlVtHd[0]);
+				}
+				else
+				{
+					auto newPlHd=shl.AddPolygon(newPlVtHd[idx]);
+					auto col=shl.GetColor(plHd);
+					auto nom=shl.GetNormal(plHd);
+					auto attrib=shl.GetPolygonAttrib(plHd);
+					shl.SetPolygonColor(newPlHd,col);
+					shl.SetPolygonNormal(newPlHd,nom);
+					shl.SetPolygonAttrib(newPlHd,*attrib);
+				}
+			}
+		}
+		return YSOK;
+	}
+	return YSERR;
+}
+
+
+YSRESULT YsShellExtEdit_TopologyUtil::SplitAllDegeneratePolygon(YsShellExtEdit &shl)
+{
+	YsArray <YsShellPolygonHandle> accum;
+	for(auto plHd : shl.AllPolygon())
+	{
+		if(YSOK==SplitDegeneratePolygon(shl,plHd))
+		{
+			accum.Append(modifiedPlHdArray);
+		}
+	}
+	modifiedPlHdArray=accum;
+	return YSOK;
+}
