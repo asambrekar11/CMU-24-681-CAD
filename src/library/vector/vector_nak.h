@@ -211,6 +211,7 @@ Vec<T> &Vec<T>::operator=(Vec<T> &&in)
 {
     Cleanup();
     Swap(in);
+    return *this;
 }
 
 template <class T>
