@@ -7,11 +7,19 @@
 #include <mihashtable.h>
 #include <shell.h>
 
-struct Proxy
+class Proxy
 {
 public:
     Vec3 ProxyPosition, ProxyNormal;
     int label;
+    inline friend bool operator==(const Proxy &lhs, const Proxy &rhs)
+    {
+        return lhs.label==rhs.label;
+    }
+    inline friend bool operator!=(const Proxy &lhs, const Proxy &rhs)
+    {
+        return lhs.label!=rhs.label;
+    }
 };
 
 double L2ErrorMetric(const Shell &shl, Shell::PolygonHandle plHd, Proxy pxy);
@@ -25,29 +33,29 @@ protected:
     int label;
     double error;
 public:
-    inline bool operator>(const ClusterNode &rhs)
+    inline friend bool operator>(const ClusterNode &lhs, const ClusterNode &rhs)
     {
-        return this->error>rhs.error;
+        return lhs.error>rhs.error;
     }
-    inline bool operator>=(const ClusterNode &rhs)
+    inline friend bool operator>=(const ClusterNode &lhs, const ClusterNode &rhs)
     {
-        return this->error>=rhs.error;
+        return lhs.error>=rhs.error;
     }
-    inline bool operator<(const ClusterNode &rhs)
+    inline friend bool operator<(const ClusterNode &lhs, const ClusterNode &rhs)
     {
-        return this->error<rhs.error;
+        return lhs.error<rhs.error;
     }
-    inline bool operator<=(const ClusterNode &rhs)
+    inline friend bool operator<=(const ClusterNode &lhs, const ClusterNode &rhs)
     {
-        return this->error<=rhs.error;
+        return lhs.error<=rhs.error;
     }
-    inline bool operator==(const ClusterNode &rhs)
+    inline friend bool operator==(const ClusterNode &lhs, const ClusterNode &rhs)
     {
-        return this->error==rhs.error;
+        return lhs.error==rhs.error;
     }
-    inline bool operator!=(const ClusterNode &rhs)
+    inline friend bool operator!=(const ClusterNode &lhs, const ClusterNode &rhs)
     {
-        return this->error!=rhs.error;
+        return lhs.error!=rhs.error;
     }
     inline ClusterNode()
     {
@@ -74,11 +82,11 @@ public:
     {
         label = newLabel;
     }
-    inline int GetLabel()
+    inline const int GetLabel() const
     {
         return label;
     }
-    inline Shell::PolygonHandle GetPolygonHandle()
+    inline Shell::PolygonHandle GetPolygonHandle() const
     {
         return plHd;
     }
@@ -97,17 +105,16 @@ inline long long int HashTable<long long int,int>::HashCode(const long long int 
 }
     
 
-template <int k>
 class LloydCluster
 {
 protected:
-    Proxy pxy[k];
+    std::vector<Proxy> pxy;
     class ProxyTable : public HashTable<Proxy,std::vector<Shell::PolygonHandle>>
     {
     public:
         inline const std::vector<Shell::PolygonHandle> &GetPolygonForProxy(const Proxy &pxy) const
         {
-            return *((*this)[pxy]);
+            return *(*this)[pxy];
         }
     };
     ProxyTable stud;
@@ -137,6 +144,14 @@ protected:
     bool GetProxy(const Shell &shl, Shell::PolygonHandle cntr[]);
 
 public:
+    inline LloydCluster()
+    {
+        
+    }
+    inline LloydCluster(int k)
+    {
+        pxy.resize(k);
+    }
     inline const std::vector<Shell::PolygonHandle> &GetCluster(const int idx) const
     {
         return stud.GetPolygonForProxy(pxy[idx]);
@@ -144,6 +159,10 @@ public:
     inline const Proxy &GetProxy(const int idx) const
     {
         return pxy[idx];
+    }
+    inline const int GetNumProxy() const
+    {
+        return pxy.size();
     }
     inline const int GetPolygonLabel(const Shell::PolygonHandle plHd) const
     {

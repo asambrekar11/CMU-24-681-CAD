@@ -33,19 +33,18 @@ bool IsIncluded(Shell::PolygonHandle plHd, Shell::PolygonHandle plList[], int si
 	return false;
 }
 
-template<int k>
-void LloydCluster<k>::AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[])
+void LloydCluster::AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[])
 {
 	stud.Cleanup();
 	boss.Cleanup();
 	
-	stud.Resize(k/3);
+	stud.Resize(pxy.size()/3);
 	boss.Resize(shl.GetNumPolygon()/3);
 	
 	for (auto plHd : shl.AllPolygon())
 	{
 		std::priority_queue <ClusterNode> list;
-		for (int i = 0; i<k; i++)
+		for (int i = 0; i<pxy.size(); i++)
 		{
 			ClusterNode curr_node(shl,plHd,pxy[i],i);
 			list.push(curr_node);
@@ -63,15 +62,15 @@ void LloydCluster<k>::AssignCenter(const Shell &shl, Shell::PolygonHandle cntr[]
 			stud.Update(pxy[best_node.GetLabel()],newEntry);
 		}
 		auto key = shl.GetSearchKey(plHd);
-        boss.Update(key,best_node.GetLabel());
+        int label = best_node.GetLabel();
+        boss.Update(key,label);
 	}
 }
 
-template <int k>
-bool LloydCluster<k>::GetProxy(const Shell &shl, Shell::PolygonHandle cntr[])
+bool LloydCluster::GetProxy(const Shell &shl, Shell::PolygonHandle cntr[])
 {
 	bool state = false;
-	for (int i = 0; i<k; i++)
+	for (int i = 0; i<pxy.size(); i++)
 	{
 		auto cluster = *(stud[pxy[i]]);
 		Vec3 BC(0.,0.,0.);
@@ -93,19 +92,18 @@ bool LloydCluster<k>::GetProxy(const Shell &shl, Shell::PolygonHandle cntr[])
 	return state;
 }
 
-template <int k>
-void LloydCluster<k>::MakeCluster(const Shell &shl)
+void LloydCluster::MakeCluster(const Shell &shl)
 {
 	
-	Shell::PolygonHandle cntr[k];
+	Shell::PolygonHandle cntr[pxy.size()];
 	
-	for (int i = 0; i<k; i++)
+	for (int i = 0; i<pxy.size(); i++)
 	{
 		do
 		{
 			cntr[i] = shl.PickRandomPolygon();
 		}
-		while (true == IsIncluded(cntr[i],cntr,k));
+		while (true == IsIncluded(cntr[i],cntr,pxy.size()));
 	}
 	
 	do

@@ -3,24 +3,22 @@
 using namespace std;
 
 
-template<int k>
-AnchorVertex<k>::~AnchorVertex()
-{
-for (auto x : AncPts)
-	{
-		x.clear();
-	}
+//template<int k>
+//AnchorVertex<k>::~AnchorVertex()
+//{
+//for (auto x : AncPts)
+//	{
+//		x.clear();
+//	}
+//
+//}
 
-}
-
-template<int k>
-void AnchorVertex<k>::Initialize(const Shell &s, const LloydCluster<k> &MC)
+void AnchorVertex::Initialize(const Shell &s, const LloydCluster &MC)
 {
 shl = &s; MyCl = &MC;
 }
 
-template<int k>
-void AnchorVertex<k>::MakeAnchorVertex()
+void AnchorVertex::MakeAnchorVertex()
 {
 
 for(auto vt : shl->AllVertex())
@@ -30,7 +28,7 @@ for(auto vt : shl->AllVertex())
 	std::vector<int> temp;
 	for(auto py : Poly)
 	{
-		int label = MyCl->GetLabelForPolygon(py);
+		int label = MyCl->GetPolygonLabel(py);
 		if(count==0)
 		{
 			temp.push_back(label);
@@ -77,14 +75,13 @@ for(auto vt : shl->AllVertex())
 }
 
 
-template<int k>
-AncVtx AnchorVertex<k>::FindAverageAnchorVertex(AncVtx vtx)
+AncVtx AnchorVertex::FindAverageAnchorVertex(AncVtx vtx)
 {
     Vec3 temp(0.,0.,0.);
     for(int j=0;j<vtx.label.size();j++)
     {
         auto Proxy = MyCl->GetProxy(vtx.label[j]);
-        temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
+        temp = temp + Vec3::GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
         
     }
     temp = temp/(double)vtx.label.size();
@@ -93,8 +90,7 @@ AncVtx AnchorVertex<k>::FindAverageAnchorVertex(AncVtx vtx)
 }
 
 
-template<int k>
-void AnchorVertex<k>::BinAnchorVertex()//Bins all the anchors into their respective proxies
+void AnchorVertex::BinAnchorVertex()//Bins all the anchors into their respective proxies
 {
 
 int nProxy = MyCl->GetNumProxy();//Get number of proxies
@@ -115,8 +111,7 @@ int nProxy = MyCl->GetNumProxy();//Get number of proxies
 
 }
 
-template<int k>
-AncVtxHandle AnchorVertex<k>::GetAnchorVtx(int ProxyNum)//ProxyNum : 0 to k-1 Returns all the anchor vertices associated with given proxy
+AncVtxHandle AnchorVertex::GetAnchorVtx(int ProxyNum)//ProxyNum : 0 to k-1 Returns all the anchor vertices associated with given proxy
 {
 
 //	if(EdgVtx!=nullptr)
@@ -124,8 +119,7 @@ AncVtxHandle AnchorVertex<k>::GetAnchorVtx(int ProxyNum)//ProxyNum : 0 to k-1 Re
 
 }
 
-template<int k>
-AncVtxHandle AnchorVertex<k>::GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd)//can change to AncVtx on the return type
+AncVtxHandle AnchorVertex::GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd)//can change to AncVtx on the return type
 {
 	AncVtxHandle Neighbour;
     
@@ -178,8 +172,7 @@ AncVtxHandle AnchorVertex<k>::GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd)//
 	return Neighbour;
 }
 
-template<int k>
-void AnchorVertex<k>::AssignLabel()//assign label to each vertex of every polygon in a given proxy
+void AnchorVertex::AssignLabel()//assign label to each vertex of every polygon in a given proxy
 {
 	for(int i=0;i<k;i++)
 	{	
@@ -204,8 +197,7 @@ void AnchorVertex<k>::AssignLabel()//assign label to each vertex of every polygo
 
 }
 
-template<int k>
-std::vector<PxyVtx> AnchorVertex<k>::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum)
+std::vector<PxyVtx> AnchorVertex::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum)
 {
 	int commlabel[2],l=0;
 	std::vector<PxyVtx> EdgVtx; 
@@ -230,7 +222,7 @@ std::vector<PxyVtx> AnchorVertex<k>::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, i
 	}
 
 	auto cluster1 = Vtxlst[commlabel[0]];
-	auto cluster2 = Vtxlst(commlabel[1]);
+	auto cluster2 = Vtxlst[commlabel[1]];
 	
 	for(int i=0;i<cluster1.size();i++)
 	{
@@ -260,12 +252,12 @@ std::vector<PxyVtx> AnchorVertex<k>::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, i
 
 }
 
-template<int k>
-void AnchorVertex<k>::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum)
+
+void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum)
 {
 	AncVtxHandle newAnchors;
-	auto pxy1 = MyCl->GetProxy[EdgeVtx[0].label1];
-	auto pxy2 = MyCl->GetProxy[EdgeVtx[0].label2];
+    auto pxy1 = MyCl->GetProxy(EdgeVtx[0].label1);
+	auto pxy2 = MyCl->GetProxy(EdgeVtx[0].label2);
 	double N1 = L2Norm(pxy1.ProxyNormal), N2 = L2Norm(pxy2.ProxyNormal);
     double maxD = 0.0;
     AncVtx t;
@@ -297,8 +289,7 @@ void AnchorVertex<k>::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> Ed
 	
 }
 
-template<int k>
-void AnchorVertex<k>::ExtractEdges(int ClusterNum)
+void AnchorVertex::ExtractEdges(int ClusterNum)
 {
     
     AncVtxHandle todo;
@@ -345,8 +336,7 @@ void AnchorVertex<k>::ExtractEdges(int ClusterNum)
 	
 }
 
-template <int k>
-Shell AnchorVertex<k>::IndexLabelling(int pxyNum)
+Shell AnchorVertex::IndexLabelling()
 {
     Shell newShell;
     std::vector <Shell::VertexHandle> shellvtx;
@@ -374,9 +364,9 @@ Shell AnchorVertex<k>::IndexLabelling(int pxyNum)
     {
         auto vt = shl->GetPolygonVertex(plHd);
         int trilabels[3] = {
-                            VertexToLabel[vt[0]],
-                            VertexToLabel[vt[1]],
-                            VertexToLabel[vt[2]],
+                            *VertexToLabel[vt[0]],
+                            *VertexToLabel[vt[1]],
+                            *VertexToLabel[vt[2]],
         };
         if (trilabels[0] != trilabels[1] &&
             trilabels[1] != trilabels[2] &&

@@ -16,7 +16,7 @@ enum STLFILETYPE
     ASCII,
     BINARY
 };
-
+class Shell;
 class MIColor;
 
 static const MIColor MIRed();

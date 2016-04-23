@@ -35,17 +35,17 @@ public:
 
 typedef std::vector<AncVtx> AncVtxHandle; 
 
-template<int k>
 class AnchorVertex
 {
 protected:
+    int k;
     const Shell *shl;
-    const LloydCluster<k> *MyCl;
+    const LloydCluster *MyCl;
     AncVtxHandle AncPts;
     std::vector<AncVtxHandle> PrxyAnc;
     std::vector<std::vector<PxyVtx>> Vtxlst;
     double threshold;
-    class VertexTable : HashTable<Shell::VertexHandle,int>
+    class VertexTable : public HashTable<Shell::VertexHandle,int>
     {
     public:
         inline int GetLabelForVertex(Shell::VertexHandle vtHd)
@@ -53,11 +53,18 @@ protected:
             return *(*this)[vtHd];
         }
     };
-    VertexTable VertexToLabel;
 public:
-    AnchorVertex();
-    ~AnchorVertex();
-    void Initialize(const Shell &s, const LloydCluster<k> &MC);
+    VertexTable VertexToLabel;
+    inline AnchorVertex()
+    {
+        
+    }
+    inline AnchorVertex(int k)
+    {
+        this->k=k;
+    }
+//    ~AnchorVertex();
+    void Initialize(const Shell &s, const LloydCluster &MC);
     void MakeAnchorVertex();
     void BinAnchorVertex();
     AncVtx FindAverageAnchorVertex(AncVtx vtx);
@@ -67,7 +74,7 @@ public:
     std::vector<PxyVtx> GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum);
     void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum);
     void ExtractEdges(int ClusterNum);
-    Shell IndexLabelling(int pxyNum);
+    Shell IndexLabelling();
 
 };
 
