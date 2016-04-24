@@ -6,7 +6,7 @@ endif()
 
 set(TARGET_NAME mi_project)
 set(IS_LIBRARY_PROJECT 0)
-set(LIB_DEPENDENCY vector_nak anchor clustering hashtable shell)
+set(LIB_DEPENDENCY ysclass ysgl ysglcpp ysglcpp_gl2 geblkernel geblutil)
 set(INCLUDE_DEPENDENCY "")
 set(OWN_HEADER_PATH .)
 set(ADDITIONAL_HEADER_PATH)
@@ -180,6 +180,7 @@ set(SRCS
 ${platform_SRCS}
 Anchor.cpp
 clustering.cpp
+vertex_to_polygon.cpp
 main.cpp
 )
 
@@ -187,7 +188,9 @@ set(HEADERS
 ${platform_HEADERS}
 Anchor.h
 clustering.h
+vertex_to_polygon.h
 mihashtable.h
+lattice.h
 )
 
 

@@ -1,29 +1,31 @@
 #ifndef ANCHOR_H
 #define ANCHOR_H
 
-#include<stdio.h>
-#include<vector>
-#include<math.h>
-#include<shell.h>
-#include<mihashtable.h>
-#include<vector_nak.h>
-#include<clustering.h>
+#include <stdio.h>
+#include <vector>
+#include <math.h>
+#include <ysshellext.h>
+#include <ysclass.h>
 
-using namespace std;
+#include "mihashtable.h"
+#include "clustering.h"
+#include "vertex_to_polygon.h"
+
+//using namespace std;
 
 template<>
-inline long long int HashTable<Shell::VertexHandle,int>::HashCode(const Shell::VertexHandle &key) const
+inline long long int HashTable<YSHASHKEY,int>::HashCode(const YSHASHKEY &key) const
 {
-    return (long long int)key;
+    return key;
 }
 
 
 class AncVtx
 {
 public:
-    Vec3 Anchor;
+    YsVec3 Anchor;
     std::vector<int> label;
-    Shell::VertexHandle Ptr;
+    YsShell::VertexHandle Ptr;
     
 public:
     inline AncVtx &operator=(AncVtx &incoming)
@@ -44,7 +46,7 @@ public:
 struct PxyVtx
 {
 public:
-    Shell::VertexHandle Anchor;
+    YsShell::VertexHandle Anchor;
     int label1,label2;
 };
 
@@ -54,17 +56,17 @@ class AnchorVertex
 {
 protected:
     int k;
-    const Shell *shl;
+    const YsShellExt *shl;
     const LloydCluster *MyCl;
     AncVtxHandle AncPts;
     std::vector<AncVtxHandle> PrxyAnc;
     std::vector<std::vector<PxyVtx>> Vtxlst;
-    class VertexTable : public HashTable<Shell::VertexHandle,int>
+    class VertexTable : public HashTable<YSHASHKEY,int>
     {
     public:
-        inline int GetLabelForVertex(Shell::VertexHandle vtHd)
+        inline int GetLabelForVertex(YsShell::VertexHandle vtHd, const YsShellExt &shl)
         {
-            return *(*this)[vtHd];
+            return *(*this)[shl.GetSearchKey(vtHd)];
         }
     };
 public:
@@ -78,7 +80,7 @@ public:
         this->k=k;
     }
    ~AnchorVertex();
-    void Initialize(const Shell &s, const LloydCluster &MC);
+    void Initialize(const YsShellExt &s, const LloydCluster &MC);
     void MakeAnchorVertex();
     void BinAnchorVertex();
     void FindAverageAnchorVertex(AncVtx &vtx);
@@ -88,9 +90,12 @@ public:
     std::vector<PxyVtx> GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum);
     void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum);
     void ExtractEdges(int ClusterNum);
-    Shell IndexLabelling();
+    YsShellExt IndexLabelling();
 
 };
+
+
+
 
 
 #endif

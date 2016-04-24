@@ -1,6 +1,10 @@
+//#include <ysshellext_geomcalc.h>
+#include <ysshellext_localop.h>
+#include "lattice.h"
 #include "Anchor.h"
 
 using namespace std;
+
 
 
 AnchorVertex::~AnchorVertex()
@@ -10,51 +14,49 @@ shl = nullptr;
 MyCl = nullptr;
 }
 
-void AnchorVertex::Initialize(const Shell &s, const LloydCluster &MC)
+void AnchorVertex::Initialize(const YsShellExt &s, const LloydCluster &MC)
 {
 shl = &s; MyCl = &MC;
 }
 
 void AnchorVertex::MakeAnchorVertex()
 {
-int i = 0;
 for(auto vt : shl->AllVertex())
 {
-	auto Poly = shl->GetVertexPolygon(vt);
-	printf("%d\n",i);
-	i++;
-	if (Poly != nullptr)
-		printf("Size of poly = %d\n", Poly->size());
+    auto Poly = shl->FindPolygonFromVertex(vt);
 	int count = 0;
 	std::vector<int> temp;
-	for(auto py : *Poly)
+	for(auto &py : Poly)
 	{
-		int label = MyCl->GetPolygonLabel(py);
-		printf("Got the label\n");
-		if(count==0)
-		{
-			temp.push_back(label);
-			count++;
-			
-		}else
-		{
-			int flag = 0; //0: mean same label not present 1: means label already exists
-			for(auto &t : temp)
-			{
-				if(label==t)
-				{
-					flag = 1;
-					break;
-				}
-				
-			}
-			
-			if(flag==0)
-			{	
-				temp.push_back(label);
-				count++;
-			}
-		}
+		const int *label = MyCl->GetPolygonLabel(py);
+        if (label != nullptr)
+        {
+            printf("Got the label\n");
+            if(count == 0)
+            {
+                temp.push_back(*label);
+                count++;
+                
+            }else
+            {
+                int flag = 0; //0: mean same label not present 1: means label already exists
+                for(auto &t : temp)
+                {
+                    if(*label==t)
+                    {
+                        flag = 1;
+                        break;
+                    }
+                    
+                }
+                
+                if(flag==0)
+                {	
+                    temp.push_back(*label);
+                    count++;
+                }
+            }
+        }
 		
 	
 	}
@@ -80,12 +82,12 @@ for(auto vt : shl->AllVertex())
 
 void AnchorVertex::FindAverageAnchorVertex(AncVtx &vtx)
 {
-    Vec3 temp(0.,0.,0.);
+    YsVec3 temp(0.,0.,0.);
     AncVtx vtx1;
     for(int j=0;j<vtx.label.size();j++)
     {
         auto Proxy = MyCl->GetProxy(vtx.label[j]);
-        temp = temp + Vec3::GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
+        temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
         
     }
     temp = temp/(double)vtx.label.size();
@@ -183,7 +185,7 @@ void AnchorVertex::AssignLabel()//assign label to each vertex of every polygon i
 		std::vector<PxyVtx> bin;
 		for(auto &PlHd : cluster)
 		{
-			auto PlVtx = PlHd->GetVertex();
+            auto PlVtx = shl->GetPolygonVertex(PlHd);
 			for(auto &VtHd :PlVtx)
 			{
 				PxyVtx V;
@@ -261,13 +263,13 @@ void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeV
 	AncVtxHandle newAnchors;
     auto pxy1 = MyCl->GetProxy(EdgeVtx[0].label1);
 	auto pxy2 = MyCl->GetProxy(EdgeVtx[0].label2);
-	double N1 = L2Norm(pxy1.ProxyNormal), N2 = L2Norm(pxy2.ProxyNormal);
-    double threshold = 0.4*L2Norm(vtx1.Anchor-vtx2.Anchor);
+    double N1 = pxy1.ProxyNormal.GetLength(), N2 = pxy2.ProxyNormal.GetLength();
+    double threshold = ((vtx1.Anchor-vtx2.Anchor).GetLength())*0.4;
     double maxD = 0.0;
     AncVtx t;
 	for	(int i=0;i<EdgeVtx.size();i++)
 	{
-        double D = fabs(sin(N1/N2)*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i].Anchor))*L2Norm(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)));
+        double D = fabs(sin(N1/N2)*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i].Anchor))*(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)).GetLength());
         
 		if(D>maxD)
 		{
@@ -340,14 +342,14 @@ void AnchorVertex::ExtractEdges(int ClusterNum)
 	
 }
 
-Shell AnchorVertex::IndexLabelling()
+YsShellExt AnchorVertex::IndexLabelling()
 {
-    Shell newShell;
-    std::vector <Shell::VertexHandle> shellvtx;
+    YsShellExt newShell;
+    std::vector <YsShell::VertexHandle> shellvtx;
     for (int i = 0; i<AncPts.size(); i++)
     {
         shellvtx.push_back(AncPts[i].Ptr);
-        VertexToLabel.Update(AncPts[i].Ptr, i);
+        VertexToLabel.Update(shl->GetSearchKey(AncPts[i].Ptr), i);
     }
     for (auto vtHd : shl->AllVertex())
     {
@@ -355,43 +357,43 @@ Shell AnchorVertex::IndexLabelling()
         int minlabel;
         for (int i = 0; i<shellvtx.size(); i++)
         {
-            double D = L2Norm(shl->GetVertexPosition(vtHd)-shl->GetVertexPosition(shellvtx[i]));
+            double D = (shl->GetVertexPosition(vtHd)-shl->GetVertexPosition(shellvtx[i])).GetLength();
             if (D<Dmin)
             {
                 minlabel = i;
             }
         }
-        VertexToLabel.Update(vtHd,minlabel);
+        VertexToLabel.Update(shl->GetSearchKey(vtHd),minlabel);
     }
-    std::vector <Shell::PolygonHandle> keypolygon;
+    std::vector <YsShell::PolygonHandle> keypolygon;
     std::vector <float> vtx, nom;
     for (auto plHd : shl->AllPolygon())
     {
         auto vt = shl->GetPolygonVertex(plHd);
         int trilabels[3] = {
-                            *VertexToLabel[vt[0]],
-                            *VertexToLabel[vt[1]],
-                            *VertexToLabel[vt[2]],
+                            *VertexToLabel[shl->GetSearchKey(vt[0])],
+                            *VertexToLabel[shl->GetSearchKey(vt[1])],
+                            *VertexToLabel[shl->GetSearchKey(vt[2])],
         };
         if (trilabels[0] != trilabels[1] &&
             trilabels[1] != trilabels[2] &&
             trilabels[2] != trilabels[0] )
         {
-            Vec3 pt[3] = 	{
+            YsVec3 pt[3] = 	{
             				AncPts[trilabels[0]].Anchor,
 							AncPts[trilabels[0]].Anchor,
 							AncPts[trilabels[0]].Anchor
 						};
-			Vec3 BC(0.,0.,0.); 
+			YsVec3 BC(0.,0.,0.);
             for (auto &p : pt)
             {
             	BC = BC + p;
             }
             BC = BC / 3.0;
-            Vec3 n(0.,0.,0.);
+            YsVec3 n(0.,0.,0.);
             for (int i = 0; i<3; i++)
             {
-            	n = n + cross(pt[i]-BC,pt[(i+1)%3]-BC);
+            	n = n + (pt[i]-BC)^(pt[(i+1)%3]-BC);
             }
             
             vtx.push_back(AncPts[trilabels[0]].Anchor.xf());
@@ -414,7 +416,7 @@ Shell AnchorVertex::IndexLabelling()
             nom.push_back(n.yf());
             nom.push_back(n.zf());
             
-            newShell.MakeShellFromVtxNom(vtx,nom);
+            MakeShellFromVtxNom(newShell,vtx,nom);
             
         }
     }
