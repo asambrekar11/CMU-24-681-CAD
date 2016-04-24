@@ -90,7 +90,7 @@ public:
     std::vector<PxyVtx> GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum);
     void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum);
     void ExtractEdges(int ClusterNum);
-    YsShellExt IndexLabelling();
+    void IndexLabelling(YsShellExt &newShell);
 
 };
 

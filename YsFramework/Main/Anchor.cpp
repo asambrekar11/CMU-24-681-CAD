@@ -68,9 +68,9 @@ for(auto vt : shl->AllVertex())
         AV.Ptr = vt;
 		for(int i=0;i<temp.size();i++)
 		{
-			AV.label[i] = temp[i];
+            AV.label.push_back(temp[i]);
 		}
-        FindAverageAnchorVertex(AV);
+        //FindAverageAnchorVertex(AV);
 		AncPts.push_back(AV);
 		
 	}
@@ -130,50 +130,28 @@ AncVtxHandle AnchorVertex::GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd)//can
     
     for(int i=0;i<PxHd.size();i++)
     {
+        int count=0;
         for(int j=0;j<VtxHd.label.size();j++)
         {
-    
             for(int m=0;m<PxHd[i].label.size();m++)
             {
+                
                 if(VtxHd.label[j]==PxHd[i].label[m])
                 {
-                    Neighbour.push_back(PxHd[i]);
+                    count++;
+                    
                 }
             
-            
             }
+            
+        }
+        if(count==2)
+        {
+            Neighbour.push_back(PxHd[i]);
         }
     }
 	
-//	for(int i=0;i<2&&i<PxHd.size();i++)
-//	{	
-//		double minD = 10^6;//Need something better. Does inf work?
-//		AncVtx temp;
-//		
-//		for(int j=0;j<PxHd.size();j++)
-//		{
-//			double d = L2Norm(VtxHd.Anchor-PxHd[j].Anchor);
-//			if(d<minD && d!=0)
-//			{
-//				minD = d;
-//				temp.Anchor = PxHd[j].Anchor;
-//				temp.label.swap(PxHd[j].label);
-//				
-//			}
-//		}
-//		Neighbour.push_back(temp);
-//		
-//		for(int j=0;j<PxHd.size();j++)
-//		{
-//			if(PxHd[j].Anchor==temp.Anchor)
-//			{	
-//				PxHd.erase(PxHd.begin()+j);
-//				break;
-//			}
-//		}
-//
-//	}
-//	
+
 	return Neighbour;
 }
 
@@ -260,34 +238,45 @@ std::vector<PxyVtx> AnchorVertex::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int 
 
 void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum)
 {
+    
 	AncVtxHandle newAnchors;
     auto pxy1 = MyCl->GetProxy(EdgeVtx[0].label1);
 	auto pxy2 = MyCl->GetProxy(EdgeVtx[0].label2);
-    double N1 = pxy1.ProxyNormal.GetLength(), N2 = pxy2.ProxyNormal.GetLength();
-    double threshold = ((vtx1.Anchor-vtx2.Anchor).GetLength())*0.4;
-    double maxD = 0.0;
+    YsVec3 N1 = pxy1.ProxyNormal, N2 = pxy2.ProxyNormal;
+    N1.Normalize();
+    N2.Normalize();
+    double threshold = 0.8;
+    
     AncVtx t;
+    double maxD = 0.0;
+    int maxi;
 	for	(int i=0;i<EdgeVtx.size();i++)
 	{
-        double D = fabs(sin(N1/N2)*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i].Anchor))*(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)).GetLength());
+        double D = fabs(sin(acos(N1*N2))*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i].Anchor))/(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)).GetLength());
         
-		if(D>maxD)
+		if(D>=maxD)
 		{
-            maxD = D;
-			t.Anchor = shl->GetVertexPosition(EdgeVtx[i].Anchor);
-			t.label.push_back(EdgeVtx[i].label1);
-			t.label.push_back(EdgeVtx[i].label2);
-            t.Ptr = EdgeVtx[i].Anchor;
             
-            FindAverageAnchorVertex(t);
+            maxD = D;
+            maxi = i;
+            
+            //FindAverageAnchorVertex(t);
         }
 	}
     
+
+    
     if(maxD>threshold&&maxD!=0)
     {
+        t.Anchor = shl->GetVertexPosition(EdgeVtx[maxi].Anchor);
+        t.label.push_back(EdgeVtx[maxi].label1);
+        t.label.push_back(EdgeVtx[maxi].label2);
+        t.Ptr = EdgeVtx[maxi].Anchor;
+        
         AncPts.push_back(t);
         PrxyAnc[t.label[0]].push_back(t);
         PrxyAnc[t.label[1]].push_back(t);
+        printf("Adding New Anchor\n");
         AddAncVtx(vtx1, t, GetEdgeVertices(vtx1, t, ClusterNum), ClusterNum);
         AddAncVtx(t, vtx2, GetEdgeVertices(t, vtx2, ClusterNum), ClusterNum);
 
@@ -342,9 +331,8 @@ void AnchorVertex::ExtractEdges(int ClusterNum)
 	
 }
 
-YsShellExt AnchorVertex::IndexLabelling()
+void AnchorVertex::IndexLabelling(YsShellExt &newShell)
 {
-    YsShellExt newShell;
     std::vector <YsShell::VertexHandle> shellvtx;
     for (int i = 0; i<AncPts.size(); i++)
     {
@@ -361,8 +349,10 @@ YsShellExt AnchorVertex::IndexLabelling()
             if (D<Dmin)
             {
                 minlabel = i;
+                Dmin = D;
             }
         }
+        printf("minlabel = %d\n",minlabel);
         VertexToLabel.Update(shl->GetSearchKey(vtHd),minlabel);
     }
     std::vector <YsShell::PolygonHandle> keypolygon;
@@ -375,6 +365,7 @@ YsShellExt AnchorVertex::IndexLabelling()
                             *VertexToLabel[shl->GetSearchKey(vt[1])],
                             *VertexToLabel[shl->GetSearchKey(vt[2])],
         };
+//        printf("Labels %d %d %d\n",trilabels[0], trilabels[1], trilabels[2]);
         if (trilabels[0] != trilabels[1] &&
             trilabels[1] != trilabels[2] &&
             trilabels[2] != trilabels[0] )
@@ -416,9 +407,9 @@ YsShellExt AnchorVertex::IndexLabelling()
             nom.push_back(n.yf());
             nom.push_back(n.zf());
             
-            MakeShellFromVtxNom(newShell,vtx,nom);
             
         }
     }
-    return newShell;
+    printf("vtx size = %d; nom size = %d\n",vtx.size(),nom.size());
+    MakeShellFromVtxNom(newShell,vtx,nom);
 }

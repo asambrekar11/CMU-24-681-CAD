@@ -322,7 +322,10 @@ void WriteBinarySTL(const char fn[], const YsShellExt &shl)
         }
         fclose(fp);
     }
-    printf("Could Not Open File\n");
+    else
+    {
+        printf("Could Not Open File\n");
+    }
 }
 
 void WriteAsciiSTL(const char fn[], const YsShellExt &shl)
@@ -347,7 +350,10 @@ void WriteAsciiSTL(const char fn[], const YsShellExt &shl)
         fprintf(fp,"endsolid test\n");
         fclose(fp);
     }
-    printf("Could Not Open File\n");
+    else
+    {
+        printf("Could Not Open File\n");
+    }
 }
 
 bool ReadFromSTL(const char fn[], YsShellExt &shl)
@@ -385,7 +391,7 @@ int main()
 	srand((int)time(NULL));
 //    if (argc==3)
 //    {
-		int k = 6;
+		int k = 20;
 		YsShellExt shl;
 		ReadFromSTL("sphere.stl",shl);
 		shl.EnableSearch();
@@ -400,20 +406,23 @@ int main()
 		anchor.MakeAnchorVertex();
 		printf("Made Anchor Vertex\n");
 		anchor.BinAnchorVertex();
-		printf("Created bon for Anchor Vertex\n");
-		anchor.AssignLabel();
+		printf("Created bin for Anchor Vertex\n");
+		//anchor.AssignLabel();
 		printf("Assigned labels\n");
 	
-		for(int i=0;i<k;i++)
-		{
-			anchor.ExtractEdges(i);
-		}
+//		for(int i=0;i<k;i++)
+//		{
+//            printf("Extracted Edges: %d\n",i);
+//            anchor.ExtractEdges(i);
+//            
+//		}
 	
-        printf("Extracted edges\n");
+//        printf("Extracted edges\n");
+    
         
-        
-       	YsShellExt newShell = anchor.IndexLabelling();
-	   	WriteToSTL(newShell,"modified.stl", BINARY);
+    YsShellExt newShell;
+    anchor.IndexLabelling(newShell);
+	   	WriteToSTL(newShell,"modified.stl", ASCII);
 //    }
 
     return 0;

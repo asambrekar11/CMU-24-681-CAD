@@ -180,8 +180,8 @@ public:
 inline extern double DistancePtToLine(YsVec3 x1, YsVec3 x2, YsVec3 x0)
 
 {
-    double t = -1.0*((x1-x0)*(x2-x1))/pow((x2-x1).GetLength(),2.0);
-    auto temp = ((x1-x0)+(x2-x0))*t;
+    double t = ((x0-x1)*(x2-x1))/pow((x2-x1).GetLength(),2.0);
+    auto temp = (x1+(x2-x1)*t);
     return temp.GetLength();
 }
 
