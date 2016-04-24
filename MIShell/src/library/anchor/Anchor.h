@@ -89,6 +89,7 @@ public:
     void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum);
     void ExtractEdges(int ClusterNum);
     Shell IndexLabelling();
+    bool IsIncluded(AncVtx Vtx);
 
 };
 

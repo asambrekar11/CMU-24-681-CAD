@@ -182,7 +182,7 @@ inline extern double DistancePtToLine(YsVec3 x1, YsVec3 x2, YsVec3 x0)
 {
     double t = ((x0-x1)*(x2-x1))/pow((x2-x1).GetLength(),2.0);
     auto temp = (x1+(x2-x1)*t);
-    return temp.GetLength();
+    return (temp-x0).GetLength();
 }
 
 inline extern YsVec3 GetProjection(YsVec3 Normal, YsVec3 PtPlane, YsVec3 Pt)

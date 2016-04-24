@@ -407,18 +407,18 @@ int main()
 		printf("Made Anchor Vertex\n");
 		anchor.BinAnchorVertex();
 		printf("Created bin for Anchor Vertex\n");
-		//anchor.AssignLabel();
+		anchor.AssignLabel();
 		printf("Assigned labels\n");
 	
-//		for(int i=0;i<k;i++)
-//		{
-//            printf("Extracted Edges: %d\n",i);
-//            anchor.ExtractEdges(i);
-//            
-//		}
+		for(int i=0;i<k;i++)
+		{
+            printf("Extracted Edges: %d\n",i);
+            anchor.ExtractEdges(i);
+            
+		}
 	
-//        printf("Extracted edges\n");
-    
+        printf("Extracted edges\n");
+    anchor.FindAverageAnchorVertex();
         
     YsShellExt newShell;
     anchor.IndexLabelling(newShell);

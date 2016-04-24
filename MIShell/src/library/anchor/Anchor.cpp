@@ -283,12 +283,16 @@ void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeV
     
     if(maxD>threshold&&maxD!=0)
     {
-        AncPts.push_back(t);
-        PrxyAnc[t.label[0]].push_back(t);
-        PrxyAnc[t.label[1]].push_back(t);
-        AddAncVtx(vtx1, t, GetEdgeVertices(vtx1, t, ClusterNum), ClusterNum);
-        AddAncVtx(t, vtx2, GetEdgeVertices(t, vtx2, ClusterNum), ClusterNum);
+        if(!IsIncluded(t))
+        {
+            AncPts.push_back(t);
+            PrxyAnc[t.label[0]].push_back(t);
+            PrxyAnc[t.label[1]].push_back(t);
+            AddAncVtx(vtx1, t, GetEdgeVertices(vtx1, t, ClusterNum), ClusterNum);
+            AddAncVtx(t, vtx2, GetEdgeVertices(t, vtx2, ClusterNum), ClusterNum);
 
+        }
+        
     }
 	
 }
@@ -338,6 +342,21 @@ void AnchorVertex::ExtractEdges(int ClusterNum)
 		
 	}
 	
+}
+
+
+bool AnchorVertex::IsIncluded(AncVtx Vtx)
+{
+    for(int i=0;i<AncPts.size();i++)
+    {
+        if(Vtx.Anchor==AncPts[i].Anchor)
+        {
+            return true;
+            
+        }
+    }
+    
+    return false;
 }
 
 Shell AnchorVertex::IndexLabelling()

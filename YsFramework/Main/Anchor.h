@@ -83,14 +83,17 @@ public:
     void Initialize(const YsShellExt &s, const LloydCluster &MC);
     void MakeAnchorVertex();
     void BinAnchorVertex();
-    void FindAverageAnchorVertex(AncVtx &vtx);
+    void FindAverageAnchorVertex();
     void AssignLabel();
     AncVtxHandle GetAnchorVtx(int ProxyNum);
     AncVtxHandle GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd);
-    std::vector<PxyVtx> GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum);
-    void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum);
+    int GetCommonLabel(AncVtx vtx1, AncVtx vtx2, int CLusterNum);
+//    std::vector<PxyVtx> GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum);
+    void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<YsShell::VertexHandle> EdgeVtx, int ClusterNum, int nextlabel);
     void ExtractEdges(int ClusterNum);
     void IndexLabelling(YsShellExt &newShell);
+    bool IsIncluded(AncVtx Vtx);
+    std::vector<YsShell::VertexHandle> GetEdges(AncVtx vtx1, AncVtx vtx2, int ClusterNum, int NextLabel);
 
 };
 

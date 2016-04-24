@@ -80,19 +80,24 @@ for(auto vt : shl->AllVertex())
 }
 
 
-void AnchorVertex::FindAverageAnchorVertex(AncVtx &vtx)
+void AnchorVertex::FindAverageAnchorVertex()
 {
-    YsVec3 temp(0.,0.,0.);
+    
     AncVtx vtx1;
-    for(int j=0;j<vtx.label.size();j++)
+    for(int i=0;i<AncPts.size();i++)
     {
-        auto Proxy = MyCl->GetProxy(vtx.label[j]);
-        temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, vtx.Anchor);
-        
+        YsVec3 temp(0.,0.,0.);
+        for(int j=0;j<AncPts[i].label.size();j++)
+        {
+            auto Proxy = MyCl->GetProxy(AncPts[i].label[j]);
+            temp = temp + GetProjection(Proxy.ProxyPosition, Proxy.ProxyNormal, AncPts[i].Anchor);
+            
+        }
+        temp = temp/(double)AncPts[i].label.size();
+        AncPts[i].Anchor = temp;
     }
-    temp = temp/(double)vtx.label.size();
-    vtx.Anchor = temp;
-}
+    }
+    
 
 
 void AnchorVertex::BinAnchorVertex()//Bins all the anchors into their respective proxies
@@ -180,106 +185,174 @@ void AnchorVertex::AssignLabel()//assign label to each vertex of every polygon i
 
 }
 
-std::vector<PxyVtx> AnchorVertex::GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum)
+int AnchorVertex::GetCommonLabel(AncVtx vtx1, AncVtx vtx2, int ClusterNum)
 {
-	int commlabel[2],l=0;
-	std::vector<PxyVtx> EdgVtx; 
-	for(int i=0;i<vtx1.label.size();i++)
-	{
-		for(int j=0;j<vtx2.label.size();j++)
-		{
-			if(vtx1.label[i]==vtx2.label[j])
-			{	
-				
+    int commlabel[2],l=0;
+    
+    for(int i=0;i<vtx1.label.size();i++)
+    {
+        for(int j=0;j<vtx2.label.size();j++)
+        {
+            if(vtx1.label[i]==vtx2.label[j])
+            {
+                
                 commlabel[l]=vtx1.label[i];
-				l=l+1;
-			}
+                l=l+1;
+            }
             
-		}
+        }
         
         if(l>1)
         {
             break;
         }
-		
-	}
+        
+    }
+    
+    if(commlabel[0]==ClusterNum)
+    {
+        return commlabel[1];
+    }
+    return commlabel[0];
+}
 
-	auto cluster1 = Vtxlst[commlabel[0]];
-	auto cluster2 = Vtxlst[commlabel[1]];
-	
-	for(int i=0;i<cluster1.size();i++)
-	{
-		auto temp = cluster1[i];
-		for(int j=0;j<cluster2.size();j++)
-		{
-			if(temp.Anchor==cluster2[j].Anchor)//check here
-			{	
-				if(temp.label1==commlabel[0])
+std::vector<YsShell::VertexHandle> AnchorVertex::GetEdges(AncVtx vtx1, AncVtx vtx2, int ClusterNum, int Nextlabel)
+{
+//    Nextlabel = GetCommonLabel(vtx1, vtx2, ClusterNum);
+    
+    auto cluster1 = Vtxlst[ClusterNum];
+    auto cluster2 = Vtxlst[Nextlabel];
+    
+    auto Poly = shl->FindPolygonFromVertex(vtx1.Ptr);
+    YsShellPolygonStore visited(shl->Conv());
+    YsShellVertexStore visitedvtx(shl->Conv());
+    std::vector<YsShell::VertexHandle> EdgeVtx;
+    std::vector<YsShell::PolygonHandle> todoPoly;
+    
+    for(int i=0;i<Poly.GetN();i++)
+    {
+        const int *label = MyCl->GetPolygonLabel(Poly[i]);
+        
+        if(*label==ClusterNum)
+        {
+            todoPoly.push_back(Poly[i]);
+            visited.Add(Poly[i]);
+            visitedvtx.Add(vtx1.Ptr);
+        }
+        
+    }
+    
+    EdgeVtx.push_back(vtx1.Ptr);
+    
+    for(long long int i=0;i<todoPoly.size();i++)
+    {
+        YsShell::PolygonHandle newplHd = todoPoly[i];
+        auto nEdge = shl->GetPolygonNumVertex(newplHd);
+        auto polyvtx = shl->GetPolygonVertex(newplHd);
+        
+        for(int j=0;j<nEdge;j++)
+        {
+            auto nei = shl->GetNeighborPolygon(newplHd, j);
+            
+            if(nullptr!=nei&&YSTRUE!=visited.IsIncluded(nei))
+            {
+                const int *neilabel = MyCl->GetPolygonLabel(nei);
+                visited.Add(nei);
+                if(*neilabel==Nextlabel)
                 {
-                    temp.label2 = commlabel[1];
-                    EdgVtx.push_back(temp);
-                }else
-                {
-                    temp.label2 = commlabel[0];
-                    EdgVtx.push_back(temp);
+                    auto exvtx = polyvtx.GetCyclic(j+1);
+                    if (YSTRUE == visitedvtx.IsIncluded(polyvtx[j]))
+                    {
+                        EdgeVtx.push_back(exvtx);
+                        visitedvtx.Add(exvtx);
+                        
+                    }
+                    else
+                    {
+                        EdgeVtx.push_back(polyvtx[j]);
+                        visitedvtx.Add(polyvtx[j]);
+                    }
+                    if(vtx2.Ptr==exvtx || vtx2.Ptr == polyvtx[j])
+                    {
+                        return EdgeVtx;
+                    }
                     
                 }
-                
-               
-			}
-			
-		}
-	}
+                else if(ClusterNum==*neilabel)
+                {
+                    todoPoly.push_back(nei);
+                }
+            
+            }
+        }
+     
+    }
     
-    return EdgVtx;
-
+    return EdgeVtx;
+    
 }
 
 
-void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<PxyVtx> EdgeVtx, int ClusterNum)
+
+
+void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<YsShell::VertexHandle> EdgeVtx, int ClusterNum, int nextlabel)
 {
     
 	AncVtxHandle newAnchors;
-    auto pxy1 = MyCl->GetProxy(EdgeVtx[0].label1);
-	auto pxy2 = MyCl->GetProxy(EdgeVtx[0].label2);
+    auto pxy1 = MyCl->GetProxy(ClusterNum);
+	auto pxy2 = MyCl->GetProxy(nextlabel);
     YsVec3 N1 = pxy1.ProxyNormal, N2 = pxy2.ProxyNormal;
     N1.Normalize();
     N2.Normalize();
-    double threshold = 0.8;
+    double threshold = 0.15;
     
     AncVtx t;
     double maxD = 0.0;
-    int maxi;
+    std::vector<int> maxi;
 	for	(int i=0;i<EdgeVtx.size();i++)
 	{
-        double D = fabs(sin(acos(N1*N2))*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i].Anchor))/(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)).GetLength());
+        double D = fabs(sin(acos(N1*N2))*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i]))/(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)).GetLength());
         
 		if(D>=maxD)
 		{
             
             maxD = D;
-            maxi = i;
+            maxi.push_back(i);
             
             //FindAverageAnchorVertex(t);
         }
 	}
-    
+    int imax = 0;
+    if (maxi.size()>1)
+    {
+        for (auto i : maxi)
+        {
+            imax += i;
+        }
+        imax /= maxi.size();
+    }
+    else
+        imax = maxi[0];
 
     
     if(maxD>threshold&&maxD!=0)
     {
-        t.Anchor = shl->GetVertexPosition(EdgeVtx[maxi].Anchor);
-        t.label.push_back(EdgeVtx[maxi].label1);
-        t.label.push_back(EdgeVtx[maxi].label2);
-        t.Ptr = EdgeVtx[maxi].Anchor;
+        t.Anchor = shl->GetVertexPosition(EdgeVtx[imax]);
+        t.label.push_back(ClusterNum);
+        t.label.push_back(nextlabel);
+        t.Ptr = EdgeVtx[imax];
         
-        AncPts.push_back(t);
-        PrxyAnc[t.label[0]].push_back(t);
-        PrxyAnc[t.label[1]].push_back(t);
-        printf("Adding New Anchor\n");
-        AddAncVtx(vtx1, t, GetEdgeVertices(vtx1, t, ClusterNum), ClusterNum);
-        AddAncVtx(t, vtx2, GetEdgeVertices(t, vtx2, ClusterNum), ClusterNum);
+        if(true != IsIncluded(t))
+        {
+            AncPts.push_back(t);
+            PrxyAnc[t.label[0]].push_back(t);
+            PrxyAnc[t.label[1]].push_back(t);
+            printf("Adding New Anchor\n");
+            AddAncVtx(vtx1, t, GetEdges(vtx1, t, ClusterNum, nextlabel), ClusterNum, nextlabel);
+            AddAncVtx(t, vtx2, GetEdges(t, vtx2, ClusterNum, nextlabel), ClusterNum, nextlabel);
 
+        }
+        
     }
 	
 }
@@ -302,23 +375,26 @@ void AnchorVertex::ExtractEdges(int ClusterNum)
             if(nextHd.size()==2)
             {
                 auto next = nextHd.back();
-               
+                int nextlabel = GetCommonLabel(t,next,ClusterNum);
                 nextHd.pop_back();
-                auto EgdeVtx1 = GetEdgeVertices(t, next, ClusterNum);
-                AddAncVtx(t,next,EgdeVtx1,ClusterNum);
+                auto EgdeVtx1 = GetEdges(t, next, ClusterNum,nextlabel);
+                AddAncVtx(t,next,EgdeVtx1,ClusterNum,nextlabel);
                 
                 auto prev = nextHd.back();
-                auto EgdeVtx2 = GetEdgeVertices(t, prev, ClusterNum);
-                AddAncVtx(t,prev,EgdeVtx2,ClusterNum);
+                int prevlabel = GetCommonLabel(t,prev,ClusterNum);
+                //Check if needed
+                nextHd.pop_back();
+                auto EgdeVtx2 = GetEdges(t, prev, ClusterNum,prevlabel);
+                AddAncVtx(t,prev,EgdeVtx2,ClusterNum,prevlabel);
                 
                 
             }else if(nextHd.size()==1)
             {
                 auto next = nextHd.back();
-                
+                int nextlabel = GetCommonLabel(t,next,ClusterNum);
                 nextHd.pop_back();
-                auto EgdeVtx1 = GetEdgeVertices(t, next, ClusterNum);
-                AddAncVtx(t,next,EgdeVtx1,ClusterNum);
+                auto EgdeVtx1 = GetEdges(t, next, ClusterNum,nextlabel);
+                AddAncVtx(t,next,EgdeVtx1,ClusterNum,nextlabel);
                 
             }
             
@@ -329,6 +405,19 @@ void AnchorVertex::ExtractEdges(int ClusterNum)
 		
 	}
 	
+}
+
+bool AnchorVertex::IsIncluded(AncVtx Vtx)
+{
+    for(int i=0;i<AncPts.size();i++)
+    {
+        if(AncPts[i].Ptr==Vtx.Ptr)
+        {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 void AnchorVertex::IndexLabelling(YsShellExt &newShell)
