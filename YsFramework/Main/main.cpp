@@ -393,7 +393,7 @@ int main()
 //    {
 		int k = 20;
 		YsShellExt shl;
-		ReadFromSTL("sphere.stl",shl);
+		ReadFromSTL("mohawk.stl",shl);
 		shl.EnableSearch();
 		printf("Read STL File\nVertices : %d, Triangles : %d\n",shl.GetNumVertex(),shl.GetNumPolygon());
 		printf("Starting clustering\n");
@@ -419,7 +419,7 @@ int main()
 	
         printf("Extracted edges\n");
     anchor.FindAverageAnchorVertex();
-        
+    
     YsShellExt newShell;
     anchor.IndexLabelling(newShell);
 	   	WriteToSTL(newShell,"modified.stl", ASCII);

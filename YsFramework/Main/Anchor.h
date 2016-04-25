@@ -14,7 +14,7 @@
 //using namespace std;
 
 template<>
-inline long long int HashTable<YSHASHKEY,int>::HashCode(const YSHASHKEY &key) const
+inline long long int HashTable<YSHASHKEY,long long int>::HashCode(const YSHASHKEY &key) const
 {
     return key;
 }
@@ -61,7 +61,7 @@ protected:
     AncVtxHandle AncPts;
     std::vector<AncVtxHandle> PrxyAnc;
     std::vector<std::vector<PxyVtx>> Vtxlst;
-    class VertexTable : public HashTable<YSHASHKEY,int>
+    class VertexTable : public HashTable<YSHASHKEY,long long int>
     {
     public:
         inline int GetLabelForVertex(YsShell::VertexHandle vtHd, const YsShellExt &shl)

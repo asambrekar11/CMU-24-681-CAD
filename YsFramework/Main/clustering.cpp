@@ -55,6 +55,7 @@ void LloydCluster::AssignCenter(const YsShellExt &shl)
 		}
 // 		printf("Constructed priority queue\n");
 		auto best_node = list.top();
+        printf("Best Error = %lf for label %d\n",best_node.GetError(),best_node.GetLabel());
 // 		printf("Found the best\n");
         auto curr_proxytable = stud[pxy[best_node.GetLabel()]];
 		if (nullptr != curr_proxytable)
@@ -122,36 +123,42 @@ bool LloydCluster::GetProxy(const YsShellExt &shl)
 void LloydCluster::MakeCluster(const YsShellExt &shl)
 {
 	
-    std::vector<YsShell::PolygonHandle> cntr;
-    cntr.resize(k);
-    
-	YsShellPolygonStore visited(shl.Conv());
-	
-	for (int i = 0; i<k; i++)
-	{
-		do
-		{
-            auto plynum = shl.GetNumPolygon();
-            int idx = rand()%plynum;
-             			printf("Initializing triangles\n");
-            cntr[i] = shl.GetPolygonHandleFromId(idx);
-			if (visited.IsIncluded(cntr[i]) != true)
-			{
-				visited.Add(cntr[i]);
-				break;
-			}
-		}
-		while (1);
-        pxy[i].ProxyPosition=shl.GetCenter(cntr[i]);
-        pxy[i].ProxyNormal=shl.GetNormal(cntr[i]);
-        pxy[i].label = i;
-	}
-    
-	
-	do
-	{
-		AssignCenter(shl);
-		printf("Assigned centers\n");
-	}
-	while (true == GetProxy(shl));
+    do
+    {
+        std::vector<YsShell::PolygonHandle> cntr;
+        cntr.clear();
+        cntr.resize(k);
+        
+        YsShellPolygonStore visited(shl.Conv());
+        
+        for (int i = 0; i<k; i++)
+        {
+            do
+            {
+                auto plynum = shl.GetNumPolygon();
+                long long int idx = rand()%plynum;
+                            printf("Initializing triangles\n");
+                cntr[i] = shl.GetPolygonHandleFromId(idx);
+                pxy[i].ProxyPosition=shl.GetCenter(cntr[i]);
+                pxy[i].ProxyNormal=shl.GetNormal(cntr[i]);
+                pxy[i].label = i;
+                if (visited.IsIncluded(cntr[i]) != true)
+                {
+                    visited.Add(cntr[i]);
+                    break;
+                }
+            }
+            while (1);
+            
+        }
+        
+        
+        do
+        {
+            AssignCenter(shl);
+            printf("Assigned centers\n");
+        }
+        while (true == GetProxy(shl));
+   }
+   while(true != AllCLustersAssigned());
 }

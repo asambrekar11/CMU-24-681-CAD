@@ -65,9 +65,14 @@ public:
     }
     inline ClusterNode(const YsShellExt &shl, YsShell::PolygonHandle plHd, Proxy pxy, const int label)
     {
-        SetPolygon(plHd);
-        SetProxy(shl,pxy);
-        SetLabel(label);
+        this->plHd = plHd;
+        this->label = label;
+        this->error = L2ErrorMetric(shl, plHd, pxy);
+        
+//        SetPolygon(plHd);
+//        SetProxy(shl,pxy);
+//        SetLabel(label);
+//        printf("Error = %lf\n",error);
     }
     inline ~ClusterNode()
     {
@@ -92,6 +97,10 @@ public:
     inline YsShell::PolygonHandle GetPolygonHandle() const
     {
         return plHd;
+    }
+    inline double GetError() const
+    {
+        return error;
     }
 };
 
@@ -175,6 +184,17 @@ public:
         return boss.GetLabelForPolygon(plHd);
     }
     void MakeCluster(const YsShellExt &shl);
+    inline bool AllCLustersAssigned() const
+    {
+        for (int i = 0; i<k; i++)
+        {
+            if (nullptr==stud[pxy[i]])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 };
 
 inline extern double DistancePtToLine(YsVec3 x1, YsVec3 x2, YsVec3 x0)
@@ -189,7 +209,7 @@ inline extern YsVec3 GetProjection(YsVec3 Normal, YsVec3 PtPlane, YsVec3 Pt)
 {
     Normal.Normalize();
     double d = Normal*(PtPlane-Pt);
-    return Pt - Normal*d;
+    return Pt + Normal*d;
 }
 
 inline void GetBoundingBox(YsVec3 &min, YsVec3 &max, std::vector<float> vtx)
