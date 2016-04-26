@@ -12,6 +12,24 @@ enum STLFILETYPE
     ASCII
 };
 
+char *fgets_nak(char str[], int maxn, FILE *fp)
+{
+    if(nullptr != fgets(str,maxn,fp))
+    {
+        //Remove control code
+        int i;
+        for (i=0; str[i]!=0; i++)
+        {
+        }
+        for (i--; 0<=i && 0==isprint(str[i]); i--)
+        {
+            str[i] = 0;
+        }
+        return str;
+    }
+    return nullptr;
+}
+
 bool IsCPULittleEndian()
 {
     unsigned int one=1;
@@ -391,39 +409,55 @@ int main()
 	srand((int)time(NULL));
 //    if (argc==3)
 //    {
-		int k = 20;
-		YsShellExt shl;
-		ReadFromSTL("mohawk.stl",shl);
-		shl.EnableSearch();
-		printf("Read STL File\nVertices : %d, Triangles : %d\n",shl.GetNumVertex(),shl.GetNumPolygon());
-		printf("Starting clustering\n");
-		LloydCluster cluster(shl,k);
-		cluster.MakeCluster(shl);
-		printf("Finished clustering\n");
-		AnchorVertex anchor(k);
-		anchor.Initialize(shl, cluster);
-		printf("Initialized Anchor\n");
-		anchor.MakeAnchorVertex();
-		printf("Made Anchor Vertex\n");
-		anchor.BinAnchorVertex();
-		printf("Created bin for Anchor Vertex\n");
-		anchor.AssignLabel();
-		printf("Assigned labels\n");
-	
-		for(int i=0;i<k;i++)
-		{
+    YsShellExt shl;
+    char fn[256],str[256];
+    printf("Enter file you want to open : ");
+    fgets_nak(fn, 255, stdin);
+    bool state = ReadFromSTL(fn,shl);
+    if (state == true)
+    {
+        printf("Enter number of clusters : ");
+        fgets_nak(str,255,stdin);
+        int k = atoi(str);
+        shl.EnableSearch();
+        printf("Read STL File\nVertices : %d, Triangles : %d\n",shl.GetNumVertex(),shl.GetNumPolygon());
+        printf("Starting clustering\n");
+        LloydCluster cluster(shl,k);
+        cluster.MakeCluster(shl);
+        printf("Finished clustering\n");
+        AnchorVertex anchor(k);
+        anchor.Initialize(shl, cluster);
+        printf("Initialized Anchor\n");
+        anchor.MakeAnchorVertex();
+        printf("Made Anchor Vertex\n");
+        anchor.BinAnchorVertex();
+        printf("Created bin for Anchor Vertex\n");
+        anchor.AssignLabel();
+        printf("Assigned labels\n");
+
+        for(int i=0;i<k;i++)
+        {
             printf("Extracted Edges: %d\n",i);
             anchor.ExtractEdges(i);
             
-		}
-	
+        }
+
         printf("Extracted edges\n");
-    anchor.FindAverageAnchorVertex();
-    
-    YsShellExt newShell;
-    anchor.IndexLabelling(newShell);
-	   	WriteToSTL(newShell,"modified.stl", ASCII);
-//    }
+        anchor.FindAverageAnchorVertex();
+        
+        YsShellExt newShell;
+        anchor.IndexLabelling(newShell);
+        char fout[256];
+        strcpy(fout,fn);
+        int l = (int)strlen(fout);
+        fout[l-4] = 0;
+        WriteToSTL(newShell,strcat(fout,"_modified.stl"), ASCII);
+    }
+    else
+    {
+        printf("Could not open file.\nCheck file name\n");
+        printf("Please keep the stl files in the same directory as the executable\n");
+    }
 
     return 0;
 }

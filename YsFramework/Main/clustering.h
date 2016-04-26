@@ -67,7 +67,7 @@ public:
     {
         this->plHd = plHd;
         this->label = label;
-        this->error = L2ErrorMetric(shl, plHd, pxy);
+        this->error = L21ErrorMetric(shl, plHd, pxy);
         
 //        SetPolygon(plHd);
 //        SetProxy(shl,pxy);
