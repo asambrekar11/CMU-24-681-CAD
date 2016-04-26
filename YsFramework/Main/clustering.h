@@ -154,7 +154,7 @@ protected:
         }
     };
     PolygonTable boss;
-    void AssignCenter(const YsShellExt &shl);
+    void AssignCenter(const YsShellExt &shl, YsShell::PolygonHandle cntr[]);
     bool GetProxy(const YsShellExt &shl);
 
 public:
@@ -208,6 +208,8 @@ inline extern double DistancePtToLine(YsVec3 x1, YsVec3 x2, YsVec3 x0)
 inline extern YsVec3 GetProjection(YsVec3 Normal, YsVec3 PtPlane, YsVec3 Pt)
 {
     Normal.Normalize();
+//    auto vec = PtPlane-Pt;
+//    double d = Normal.x()*vec.x()+Normal.y()*vec.y()+Normal.z()*vec.z();
     double d = Normal*(PtPlane-Pt);
     return Pt + Normal*d;
 

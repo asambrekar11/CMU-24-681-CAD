@@ -82,24 +82,24 @@ for(auto vt : shl->AllVertex())
 void AnchorVertex::FindAverageAnchorVertex()
 {
     
-    AncVtx vtx1;
     for(int i=0;i<AncPts.size();i++)
     {
         YsVec3 temp(0.,0.,0.);
-        for(long int j=0;j<AncPts[i].label.size();j++)
+        auto vtPos = shl->GetVertexPosition(AncPts[i].Ptr);
+        for(int j=0;j<AncPts[i].label.size();j++)
         {
             auto Proxy = MyCl->GetProxy(AncPts[i].label[j]);
 
-            temp = temp + GetProjection(Proxy.ProxyNormal, Proxy.ProxyPosition, AncPts[i].Anchor);
+            temp = temp + GetProjection(Proxy.ProxyNormal, Proxy.ProxyPosition, vtPos);
 
-            temp = temp + GetProjection(Proxy.ProxyNormal,Proxy.ProxyPosition,AncPts[i].Anchor);
+//            temp = temp + GetProjection(Proxy.ProxyNormal,Proxy.ProxyPosition,AncPts[i].Anchor);
 
             
         }
         temp = temp/(double)AncPts[i].label.size();
         AncPts[i].Anchor = temp;
     }
-    }
+}
     
 
 
