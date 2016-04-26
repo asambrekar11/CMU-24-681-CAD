@@ -55,7 +55,7 @@ void LloydCluster::AssignCenter(const YsShellExt &shl)
 		}
 // 		printf("Constructed priority queue\n");
 		auto best_node = list.top();
-        printf("Best Error = %lf for label %d\n",best_node.GetError(),best_node.GetLabel());
+        //printf("Best Error = %lf for label %d\n",best_node.GetError(),best_node.GetLabel());
 // 		printf("Found the best\n");
         auto curr_proxytable = stud[pxy[best_node.GetLabel()]];
 		if (nullptr != curr_proxytable)

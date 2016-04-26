@@ -66,7 +66,7 @@ for(auto vt : shl->AllVertex())
 		AncVtx AV;
 		AV.Anchor = shl->GetVertexPosition(vt);
         AV.Ptr = vt;
-		for(int i=0;i<temp.size();i++)
+		for(auto i=0;i<temp.size();i++)
 		{
             AV.label.push_back(temp[i]);
 		}
@@ -79,7 +79,6 @@ for(auto vt : shl->AllVertex())
 
 }
 
-
 void AnchorVertex::FindAverageAnchorVertex()
 {
     
@@ -87,10 +86,14 @@ void AnchorVertex::FindAverageAnchorVertex()
     for(int i=0;i<AncPts.size();i++)
     {
         YsVec3 temp(0.,0.,0.);
-        for(int j=0;j<AncPts[i].label.size();j++)
+        for(long int j=0;j<AncPts[i].label.size();j++)
         {
             auto Proxy = MyCl->GetProxy(AncPts[i].label[j]);
+
             temp = temp + GetProjection(Proxy.ProxyNormal, Proxy.ProxyPosition, AncPts[i].Anchor);
+
+            temp = temp + GetProjection(Proxy.ProxyNormal,Proxy.ProxyPosition,AncPts[i].Anchor);
+
             
         }
         temp = temp/(double)AncPts[i].label.size();
@@ -220,7 +223,7 @@ int AnchorVertex::GetCommonLabel(AncVtx vtx1, AncVtx vtx2, int ClusterNum)
 
 std::vector<YsShell::VertexHandle> AnchorVertex::GetEdges(AncVtx vtx1, AncVtx vtx2, int ClusterNum, int Nextlabel)
 {
-//    Nextlabel = GetCommonLabel(vtx1, vtx2, ClusterNum);
+
     
     auto cluster1 = Vtxlst[ClusterNum];
     auto cluster2 = Vtxlst[Nextlabel];
@@ -306,12 +309,12 @@ void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<YsShell::Vert
     YsVec3 N1 = pxy1.ProxyNormal, N2 = pxy2.ProxyNormal;
     N1.Normalize();
     N2.Normalize();
-    double threshold = 0.15;
+    double threshold = 0.13;
     
     AncVtx t;
     double maxD = 0.0;
     std::vector<int> maxi;
-	for	(int i=0;i<EdgeVtx.size();i++)
+	for	(long long int i=0;i<EdgeVtx.size();i++)
 	{
         double D = fabs(sin(acos(N1*N2))*DistancePtToLine(shl->GetVertexPosition(vtx1.Ptr), shl->GetVertexPosition(vtx2.Ptr), shl->GetVertexPosition(EdgeVtx[i]))/(shl->GetVertexPosition(vtx1.Ptr)-shl->GetVertexPosition(vtx2.Ptr)).GetLength());
         
@@ -321,7 +324,6 @@ void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<YsShell::Vert
             maxD = D;
             maxi.push_back(i);
             
-            //FindAverageAnchorVertex(t);
         }
 	}
     int imax = 0;

@@ -409,6 +409,7 @@ int main()
 	srand((int)time(NULL));
 //    if (argc==3)
 //    {
+
     YsShellExt shl;
     char fn[256],str[256];
     printf("Enter file you want to open : ");
@@ -437,13 +438,41 @@ int main()
 
         for(int i=0;i<k;i++)
         {
+
+		int k = 50;
+		YsShellExt shl;
+		ReadFromSTL("sphere.stl",shl);
+		shl.EnableSearch();
+		printf("Read STL File\nVertices : %d, Triangles : %d\n",shl.GetNumVertex(),shl.GetNumPolygon());
+		printf("Starting clustering\n");
+		LloydCluster cluster(shl,k);
+		cluster.MakeCluster(shl);
+		printf("Finished clustering\n");
+		AnchorVertex anchor(k);
+		anchor.Initialize(shl, cluster);
+		printf("Initialized Anchor\n");
+		anchor.MakeAnchorVertex();
+		printf("Made Anchor Vertex\n");
+		anchor.BinAnchorVertex();
+		printf("Created bin for Anchor Vertex\n");
+		anchor.AssignLabel();
+		printf("Assigned labels\n");
+	
+		for(int i=0;i<k;i++)
+		{
+
             printf("Extracted Edges: %d\n",i);
             anchor.ExtractEdges(i);
             
         }
 
         printf("Extracted edges\n");
+
         anchor.FindAverageAnchorVertex();
+            
+            printf("Finding Average Projection\n");
+
+        }
         
         YsShellExt newShell;
         anchor.IndexLabelling(newShell);

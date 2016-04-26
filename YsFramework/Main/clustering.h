@@ -210,6 +210,10 @@ inline extern YsVec3 GetProjection(YsVec3 Normal, YsVec3 PtPlane, YsVec3 Pt)
     Normal.Normalize();
     double d = Normal*(PtPlane-Pt);
     return Pt + Normal*d;
+
+
+    
+
 }
 
 inline void GetBoundingBox(YsVec3 &min, YsVec3 &max, std::vector<float> vtx)
