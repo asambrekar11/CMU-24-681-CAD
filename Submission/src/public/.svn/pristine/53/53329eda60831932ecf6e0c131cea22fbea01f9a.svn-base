@@ -1,0 +1,350 @@
+/* ////////////////////////////////////////////////////////////
+
+File Name: dnmmenu.cpp
+Copyright (c) 2015 Soji Yamakawa.  All rights reserved.
+http://www.ysflight.com
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, 
+   this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+   this list of conditions and the following disclaimer in the documentation 
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS 
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+//////////////////////////////////////////////////////////// */
+
+#include <ysclass.h>
+
+#include <ysgl.h>
+#include <ysglbuffer.h>
+
+#include "../ysgebl_gui_editor_base.h"
+#include "../textresource.h"
+#include "dnmtreedialog.h"
+
+
+void GeblGuiEditorBase::Dnm_LoadStaticMode(void)
+{
+	this->dnmEditMode=YSTRUE;
+	this->dnmCurrentState=-1;
+	this->dnmState=this->shlGrp.EmptyDnmState();
+	this->shlGrp.CacheTransformation(this->dnmState);
+	this->SetNeedRedraw(YSTRUE);
+
+	this->dnmTreeDlg->Make(this);
+	this->AddDialog(this->dnmTreeDlg);
+	ArrangeDialog();
+}
+
+void GeblGuiEditorBase::Dnm_LoadState0(void)
+{
+	this->dnmEditMode=YSTRUE;
+	this->dnmCurrentState=0;
+	this->shlGrp.SetState(this->dnmState,this->dnmCurrentState);
+	this->shlGrp.CacheTransformation(this->dnmState);
+	this->SetNeedRedraw(YSTRUE);
+
+	this->dnmTreeDlg->Make(this);
+	this->AddDialog(this->dnmTreeDlg);
+	ArrangeDialog();
+}
+
+void GeblGuiEditorBase::Dnm_LoadState1(void)
+{
+	this->dnmEditMode=YSTRUE;
+	this->dnmCurrentState=1;
+	this->shlGrp.SetState(this->dnmState,this->dnmCurrentState);
+	this->shlGrp.CacheTransformation(this->dnmState);
+	this->SetNeedRedraw(YSTRUE);
+
+	this->dnmTreeDlg->Make(this);
+	this->AddDialog(this->dnmTreeDlg);
+	ArrangeDialog();
+}
+
+void GeblGuiEditorBase::Dnm_LoadState2(void)
+{
+	this->dnmEditMode=YSTRUE;
+	this->dnmCurrentState=2;
+	this->shlGrp.SetState(this->dnmState,this->dnmCurrentState);
+	this->shlGrp.CacheTransformation(this->dnmState);
+	this->SetNeedRedraw(YSTRUE);
+
+	this->dnmTreeDlg->Make(this);
+	this->AddDialog(this->dnmTreeDlg);
+	ArrangeDialog();
+}
+
+void GeblGuiEditorBase::Dnm_LoadState3(void)
+{
+	this->dnmEditMode=YSTRUE;
+	this->dnmCurrentState=3;
+	this->shlGrp.SetState(this->dnmState,this->dnmCurrentState);
+	this->shlGrp.CacheTransformation(this->dnmState);
+	this->SetNeedRedraw(YSTRUE);
+
+	this->dnmTreeDlg->Make(this);
+	this->AddDialog(this->dnmTreeDlg);
+	ArrangeDialog();
+}
+
+void GeblGuiEditorBase::Dnm_EditTreeStructure(FsGuiPopUpMenuItem *)
+{
+	auto dlg=FsGuiDialog::CreateSelfDestructiveDialog <PolyCreDnmTreeDialog>();
+	dlg->Make(this);
+	dlg->runningModal=YSTRUE;
+	dlg->EnableTreeEdit();
+	AttachModalDialog(dlg);
+	ArrangeDialog();
+	SetNeedRedraw(YSTRUE);
+}
+
+////////////////////////////////////////////////////////////
+
+class GeblGuiEditorBase::Dnm_SetDnmNameDialog : public FsGuiDialog
+{
+private:
+	GeblGuiEditorBase *canvasPtr;
+	FsGuiTextBox *dnmNameTxt;
+	FsGuiDropList *dnmClassDrp;
+	FsGuiButton *classAsAirBtn,*classAsGndBtn;
+	YSBOOL nameChanged,classChanged;
+
+	FsGuiButton *okBtn,*cancelBtn;
+
+public:
+	void Make(GeblGuiEditorBase *canvasPtr);
+	void SetClassDropListAsAircraft(void);
+	void SetClassDropListAsGround(void);
+	virtual void OnButtonClick(FsGuiButton *btn);
+	virtual void OnDropListSelChange(FsGuiDropList *drp,int prevSel);
+	virtual void OnTextBoxChange(FsGuiTextBox *txt);
+};
+
+void GeblGuiEditorBase::Dnm_SetDnmNameDialog::Make(GeblGuiEditorBase *canvasPtr)
+{
+	this->canvasPtr=canvasPtr;
+	dnmNameTxt=AddTextBox(0,FSKEY_NULL,FsGuiTextBox::HORIZONTAL,L"DNM Name",32,YSTRUE);
+
+	dnmClassDrp=AddEmptyDropList(0,FSKEY_NULL,"CLASS",24,32,32,YSTRUE);
+	classAsAirBtn=AddTextButton(0,FSKEY_NULL,FSGUI_RADIOBUTTON,L"As Aircraft",YSFALSE);
+	classAsGndBtn=AddTextButton(0,FSKEY_NULL,FSGUI_RADIOBUTTON,L"As Ground",YSFALSE);
+	classAsAirBtn->SetCheck(YSTRUE);
+	{
+		FsGuiButton *radioBtnGrp[2]={classAsAirBtn,classAsGndBtn};
+		SetRadioButtonGroup(2,radioBtnGrp);
+	}
+	SetClassDropListAsAircraft();
+
+	okBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_OK,YSTRUE);
+	cancelBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_CANCEL,YSFALSE);
+
+	nameChanged=YSFALSE;
+	classChanged=YSFALSE;
+
+	Fit();
+	SetArrangeType(FSDIALOG_ARRANGE_TOP_LEFT);
+}
+
+void GeblGuiEditorBase::Dnm_SetDnmNameDialog::SetClassDropListAsAircraft(void)
+{
+	auto sel=dnmClassDrp->GetSelection();
+	dnmClassDrp->ClearChoice();
+
+	const char *const label[]=
+	{
+		" 0: Static & Landing Device",
+		" 1: Variable Geometry Wing",
+		" 2: Afterburner",
+		" 3: Rotor",
+		" 4: Air Brake/Spoiler",
+		" 5: Flap",
+		" 6: Elevator",
+		" 7: Aileron",
+		" 8: Rudder",
+		" 9: Bomb-bay Door",
+		"10: Vertical Take-Off Nozzle",
+		"11: Thrust Reverser",
+		"12: Droop Nose",
+		"13: Droop Nose Visor",
+		"14: Landing-Gear Door",
+		"15: Landing-Gear Compartment Wall",
+		"16: Wheel Brake/Arresting Hook",
+		"17: Landing-Gear Door (Fast Open/Close)",
+		"18: Propeller Slow",
+		"19:",
+		"20: Propeller Fast",
+		"21: Gunner Turret",
+		"22: Tire",
+		"23: Steering",
+		"24:",
+		"25:",
+		"26:",
+		"27:",
+		"28:",
+		"29:",
+		"30: NAV Light",
+		"31: Beacon",
+		"32: Strobe",
+		"33: Landing Light",
+		"34: Gear-Mounted Landing Light",
+		"35:",
+		"36:",
+		"37:",
+		"38:",
+		"39:",
+		"40: Left Door",
+		"41: Right Door",
+		"42: Rear Door",
+		"43: Interior",
+		"44:",
+		"45:",
+		"46:",
+		"47:",
+		"48:",
+		"49:",
+		"50:",
+	};
+	for(auto l : label)
+	{
+		dnmClassDrp->AddString(l,YSFALSE);
+	}
+
+	dnmClassDrp->Select(sel);
+}
+void GeblGuiEditorBase::Dnm_SetDnmNameDialog::SetClassDropListAsGround(void)
+{
+	auto sel=dnmClassDrp->GetSelection();
+	dnmClassDrp->ClearChoice();
+
+	const char *const label[]=
+	{
+		" 0: Static",
+		" 1: Gun Turret",
+		" 2: Gun",
+		" 3: SAM Turret",
+		" 4: SAM",
+		" 5: Cannon Turret",
+		" 6: Cannon",
+		" 7:",
+		" 8:",
+		" 9:",
+		"10: Radar (Constant Heading Rotation)",
+		"11: Radar Fast (Constant Heading Rotation)",
+		"12:",
+		"13:",
+		"14:",
+		"15:",
+		"16: Brake",
+		"17:",
+		"18:",
+		"20:",
+		"21:",
+		"22: Tire",
+		"23: Steering",
+		"24:",
+		"25:",
+		"26:",
+		"27:",
+		"28:",
+		"29:",
+		"30:",
+		"31:",
+		"32:",
+		"33: Head Light",
+		"34:",
+		"35:",
+		"36:",
+		"37:",
+		"38:",
+		"39:",
+		"40: Left Door",
+		"41: Right Door",
+		"42: Rear Door",
+		"43: Interior",
+		"44:",
+		"45:",
+		"46:",
+		"47:",
+		"48:",
+		"49:",
+		"50:",
+	};
+	for(auto l : label)
+	{
+		dnmClassDrp->AddString(l,YSFALSE);
+	}
+
+	dnmClassDrp->Select(sel);
+}
+
+/* virtual */ void GeblGuiEditorBase::Dnm_SetDnmNameDialog::OnButtonClick(FsGuiButton *btn)
+{
+	if(btn==okBtn)
+	{
+		CloseModalDialog(YSOK);
+	}
+	else if(btn==cancelBtn)
+	{
+		CloseModalDialog(YSERR);
+	}
+	else if(btn==classAsAirBtn)
+	{
+		SetClassDropListAsAircraft();
+	}
+	else if(btn==classAsGndBtn)
+	{
+		SetClassDropListAsGround();
+	}
+}
+
+/* virtual */ void GeblGuiEditorBase::Dnm_SetDnmNameDialog::OnDropListSelChange(FsGuiDropList *drp,int prevSel)
+{
+	if(drp==dnmClassDrp)
+	{
+		classChanged=YSTRUE;
+	}
+}
+/* virtual */ void GeblGuiEditorBase::Dnm_SetDnmNameDialog::OnTextBoxChange(FsGuiTextBox *txt)
+{
+	if(txt==dnmNameTxt)
+	{
+		nameChanged=YSTRUE;
+	}
+}
+
+void GeblGuiEditorBase::Dnm_SetDnmName(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=slHd)
+	{
+		auto dlg=FsGuiDialog::CreateSelfDestructiveDialog<Dnm_SetDnmNameDialog>();
+		dlg->Make(this);
+		AttachModalDialog(dlg);
+		ArrangeDialog();
+	}
+}
+
+////////////////////////////////////////////////////////////
+
+void GeblGuiEditorBase::Select_Shell_ByDialog(FsGuiPopUpMenuItem *)
+{
+	auto dlg=FsGuiDialog::CreateSelfDestructiveDialog <PolyCreDnmTreeDialog>();
+	dlg->Make(this);
+	AddDialog(dlg);
+	ArrangeDialog();
+	SetNeedRedraw(YSTRUE);
+}

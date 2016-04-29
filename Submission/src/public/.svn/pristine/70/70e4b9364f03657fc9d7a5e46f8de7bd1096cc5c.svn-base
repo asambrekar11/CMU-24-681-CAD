@@ -1,0 +1,183 @@
+/* ////////////////////////////////////////////////////////////
+
+File Name: ysshellextedit_constedgeutil.cpp
+Copyright (c) 2015 Soji Yamakawa.  All rights reserved.
+http://www.ysflight.com
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, 
+   this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+   this list of conditions and the following disclaimer in the documentation 
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS 
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+//////////////////////////////////////////////////////////// */
+
+#include "ysshellextedit_constedgeutil.h"
+#include "ysshellextedit_localop.h"
+#include "ysshellext_geomcalc.h"
+#include "ysshellext_constedgeutil.h"
+
+
+static YSRESULT YsShellExtEdit_MergeVertexOnNewConstEdgeEnd(YsShellExtEdit &shl,const YsShellVertexStore &usedVtx)
+{
+	for(auto vtHd : usedVtx)
+	{
+		auto vtCeHd=shl.FindConstEdgeFromVertex(vtHd);
+		if(2==vtCeHd.GetN() && vtCeHd[0]!=vtCeHd[1])
+		{
+			YsShellExtEdit_MergeConstEdge(shl,vtCeHd,YSTRUE);
+		}
+	}
+	return YSOK;
+}
+
+
+
+YSRESULT YsShellExtEdit_AddConstEdgeByHighDihedralAngleThreshold(YsShellExtEdit &shl,const double angleThr)
+{
+	YsShellExtEdit::StopIncUndo incUndo(shl);
+
+	YsShellVertexStore usedVtx(shl.Conv());
+
+	YsShellEdgeEnumHandle edHd=NULL;
+	while(YSOK==shl.MoveToNextEdge(edHd))
+	{
+		YsShellVertexHandle edVtHd[2];
+		shl.GetEdge(edVtHd,edHd);
+
+		if(0==shl.GetNumConstEdgeUsingEdgePiece(edVtHd))
+		{
+			const double angle=YsShellExt_CalculateDihedralAngle(shl.Conv(),edVtHd);
+			if(angleThr<=angle)
+			{
+				shl.AddConstEdge(2,edVtHd,YSFALSE);
+				usedVtx.AddVertex(edVtHd[0]);
+				usedVtx.AddVertex(edVtHd[1]);
+			}
+		}
+	}
+
+	YsShellExtEdit_MergeVertexOnNewConstEdgeEnd(shl,usedVtx);
+
+	return YSOK;
+}
+
+
+
+YSRESULT YsShellExtEdit_AddConstEdgeAlongNonManifoldEdge(YsShellExtEdit &shl)
+{
+	YsShellExtEdit::StopIncUndo incUndo(shl);
+	auto usedVtx=YsShellExt_AddConstEdgeAlongNonManifoldEdge(shl);
+	YsShellExtEdit_MergeVertexOnNewConstEdgeEnd(shl,usedVtx);
+	return YSOK;
+}
+
+
+
+YSRESULT YsShellExtEdit_AddConstEdgeAlongFaceGroupBoundary(YsShellExtEdit &shl)
+{
+	YsShellExtEdit::StopIncUndo incUndo(shl);
+
+	YsShellVertexStore usedVtx(shl.Conv());
+
+	YsShellEdgeEnumHandle edHd=NULL;
+	while(YSOK==shl.MoveToNextEdge(edHd))
+	{
+		YsShellVertexHandle edVtHd[2];
+		shl.GetEdge(edVtHd,edHd);
+
+		if(0==shl.GetNumConstEdgeUsingEdgePiece(edVtHd))
+		{
+			auto edPlHd=shl.FindPolygonFromEdgePiece(edVtHd);
+			if(2<=edPlHd.GetN())
+			{
+				YSBOOL multiFg=YSFALSE;
+				YsShellExt::FaceGroupHandle fgHd0=shl.FindFaceGroupFromPolygon(edPlHd[0]);
+				for(auto plHd : edPlHd)
+				{
+					if(shl.FindFaceGroupFromPolygon(plHd)!=fgHd0)
+					{
+						multiFg=YSTRUE;
+						break;
+					}
+				}
+
+				if(YSTRUE==multiFg)
+				{
+					shl.AddConstEdge(2,edVtHd,YSFALSE);
+					usedVtx.AddVertex(edVtHd[0]);
+					usedVtx.AddVertex(edVtHd[1]);
+				}
+			}
+		}
+	}
+
+	YsShellExtEdit_MergeVertexOnNewConstEdgeEnd(shl,usedVtx);
+
+	return YSOK;
+}
+
+
+
+
+YSRESULT YsShellExtEdit_ReconsiderConstEdge(YsShellExtEdit &shl)
+{
+	YsShellExtEdit::StopIncUndo incUndo(shl);
+
+	// First merge, 
+	for(auto vtHd : shl.AllVertex())
+	{
+		auto ceConnVtHd=shl.GetConstEdgeConnectedVertex(vtHd);
+		if(2==ceConnVtHd.GetN())
+		{
+			auto vtCeHd=shl.FindConstEdgeFromVertex(vtHd);
+			if(2==vtCeHd.GetN() && vtCeHd[0]!=vtCeHd[1])
+			{
+				YsShellExtEdit_MergeConstEdge(shl,vtCeHd,YSTRUE);
+			}
+			else if(1==vtCeHd.GetN())
+			{
+				YsArray <YsShellVertexHandle> ceVtHd;
+				YSBOOL isLoop;
+				shl.GetConstEdge(ceVtHd,isLoop,vtCeHd[0]);
+				if(YSTRUE!=isLoop && 3<=ceVtHd.GetN() && ceVtHd[0]==ceVtHd.Last())
+				{
+					ceVtHd.DeleteLast();
+					shl.ModifyConstEdge(vtCeHd[0],ceVtHd,YSTRUE);
+				}
+			}
+		}
+	}
+
+	// and then split.
+	for(auto vtHd : shl.AllVertex())
+	{
+		auto ceConnVtHd=shl.GetConstEdgeConnectedVertex(vtHd);
+		if(2<ceConnVtHd.GetN())
+		{
+			auto vtCeHd=shl.FindConstEdgeFromVertex(vtHd);
+			for(auto ceHd : vtCeHd)
+			{
+				YsShellExtEdit_SplitConstEdge(shl,ceHd,vtHd);
+			}
+		}
+	}
+
+	return YSOK;
+}
+
