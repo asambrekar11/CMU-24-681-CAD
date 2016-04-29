@@ -7,7 +7,7 @@ template <class Key>
 class HashSet
 {
 protected:
-	typedef unsigned long long int big;
+	typedef long long int big;
 	enum
 	{
 		MIN_TABLE_SIZE = 7
