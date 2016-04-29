@@ -351,7 +351,7 @@ void AnchorVertex::AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<YsShell::Vert
             AncPts.push_back(t);
             PrxyAnc[t.label[0]].push_back(t);
             PrxyAnc[t.label[1]].push_back(t);
-            printf("Adding New Anchor\n");
+//            printf("Adding New Anchor\n");
             AddAncVtx(vtx1, t, GetEdges(vtx1, t, ClusterNum, nextlabel), ClusterNum, nextlabel);
             AddAncVtx(t, vtx2, GetEdges(t, vtx2, ClusterNum, nextlabel), ClusterNum, nextlabel);
 
@@ -428,52 +428,12 @@ void AnchorVertex::IndexLabelling(YsShellExt &newShell)
 {
     std::vector <YsShell::VertexHandle> shellvtx;
     std::vector <YsShell::PolygonHandle> todo;
-//    YsShellPolygonStore visited(shl->Conv());
     
     for (long long int i = 0; i<AncPts.size(); i++)
     {
         shellvtx.push_back(AncPts[i].Ptr);
         VertexToLabel.Update(shl->GetSearchKey(AncPts[i].Ptr), i);
-//        auto vtPlHd = shl->FindPolygonFromVertex(AncPts[i].Ptr);
-//        for (auto p : vtPlHd)
-//        {
-//            todo.push_back(p);
-//            visited.Add(p);
-//        }
     }
-//    for (long long int ptr = 0; ptr < todo.size(); ptr++)
-//    {
-//        auto plHd = todo[ptr];
-//        auto plVtHd = shl->GetPolygonVertex(plHd);
-//        std::vector<YSHASHKEY> keyToAdd;
-//        std::vector<long long int> labelToAdd;
-//        for (auto vtHd : plVtHd)
-//        {
-//            auto key = shl->GetSearchKey(vtHd);
-//            auto vtLabel = VertexToLabel[key];
-//            if (vtLabel != nullptr)
-//            {
-//                labelToAdd.push_back(*vtLabel);
-//                break;
-//            }
-//        }
-//        
-//        for (int edIdx = 0; edIdx<plVtHd.GetN(); edIdx++)
-//        {
-//            auto key = shl->GetSearchKey(plVtHd[edIdx]);
-//            if (nullptr == VertexToLabel[key])
-//            {
-//                VertexToLabel.Update(key,labelToAdd.back());
-//                printf("Assigning label %lld\n",labelToAdd.back());
-//            }
-//            auto neiPlHd = shl->GetNeighborPolygon(plHd, edIdx);
-//            if (neiPlHd != nullptr && YSTRUE != visited.IsIncluded(neiPlHd))
-//            {
-//                todo.push_back(neiPlHd);
-//                visited.Add(neiPlHd);
-//            }
-//        }
-//    }
     for (auto vtHd : shl->AllVertex())
     {
         double Dmin = 1e6;
@@ -487,7 +447,6 @@ void AnchorVertex::IndexLabelling(YsShellExt &newShell)
                 Dmin = D;
             }
         }
-        printf("minlabel = %lld\n",minlabel);
         VertexToLabel.Update(shl->GetSearchKey(vtHd),minlabel);
     }
     std::vector <YsShell::PolygonHandle> keypolygon;
@@ -500,7 +459,6 @@ void AnchorVertex::IndexLabelling(YsShellExt &newShell)
                             *VertexToLabel[shl->GetSearchKey(vt[1])],
                             *VertexToLabel[shl->GetSearchKey(vt[2])],
         };
-//        printf("Labels %d %d %d\n",trilabels[0], trilabels[1], trilabels[2]);
         if (trilabels[0] != trilabels[1] &&
             trilabels[1] != trilabels[2] &&
             trilabels[2] != trilabels[0] )
@@ -545,6 +503,5 @@ void AnchorVertex::IndexLabelling(YsShellExt &newShell)
             
         }
     }
-    printf("vtx size = %d; nom size = %d\n",vtx.size(),nom.size());
     MakeShellFromVtxNom(newShell,vtx,nom);
 }

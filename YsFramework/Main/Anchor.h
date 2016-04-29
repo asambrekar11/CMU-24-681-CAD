@@ -88,7 +88,6 @@ public:
     AncVtxHandle GetAnchorVtx(int ProxyNum);
     AncVtxHandle GetNeighbourAnc(AncVtx VtxHd, AncVtxHandle PxHd);
     int GetCommonLabel(AncVtx vtx1, AncVtx vtx2, int CLusterNum);
-//    std::vector<PxyVtx> GetEdgeVertices(AncVtx vtx1, AncVtx vtx2, int ClusterNum);
     void AddAncVtx(AncVtx vtx1, AncVtx vtx2, std::vector<YsShell::VertexHandle> EdgeVtx, int ClusterNum, int nextlabel);
     void ExtractEdges(int ClusterNum);
     void IndexLabelling(YsShellExt &newShell);

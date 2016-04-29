@@ -417,25 +417,25 @@ int main()
     bool state = ReadFromSTL(fn,shl);
     if (state == true)
     {
+        shl.EnableSearch();
+        printf("Read STL File\nVertices : %d, Triangles : %d\n",shl.GetNumVertex(),shl.GetNumPolygon());
         printf("Enter number of clusters : ");
         fgets_nak(str,255,stdin);
         int k = atoi(str);
-        shl.EnableSearch();
-        printf("Read STL File\nVertices : %d, Triangles : %d\n",shl.GetNumVertex(),shl.GetNumPolygon());
-        printf("Starting clustering\n");
+//        printf("Starting clustering\n");
         LloydCluster cluster(shl,k);
         cluster.MakeCluster(shl);
-        printf("Finished clustering\n");
+//        printf("Finished clustering\n");
         AnchorVertex anchor(k);
         anchor.Initialize(shl, cluster);
-        printf("Initialized Anchor\n");
+//        printf("Initialized Anchor\n");
         anchor.MakeAnchorVertex();
-        printf("Made Anchor Vertex\n");
+//        printf("Made Anchor Vertex\n");
 //        anchor.FindAverageAnchorVertex();
         anchor.BinAnchorVertex();
-        printf("Created bin for Anchor Vertex\n");
+//        printf("Created bin for Anchor Vertex\n");
         anchor.AssignLabel();
-        printf("Assigned labels\n");
+//        printf("Assigned labels\n");
         for (int i = 0; i<k; i++)
         {
             anchor.ExtractEdges(i);
@@ -444,6 +444,7 @@ int main()
        
         YsShellExt newShell;
         anchor.IndexLabelling(newShell);
+        printf("New model woth %d vertices and %d triangles created\n",newShell.GetNumVertex(),newShell.GetNumPolygon());
         char fout[256];
         strcpy(fout,fn);
         int l = (int)strlen(fout);

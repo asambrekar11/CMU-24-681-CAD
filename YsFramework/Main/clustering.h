@@ -8,6 +8,9 @@
 #include "mihashtable.h"
 #include "lattice.h"
 
+////////////////////////////////////////////////////////////////////////////////
+//PROXY CLASS
+////////////////////////////////////////////////////////////////////////////////
 
 class Proxy
 {
@@ -24,9 +27,17 @@ public:
     }
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//ERROR FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////
+
 double L2ErrorMetric(const YsShellExt &shl, YsShell::PolygonHandle plHd, Proxy pxy);
 
 double L21ErrorMetric(const YsShellExt &shl, YsShell::PolygonHandle plHd, Proxy pxy);
+
+////////////////////////////////////////////////////////////////////////////////
+//CLUSTER NODE CLASS
+////////////////////////////////////////////////////////////////////////////////
 
 class ClusterNode
 {
@@ -68,11 +79,6 @@ public:
         this->plHd = plHd;
         this->label = label;
         this->error = L21ErrorMetric(shl, plHd, pxy);
-        
-//        SetPolygon(plHd);
-//        SetProxy(shl,pxy);
-//        SetLabel(label);
-//        printf("Error = %lf\n",error);
     }
     inline ~ClusterNode()
     {
@@ -104,6 +110,10 @@ public:
     }
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//TEMPLATE SPECIALIZATION FOR HASHTABLE
+////////////////////////////////////////////////////////////////////////////////
+
 template<>
 inline long long int HashTable<Proxy,std::vector<YsShell::PolygonHandle>>::HashCode(const Proxy &key) const
 {
@@ -116,6 +126,9 @@ inline long long int HashTable<long long int,int>::HashCode(const long long int 
     return key;
 }
     
+////////////////////////////////////////////////////////////////////////////////
+//LLOYDCLUSTER CLASS
+////////////////////////////////////////////////////////////////////////////////
 
 class LloydCluster
 {
@@ -154,7 +167,7 @@ protected:
         }
     };
     PolygonTable boss;
-    void AssignCenter(const YsShellExt &shl, YsShell::PolygonHandle cntr[]);
+    void AssignCenter(const YsShellExt &shl, YsShell::PolygonHandle cntr[], bool first);
     bool GetProxy(const YsShellExt &shl);
 
 public:
@@ -196,6 +209,10 @@ public:
         return true;
     }
 };
+
+////////////////////////////////////////////////////////////////////////////////
+//GLOBAL FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////
 
 inline extern double DistancePtToLine(YsVec3 x1, YsVec3 x2, YsVec3 x0)
 

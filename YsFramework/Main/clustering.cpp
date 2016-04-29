@@ -3,6 +3,8 @@
 #include <cmath>
 #include "clustering.h"
 
+//L2 Error Metric
+
 double L2ErrorMetric(const YsShellExt &shl, YsShell::PolygonHandle plHd, Proxy pxy)
 {
 	double d[3];
@@ -15,6 +17,8 @@ double L2ErrorMetric(const YsShellExt &shl, YsShell::PolygonHandle plHd, Proxy p
 	}
 	return A*(d[0]*d[0]+d[1]*d[1]+d[2]*d[2]+d[0]*d[1]+d[1]*d[2]+d[2]*d[0])/6.0;
 }
+
+//L2,1 Error Metric
 
 double L21ErrorMetric(const YsShellExt &shl, YsShell::PolygonHandle plHd, Proxy pxy)
 {
@@ -34,17 +38,18 @@ bool IsIncluded(YsShell::PolygonHandle plHd, YsShell::PolygonHandle plList[], in
 	return false;
 }
 
-void LloydCluster::AssignCenter(const YsShellExt &shl, YsShell::PolygonHandle cntr[])
+void LloydCluster::AssignCenter(const YsShellExt &shl, YsShell::PolygonHandle cntr[], bool first)
 {
-	stud.Cleanup();
+	// Function to Assign Centers to polygons
+    stud.Cleanup();
 	boss.Cleanup();
-// 	printf("Number of polygons = %d\n",shl.GetNumPolygon());
     YsShellPolygonStore visited(shl.Conv());
 	
 	stud.Resize(pxy.size()/3);
 	boss.Resize(shl.GetNumPolygon()/3);
     for (int i = 0; i<k; i++)
     {
+//        printf("Iniializing clusters\n");
         std::vector<YsShell::PolygonHandle> entry;
         entry.push_back(cntr[i]);
         auto ptr = stud[pxy[i]];
@@ -60,7 +65,6 @@ void LloydCluster::AssignCenter(const YsShellExt &shl, YsShell::PolygonHandle cn
         boss.Update(key,i);
         visited.Add(cntr[i]);
     }
-//	int i = 0;
 	for (auto plHd : shl.AllPolygon())
 	{
         if (YSTRUE != visited.IsIncluded(plHd))
@@ -75,7 +79,6 @@ void LloydCluster::AssignCenter(const YsShellExt &shl, YsShell::PolygonHandle cn
             }
     // 		printf("Constructed priority queue\n");
             auto best_node = list.top();
-            //printf("Best Error = %lf for label %d\n",best_node.GetError(),best_node.GetLabel());
     // 		printf("Found the best\n");
             auto curr_proxytable = stud[pxy[best_node.GetLabel()]];
             if (nullptr != curr_proxytable)
@@ -127,9 +130,9 @@ bool LloydCluster::GetProxy(const YsShellExt &shl)
             printf("Cluster is a nullptr\n");
         }
 		if (/*BC != pxy[i].ProxyPosition || avgN != pxy[i].ProxyNormal*/
-            std::abs(BC.xf()-pxy[i].ProxyPosition.xf())>1e-1 ||
-            std::abs(BC.yf()-pxy[i].ProxyPosition.yf())>1e-1 ||
-            std::abs(BC.zf()-pxy[i].ProxyPosition.zf())>1e-1 )
+            std::abs(avgN.xf()-pxy[i].ProxyNormal.xf())>1e-1 ||
+            std::abs(avgN.yf()-pxy[i].ProxyNormal.yf())>1e-1 ||
+            std::abs(avgN.zf()-pxy[i].ProxyNormal.zf())>1e-1 )
 		{
 // 			printf("Assigned new proxy\n");
 			pxy[i].ProxyPosition = BC;
@@ -149,7 +152,7 @@ void LloydCluster::MakeCluster(const YsShellExt &shl)
         std::vector<YsShell::PolygonHandle> cntr;
         cntr.clear();
         cntr.resize(k);
-        
+        bool first = false;
         YsShellPolygonStore visited(shl.Conv());
         
         for (int i = 0; i<k; i++)
@@ -158,7 +161,7 @@ void LloydCluster::MakeCluster(const YsShellExt &shl)
             {
                 auto plynum = shl.GetNumPolygon();
                 long long int idx = rand()%plynum;
-//                            printf("Initializing triangles\n");
+//                printf("Initializing triangles\n");
                 cntr[i] = shl.GetPolygonHandleFromId(idx);
                 pxy[i].ProxyPosition=shl.GetCenter(cntr[i]);
                 pxy[i].ProxyNormal=shl.GetNormal(cntr[i]);
@@ -176,7 +179,8 @@ void LloydCluster::MakeCluster(const YsShellExt &shl)
         
         do
         {
-            AssignCenter(shl,cntr.data());
+            AssignCenter(shl,cntr.data(),first);
+            first = true;
 //            printf("Assigned centers\n");
         }
         while (true == GetProxy(shl));
