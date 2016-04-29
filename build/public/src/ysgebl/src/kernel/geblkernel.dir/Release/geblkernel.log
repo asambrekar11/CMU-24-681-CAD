@@ -1,0 +1,32 @@
+﻿Build started 29-04-2016 13:45:59.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\kernel\geblkernel.vcxproj" on node 4 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/ysgebl/src/kernel/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\kernel\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass11\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass11\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"geblkernel.dir\Release\\" /Fd"geblkernel.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellext.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellextdrawbuffer.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellextedit.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellextentityset.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellextio.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellextmisc.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellextsearch.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellextcondition.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\ysshellexttemporarymodification.cpp"
+         ysshellext.cpp
+         ysshellextdrawbuffer.cpp
+         ysshellextedit.cpp
+         ysshellextentityset.cpp
+         ysshellextio.cpp
+         ysshellextmisc.cpp
+         ysshellextsearch.cpp
+         ysshellextcondition.cpp
+         ysshellexttemporarymodification.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\geblkernel.lib" /NOLOGO /MACHINE:X64  /machine:x64 geblkernel.dir\Release\ysshellext.obj
+         geblkernel.dir\Release\ysshellextdrawbuffer.obj
+         geblkernel.dir\Release\ysshellextedit.obj
+         geblkernel.dir\Release\ysshellextentityset.obj
+         geblkernel.dir\Release\ysshellextio.obj
+         geblkernel.dir\Release\ysshellextmisc.obj
+         geblkernel.dir\Release\ysshellextsearch.obj
+         geblkernel.dir\Release\ysshellextcondition.obj
+         geblkernel.dir\Release\ysshellexttemporarymodification.obj
+         geblkernel.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\geblkernel.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\kernel\geblkernel.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.09

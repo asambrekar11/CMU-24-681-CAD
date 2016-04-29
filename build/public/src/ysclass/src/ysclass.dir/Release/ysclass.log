@@ -1,0 +1,107 @@
+﻿Build started 29-04-2016 13:44:19.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysclass\src\ysclass.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/ysclass/src/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysclass\src\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"ysclass.dir\Release\\" /Fd"ysclass.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysadvgeometry.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysadvgeometryx.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysargs.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysbase.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysbase64.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysclassmgr.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysclip.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysequation.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysexception.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysfilename.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysgeometry.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yshash.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yskdtree.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yskeyword.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yslist.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysmath.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysmatrix.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysmatrix3x3.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysmatrix4x4.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yspixelmap.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yspositivevector.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yspredefined.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysprintf.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysproperty.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysreldir.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshell.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshell2d.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshellblend.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshellblend2.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshellfileio.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshelllattice.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshelllattice_singleThread.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshellsearch.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshellstl.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysshellutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysstring.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yssword.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ystask.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ystextresource.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ystextstream.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysveci.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysviewcontrol.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yswizard.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysinterpolation.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\ysdelaunaytri.cpp"
+         ysadvgeometry.cpp
+         ysadvgeometryx.cpp
+         ysargs.cpp
+         ysbase.cpp
+         ysbase64.cpp
+         ysclassmgr.cpp
+         ysclip.cpp
+         ysequation.cpp
+         ysexception.cpp
+         ysfilename.cpp
+         ysgeometry.cpp
+         yshash.cpp
+         yskdtree.cpp
+         yskeyword.cpp
+         yslist.cpp
+         ysmath.cpp
+         ysmatrix.cpp
+         ysmatrix3x3.cpp
+         ysmatrix4x4.cpp
+         yspixelmap.cpp
+         yspositivevector.cpp
+         yspredefined.cpp
+         ysprintf.cpp
+         ysproperty.cpp
+         ysreldir.cpp
+         ysshell.cpp
+         ysshell2d.cpp
+         ysshellblend.cpp
+         ysshellblend2.cpp
+         ysshellfileio.cpp
+         ysshelllattice.cpp
+         ysshelllattice_singleThread.cpp
+         ysshellsearch.cpp
+         ysshellstl.cpp
+         ysshellutil.cpp
+         ysstring.cpp
+         yssword.cpp
+         ystask.cpp
+         ystextresource.cpp
+         ystextstream.cpp
+         ysveci.cpp
+         ysviewcontrol.cpp
+         yswizard.cpp
+         ysinterpolation.cpp
+         ysdelaunaytri.cpp
+     1>C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yswizard.cpp(958): warning C4244: '=' : conversion from 'YSSIZE_T' to 'int', possible loss of data
+     1>C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yswizard.cpp(1006): warning C4244: '=' : conversion from 'YSSIZE_T' to 'int', possible loss of data
+     1>C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\yswizard.cpp(1023): warning C4244: '=' : conversion from 'YSSIZE_T' to 'int', possible loss of data
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\ysclass.lib" /NOLOGO /MACHINE:X64  /machine:x64 ysclass.dir\Release\ysadvgeometry.obj
+         ysclass.dir\Release\ysadvgeometryx.obj
+         ysclass.dir\Release\ysargs.obj
+         ysclass.dir\Release\ysbase.obj
+         ysclass.dir\Release\ysbase64.obj
+         ysclass.dir\Release\ysclassmgr.obj
+         ysclass.dir\Release\ysclip.obj
+         ysclass.dir\Release\ysequation.obj
+         ysclass.dir\Release\ysexception.obj
+         ysclass.dir\Release\ysfilename.obj
+         ysclass.dir\Release\ysgeometry.obj
+         ysclass.dir\Release\yshash.obj
+         ysclass.dir\Release\yskdtree.obj
+         ysclass.dir\Release\yskeyword.obj
+         ysclass.dir\Release\yslist.obj
+         ysclass.dir\Release\ysmath.obj
+         ysclass.dir\Release\ysmatrix.obj
+         ysclass.dir\Release\ysmatrix3x3.obj
+         ysclass.dir\Release\ysmatrix4x4.obj
+         ysclass.dir\Release\yspixelmap.obj
+         ysclass.dir\Release\yspositivevector.obj
+         ysclass.dir\Release\yspredefined.obj
+         ysclass.dir\Release\ysprintf.obj
+         ysclass.dir\Release\ysproperty.obj
+         ysclass.dir\Release\ysreldir.obj
+         ysclass.dir\Release\ysshell.obj
+         ysclass.dir\Release\ysshell2d.obj
+         ysclass.dir\Release\ysshellblend.obj
+         ysclass.dir\Release\ysshellblend2.obj
+         ysclass.dir\Release\ysshellfileio.obj
+         ysclass.dir\Release\ysshelllattice.obj
+         ysclass.dir\Release\ysshelllattice_singleThread.obj
+         ysclass.dir\Release\ysshellsearch.obj
+         ysclass.dir\Release\ysshellstl.obj
+         ysclass.dir\Release\ysshellutil.obj
+         ysclass.dir\Release\ysstring.obj
+         ysclass.dir\Release\yssword.obj
+         ysclass.dir\Release\ystask.obj
+         ysclass.dir\Release\ystextresource.obj
+         ysclass.dir\Release\ystextstream.obj
+         ysclass.dir\Release\ysveci.obj
+         ysclass.dir\Release\ysviewcontrol.obj
+         ysclass.dir\Release\yswizard.obj
+         ysclass.dir\Release\ysinterpolation.obj
+         ysclass.dir\Release\ysdelaunaytri.obj
+         ysclass.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\ysclass.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysclass\src\ysclass.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:14.88

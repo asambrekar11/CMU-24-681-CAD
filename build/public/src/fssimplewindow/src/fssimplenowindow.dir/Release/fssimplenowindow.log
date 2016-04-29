@@ -1,0 +1,19 @@
+﻿Build started 29-04-2016 13:50:46.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fssimplewindow\src\fssimplenowindow.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/fssimplewindow/src/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fssimplewindow\src\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"fssimplenowindow.dir\Release\\" /Fd"fssimplenowindow.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src\fssimplewindowcommon.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src\nownd\fssimplenowindow.cpp"
+         fssimplewindowcommon.cpp
+         fssimplenowindow.cpp
+     1>C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src\fssimplewindowcommon.cpp(63): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\fssimplenowindow.lib" /NOLOGO /MACHINE:X64  /machine:x64 fssimplenowindow.dir\Release\fssimplewindowcommon.obj
+         fssimplenowindow.dir\Release\fssimplenowindow.obj
+         fssimplenowindow.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\fssimplenowindow.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fssimplewindow\src\fssimplenowindow.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:38.49

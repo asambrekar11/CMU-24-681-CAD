@@ -1,0 +1,127 @@
+﻿Build started 29-04-2016 13:46:07.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\kernelutil\geblutil.vcxproj" on node 4 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/ysgebl/src/kernelutil/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\kernelutil\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass11\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass11\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"geblutil.dir\Release\\" /Fd"geblutil.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_boolutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_constedgeutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_copyutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_duplicateutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_localop.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_offsetutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_orientationutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_roundutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_selectionutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_splitop.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_topologyutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextplgfill.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_boundaryutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_clusteringutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_constedgeutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_diagnoseutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_duplicateutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_embeddingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_geomcalc.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_intersectionutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_localop.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_mappingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_offsetutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_orientationutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_patchutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_roundutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_splitop.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_sweeputil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_thickeningutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_trackingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_proximityutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_stitchingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_stitchingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_topologyutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\yshasshellext.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_facegrouputil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_condition.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_sewingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_facegrouputil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_polygontanglerepair.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_projectionutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_sewingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_deformationevaluator.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_commandsupport.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_triangulationutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellextedit_triangulationutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_edgepriorityqueue.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_smoothingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_thicknessutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_astar.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_facegroupgrowing.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_regiongrowing.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_unfoldingutil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_imprintingutil.cpp"
+         ysshellextedit_boolutil.cpp
+         ysshellextedit_constedgeutil.cpp
+         ysshellextedit_copyutil.cpp
+         ysshellextedit_duplicateutil.cpp
+         ysshellextedit_localop.cpp
+         ysshellextedit_offsetutil.cpp
+         ysshellextedit_orientationutil.cpp
+         ysshellextedit_roundutil.cpp
+         ysshellextedit_selectionutil.cpp
+         ysshellextedit_splitop.cpp
+         ysshellextedit_topologyutil.cpp
+         ysshellextplgfill.cpp
+         ysshellext_boundaryutil.cpp
+         ysshellext_clusteringutil.cpp
+         ysshellext_constedgeutil.cpp
+         ysshellext_diagnoseutil.cpp
+         ysshellext_duplicateutil.cpp
+         ysshellext_embeddingutil.cpp
+         ysshellext_geomcalc.cpp
+         ysshellext_intersectionutil.cpp
+         ysshellext_localop.cpp
+         ysshellext_mappingutil.cpp
+         ysshellext_offsetutil.cpp
+         ysshellext_orientationutil.cpp
+         ysshellext_patchutil.cpp
+         ysshellext_roundutil.cpp
+         ysshellext_splitop.cpp
+         ysshellext_sweeputil.cpp
+         ysshellext_thickeningutil.cpp
+         ysshellext_trackingutil.cpp
+         ysshellext_proximityutil.cpp
+         ysshellext_stitchingutil.cpp
+         ysshellextedit_stitchingutil.cpp
+         ysshellext_topologyutil.cpp
+         yshasshellext.cpp
+         ysshellext_facegrouputil.cpp
+         ysshellext_condition.cpp
+         ysshellext_sewingutil.cpp
+         ysshellextedit_facegrouputil.cpp
+         ysshellext_polygontanglerepair.cpp
+         ysshellext_projectionutil.cpp
+         ysshellextedit_sewingutil.cpp
+         ysshellext_deformationevaluator.cpp
+         ysshellext_commandsupport.cpp
+         ysshellext_triangulationutil.cpp
+         ysshellextedit_triangulationutil.cpp
+         ysshellext_edgepriorityqueue.cpp
+         ysshellext_smoothingutil.cpp
+         ysshellext_thicknessutil.cpp
+         ysshellext_astar.cpp
+         ysshellext_facegroupgrowing.cpp
+         ysshellext_regiongrowing.cpp
+         ysshellext_unfoldingutil.cpp
+         ysshellext_imprintingutil.cpp
+     1>C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_imprintingutil.cpp(104): warning C4244: 'argument' : conversion from 'YSSIZE_T' to 'int', possible loss of data
+     1>C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\ysshellext_imprintingutil.cpp(107): warning C4244: 'argument' : conversion from 'YSSIZE_T' to 'int', possible loss of data
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\geblutil.lib" /NOLOGO /MACHINE:X64  /machine:x64 geblutil.dir\Release\ysshellextedit_boolutil.obj
+         geblutil.dir\Release\ysshellextedit_constedgeutil.obj
+         geblutil.dir\Release\ysshellextedit_copyutil.obj
+         geblutil.dir\Release\ysshellextedit_duplicateutil.obj
+         geblutil.dir\Release\ysshellextedit_localop.obj
+         geblutil.dir\Release\ysshellextedit_offsetutil.obj
+         geblutil.dir\Release\ysshellextedit_orientationutil.obj
+         geblutil.dir\Release\ysshellextedit_roundutil.obj
+         geblutil.dir\Release\ysshellextedit_selectionutil.obj
+         geblutil.dir\Release\ysshellextedit_splitop.obj
+         geblutil.dir\Release\ysshellextedit_topologyutil.obj
+         geblutil.dir\Release\ysshellextplgfill.obj
+         geblutil.dir\Release\ysshellext_boundaryutil.obj
+         geblutil.dir\Release\ysshellext_clusteringutil.obj
+         geblutil.dir\Release\ysshellext_constedgeutil.obj
+         geblutil.dir\Release\ysshellext_diagnoseutil.obj
+         geblutil.dir\Release\ysshellext_duplicateutil.obj
+         geblutil.dir\Release\ysshellext_embeddingutil.obj
+         geblutil.dir\Release\ysshellext_geomcalc.obj
+         geblutil.dir\Release\ysshellext_intersectionutil.obj
+         geblutil.dir\Release\ysshellext_localop.obj
+         geblutil.dir\Release\ysshellext_mappingutil.obj
+         geblutil.dir\Release\ysshellext_offsetutil.obj
+         geblutil.dir\Release\ysshellext_orientationutil.obj
+         geblutil.dir\Release\ysshellext_patchutil.obj
+         geblutil.dir\Release\ysshellext_roundutil.obj
+         geblutil.dir\Release\ysshellext_splitop.obj
+         geblutil.dir\Release\ysshellext_sweeputil.obj
+         geblutil.dir\Release\ysshellext_thickeningutil.obj
+         geblutil.dir\Release\ysshellext_trackingutil.obj
+         geblutil.dir\Release\ysshellext_proximityutil.obj
+         geblutil.dir\Release\ysshellext_stitchingutil.obj
+         geblutil.dir\Release\ysshellextedit_stitchingutil.obj
+         geblutil.dir\Release\ysshellext_topologyutil.obj
+         geblutil.dir\Release\yshasshellext.obj
+         geblutil.dir\Release\ysshellext_facegrouputil.obj
+         geblutil.dir\Release\ysshellext_condition.obj
+         geblutil.dir\Release\ysshellext_sewingutil.obj
+         geblutil.dir\Release\ysshellextedit_facegrouputil.obj
+         geblutil.dir\Release\ysshellext_polygontanglerepair.obj
+         geblutil.dir\Release\ysshellext_projectionutil.obj
+         geblutil.dir\Release\ysshellextedit_sewingutil.obj
+         geblutil.dir\Release\ysshellext_deformationevaluator.obj
+         geblutil.dir\Release\ysshellext_commandsupport.obj
+         geblutil.dir\Release\ysshellext_triangulationutil.obj
+         geblutil.dir\Release\ysshellextedit_triangulationutil.obj
+         geblutil.dir\Release\ysshellext_edgepriorityqueue.obj
+         geblutil.dir\Release\ysshellext_smoothingutil.obj
+         geblutil.dir\Release\ysshellext_thicknessutil.obj
+         geblutil.dir\Release\ysshellext_astar.obj
+         geblutil.dir\Release\ysshellext_facegroupgrowing.obj
+         geblutil.dir\Release\ysshellext_regiongrowing.obj
+         geblutil.dir\Release\ysshellext_unfoldingutil.obj
+         geblutil.dir\Release\ysshellext_imprintingutil.obj
+     1>ysshellext_embeddingutil.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>ysshellextedit_topologyutil.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+     1>ysshellextedit_selectionutil.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         geblutil.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\geblutil.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\kernelutil\geblutil.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:18.52

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgl\src\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColor3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColor3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorPerVtxShading3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorPerVtxShading3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorPerPixShading3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorPerPixShading3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorBillBoard3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorBillBoard3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\flash3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\flash3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\flashByPointSprite3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\flashByPointSprite3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorMarker3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorMarker3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorMarkerByPointSprite3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorMarkerByPointSprite3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\bmpRendererVertexShaderSrc.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\bmpRendererFragmentShaderSrc.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\plain2DDrawingVertexShaderSrc.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\plain2DDrawingFragmentShaderSrc.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorPointSprite3DDrawingFragmentShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\c007ab6bd88ddaa60f26f92573636697\variColorPointSprite3DDrawingVertexShader.glsl.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\fc7b6a3f6500a4049db641314919ce3b\ysglslprogram.c.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\5a1f9342c5e1b6dcbc453e8678e0c6f0\ysglslprogram_c.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgl\src\CMakeFiles\ysglslprogram_c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{60C06145-4AB5-3777-BF51-F53C3D03FA05}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

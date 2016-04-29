@@ -1,0 +1,16 @@
+﻿Build started 29-04-2016 13:51:25.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fsguilib\src\nownd\fsguilib_nownd.vcxproj" on node 9 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/fsguilib/src/nownd/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fsguilib\src\nownd\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src\nownd" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src\nownd\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysbitmap\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\yssystemfont\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysbitmapfont\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgl\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysfontrenderer\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysbitmap\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"fsguilib_nownd.dir\Release\\" /Fd"fsguilib_nownd.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src\nownd\fsguinownd.cpp"
+         fsguinownd.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\fsguilib_nownd.lib" /NOLOGO /MACHINE:X64  /machine:x64 fsguilib_nownd.dir\Release\fsguinownd.obj
+         fsguilib_nownd.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\fsguilib_nownd.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fsguilib\src\nownd\fsguilib_nownd.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:12.88

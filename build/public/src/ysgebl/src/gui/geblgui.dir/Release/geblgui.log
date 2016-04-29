@@ -1,0 +1,98 @@
+﻿Build started 29-04-2016 13:52:04.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\gui\geblgui.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/ysgebl/src/gui/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\gui\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui_foundation" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass11\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\filedialog" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysbitmap\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\yssystemfont\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysbitmapfont\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgl\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysfontrenderer\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsgui3d\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\shellrender" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src\gl2" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src\gl2" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsgui3d\src\gl2" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fslazywindow\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui_foundation\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\shellrender\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernel\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass11\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\kernelutil\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysglcpp\src\gl2\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysbitmapfont\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgl\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\filedialog\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysbitmap\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysfontrenderer\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsgui3d\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsguilib\src\gl2\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\yssystemfont\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fsgui3d\src\gl2\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fslazywindow\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"geblgui.dir\Release\\" /Fd"geblgui.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\filename.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\fsgui3dapp.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\fsgui3dapp_draw.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\fsgui3dapp_menusetup.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\fsgui3dmain.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\miscdlg.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\textresource.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\boolmenu\boolmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\filemenu\filemenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\viewmenu\viewmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil_clarky.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil_clarky_data.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil_lens.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil_naca6.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil_naca6_data.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil_supercritical.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\airfoil\ysairfoil_supercritical_data.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\config\config.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\config\configmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\dnm\dnmmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\dnm\dnmtreedialog.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\edit\editmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\edit\edit_createmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\edit\edit_create_airfoil.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\edit\edit_intersectionmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\edit\edit_offsetmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\edit\edit_roundmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\edit\edit_sweepmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\global\globalmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\help\helpmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\refbmp\refbmp.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\refbmp\refbmpdialog.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\sketch\sketch.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\sketch\sketchmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\util\utilmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\repair\repairmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\viewmenu\viewdialog.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\selectmenu\selectmenu.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\selectmenu\selectbyproperty.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\dnm\dnmpreview.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysgebl\src\gui\ysgebl_gui_extension_base.cpp"
+         filename.cpp
+         fsgui3dapp.cpp
+         fsgui3dapp_draw.cpp
+         fsgui3dapp_menusetup.cpp
+         fsgui3dmain.cpp
+         miscdlg.cpp
+         textresource.cpp
+         boolmenu.cpp
+         filemenu.cpp
+         viewmenu.cpp
+         ysairfoil.cpp
+         ysairfoil_clarky.cpp
+         ysairfoil_clarky_data.cpp
+         ysairfoil_lens.cpp
+         ysairfoil_naca6.cpp
+         ysairfoil_naca6_data.cpp
+         ysairfoil_supercritical.cpp
+         ysairfoil_supercritical_data.cpp
+         config.cpp
+         configmenu.cpp
+         dnmmenu.cpp
+         dnmtreedialog.cpp
+         editmenu.cpp
+         edit_createmenu.cpp
+         edit_create_airfoil.cpp
+         edit_intersectionmenu.cpp
+         edit_offsetmenu.cpp
+         edit_roundmenu.cpp
+         edit_sweepmenu.cpp
+         globalmenu.cpp
+         helpmenu.cpp
+         refbmp.cpp
+         refbmpdialog.cpp
+         sketch.cpp
+         sketchmenu.cpp
+         utilmenu.cpp
+         repairmenu.cpp
+         viewdialog.cpp
+         selectmenu.cpp
+         selectbyproperty.cpp
+         dnmpreview.cpp
+         ysgebl_gui_extension_base.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\geblgui.lib" /NOLOGO /MACHINE:X64  /machine:x64 geblgui.dir\Release\filename.obj
+         geblgui.dir\Release\fsgui3dapp.obj
+         geblgui.dir\Release\fsgui3dapp_draw.obj
+         geblgui.dir\Release\fsgui3dapp_menusetup.obj
+         geblgui.dir\Release\fsgui3dmain.obj
+         geblgui.dir\Release\miscdlg.obj
+         geblgui.dir\Release\textresource.obj
+         geblgui.dir\Release\boolmenu.obj
+         geblgui.dir\Release\filemenu.obj
+         geblgui.dir\Release\viewmenu.obj
+         geblgui.dir\Release\ysairfoil.obj
+         geblgui.dir\Release\ysairfoil_clarky.obj
+         geblgui.dir\Release\ysairfoil_clarky_data.obj
+         geblgui.dir\Release\ysairfoil_lens.obj
+         geblgui.dir\Release\ysairfoil_naca6.obj
+         geblgui.dir\Release\ysairfoil_naca6_data.obj
+         geblgui.dir\Release\ysairfoil_supercritical.obj
+         geblgui.dir\Release\ysairfoil_supercritical_data.obj
+         geblgui.dir\Release\config.obj
+         geblgui.dir\Release\configmenu.obj
+         geblgui.dir\Release\dnmmenu.obj
+         geblgui.dir\Release\dnmtreedialog.obj
+         geblgui.dir\Release\editmenu.obj
+         geblgui.dir\Release\edit_createmenu.obj
+         geblgui.dir\Release\edit_create_airfoil.obj
+         geblgui.dir\Release\edit_intersectionmenu.obj
+         geblgui.dir\Release\edit_offsetmenu.obj
+         geblgui.dir\Release\edit_roundmenu.obj
+         geblgui.dir\Release\edit_sweepmenu.obj
+         geblgui.dir\Release\globalmenu.obj
+         geblgui.dir\Release\helpmenu.obj
+         geblgui.dir\Release\refbmp.obj
+         geblgui.dir\Release\refbmpdialog.obj
+         geblgui.dir\Release\sketch.obj
+         geblgui.dir\Release\sketchmenu.obj
+         geblgui.dir\Release\utilmenu.obj
+         geblgui.dir\Release\repairmenu.obj
+         geblgui.dir\Release\viewdialog.obj
+         geblgui.dir\Release\selectmenu.obj
+         geblgui.dir\Release\selectbyproperty.obj
+         geblgui.dir\Release\dnmpreview.obj
+         geblgui.dir\Release\ysgebl_gui_extension_base.obj
+         geblgui.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\geblgui.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysgebl\src\gui\geblgui.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:21.60

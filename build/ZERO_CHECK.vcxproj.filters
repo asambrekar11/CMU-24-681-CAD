@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\CMakeFiles\8d1093f342165f525a8904bfac0d9965\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{60C06145-4AB5-3777-BF51-F53C3D03FA05}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

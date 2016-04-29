@@ -1,0 +1,42 @@
+﻿Build started 29-04-2016 13:50:51.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysport\src\ysport.vcxproj" on node 7 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/ysport/src/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysport\src\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysclass\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"ysport.dir\Release\\" /Fd"ysport.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\ysopenurl.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\yswin32encoding.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\yswin32fileinfo.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\yswin32fileio.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\yswin32locale.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\yswin32runprocess.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\yswin32specialpath.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\windows\yswin32subsectimer.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\ysfileinfo.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\ysfileio.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\yslocale.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\ysspecialpath.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\yssubsectimer.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\ysport\src\ysthread.cpp"
+         ysopenurl.cpp
+         yswin32encoding.cpp
+         yswin32fileinfo.cpp
+         yswin32fileio.cpp
+         yswin32locale.cpp
+         yswin32runprocess.cpp
+         yswin32specialpath.cpp
+         yswin32subsectimer.cpp
+         ysfileinfo.cpp
+         ysfileio.cpp
+         yslocale.cpp
+         ysspecialpath.cpp
+         yssubsectimer.cpp
+         ysthread.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\ysport.lib" /NOLOGO /MACHINE:X64  /machine:x64 ysport.dir\Release\ysopenurl.obj
+         ysport.dir\Release\yswin32encoding.obj
+         ysport.dir\Release\yswin32fileinfo.obj
+         ysport.dir\Release\yswin32fileio.obj
+         ysport.dir\Release\yswin32locale.obj
+         ysport.dir\Release\yswin32runprocess.obj
+         ysport.dir\Release\yswin32specialpath.obj
+         ysport.dir\Release\yswin32subsectimer.obj
+         ysport.dir\Release\ysfileinfo.obj
+         ysport.dir\Release\ysfileio.obj
+         ysport.dir\Release\yslocale.obj
+         ysport.dir\Release\ysspecialpath.obj
+         ysport.dir\Release\yssubsectimer.obj
+         ysport.dir\Release\ysthread.obj
+         ysport.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\ysport.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\ysport\src\ysport.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:39.98

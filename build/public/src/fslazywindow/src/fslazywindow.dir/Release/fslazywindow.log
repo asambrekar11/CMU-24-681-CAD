@@ -1,0 +1,20 @@
+﻿Build started 29-04-2016 13:51:29.
+     1>Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fslazywindow\src\fslazywindow.vcxproj" on node 9 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule C:/Users/SONY/Desktop/CAD/Project/CMU-24-681-CAD-MIProject/YsFramework/public/src/fslazywindow/src/CMakeLists.txt
+         CMake does not need to re-run because C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fslazywindow\src\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\imported\include" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fslazywindow\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fslazywindow\src\." /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src" /I"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fssimplewindow\src\." /nologo /W3 /WX- /MP /O2 /Ob2 /D WIN32 /D _WINDOWS /D NDEBUG /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"fslazywindow.dir\Release\\" /Fd"fslazywindow.dir\Release\vc120.pdb" /Gd /TP /wd4996 /errorReport:prompt "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fslazywindow\src\fslazywindowcommon.cpp" "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fslazywindow\src\macosx_linux_win\fslazywindow.cpp"
+         fslazywindowcommon.cpp
+         fslazywindow.cpp
+     1>C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\YsFramework\public\src\fslazywindow\src\macosx_linux_win\fslazywindow.cpp(72): warning C4244: 'argument' : conversion from '__int64' to 'int', possible loss of data
+     1>c:\users\sony\desktop\cad\project\cmu-24-681-cad-miproject\ysframework\public\src\fslazywindow\src\macosx_linux_win\fslazywindow.cpp(31): warning C4715: 'UserWantToCloseProgram' : not all control paths return a value
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\fslazywindow.lib" /NOLOGO /MACHINE:X64  /machine:x64 fslazywindow.dir\Release\fslazywindowcommon.obj
+         fslazywindow.dir\Release\fslazywindow.obj
+         fslazywindow.vcxproj -> C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\lib\Release\fslazywindow.lib
+     1>Done Building Project "C:\Users\SONY\Desktop\CAD\Project\CMU-24-681-CAD-MIProject\build\public\src\fslazywindow\src\fslazywindow.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.82

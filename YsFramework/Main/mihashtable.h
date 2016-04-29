@@ -23,7 +23,7 @@ public:
 	}
 	void Add(const Key &key);
 	bool IsIncluded(Key key) const;
-	void Resize(big newSize);
+	void Resize(long long int newSize);
 	Key *Get(const Key &key);
 	const Key *Get(const Key &key) const;
 	void Delete(Key key);
@@ -34,7 +34,7 @@ template <class Key, class Value>
 class HashTable
 {
 protected:
-	typedef unsigned long long int Code;
+	typedef long long int Code;
 	struct Entry
 	{
 	public:
@@ -62,7 +62,7 @@ public:
 	}
 	void Update(const Key &key, Value &value);
 	bool IsIncluded(Key key) const;
-	void Resize(Code newSize);
+	void Resize(long long int newSize);
 	Value *operator[](const Key &key);
 	const Value *operator[](const Key &key) const;
 };
@@ -119,7 +119,7 @@ bool HashSet<Key>::IsIncluded(Key key) const
 }
 
 template<class Key>
-void HashSet<Key>::Resize(HashSet::big newSize)
+inline void HashSet<Key>::Resize(long long int newSize)
 {
     std::vector <Key> buffer;
     for(auto &t : table)
@@ -240,7 +240,7 @@ bool HashTable<Key,Value>::IsIncluded(Key key) const
 }
 
 template <class Key, class Value>
-void HashTable<Key,Value>::Resize(HashTable::Code newSize)
+void HashTable<Key,Value>::Resize(long long int newSize)
 {
     std::vector <Entry> buffer;
     for(auto &t : table)

@@ -3,7 +3,7 @@
 #include "lattice.h"
 #include "Anchor.h"
 
-using namespace std;
+//using namespace std;
 
 
 

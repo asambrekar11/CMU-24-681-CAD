@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ysshellext.h>
 #include <ysclass.h>
+#include <time.h>
 #include "mihashtable.h"
 #include "clustering.h"
 #include "Anchor.h"
